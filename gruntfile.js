@@ -11,15 +11,25 @@ module.exports = function(grunt) {
         }
       }
     },
+    concat: {
+      dist: {
+        src: ['assets/js/app.js', 'assets/js/api.js'],
+        dest: 'assets/js/production.js'
+      }
+    },
     watch: {
       css: {
         files: 'assets/scss/**.scss',
         tasks: 'sass'
+      },
+      scripts: {
+        files: ['assets/js/app.js', 'assets/js/api.js'],
+        tasks: 'concat'
       }
     }
   });
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', []);
+  grunt.registerTask('default', ['concat']);
 }
