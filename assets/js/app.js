@@ -380,6 +380,8 @@ map = L.map("map", {
 });
 //console.log('map set');
 
+
+
 /* Layer control listeners that allow for a single markerClusters layer */
 map.on("overlayadd", function(e) {
   if (e.layer === theaterLayer) {
@@ -429,18 +431,18 @@ var attributionControl = L.control({
 });
 attributionControl.onAdd = function (map) {
   var div = L.DomUtil.create("div", "leaflet-control-attribution");
-  div.innerHTML = "<span class='hidden-xs'>Developed by <a href='http://bryanmcbride.com'>bryanmcbride.com</a> | </span><a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
+  div.innerHTML = "<span class='hidden-xs'><a href='http://hackoregon.org'>Hack Oregon</a> | </span><a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
   return div;
 };
 map.addControl(attributionControl);
 
 var zoomControl = L.control.zoom({
-  position: "bottomright"
+  position: "topleft"
 }).addTo(map);
 
 /* GPS enabled geolocation control set to follow the user's location */
 var locateControl = L.control.locate({
-  position: "bottomright",
+  position: "topleft",
   drawCircle: true,
   follow: true,
   setView: true,
@@ -489,15 +491,15 @@ var groupedOverlays = {
     "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaterLayer,
     "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museumLayer
   },
-  "Reference": {
-    "Boroughs": boroughs,
+  "Toggle": {
+    "Hide Overlays": boroughs,
     "Subway Lines": subwayLines
   }
 };
 
 // control box
 var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
-  collapsed: isCollapsed
+  collapsed: isCollapsed,
 }).addTo(map);
 
 /* Highlight search box text on click */
@@ -682,7 +684,6 @@ if (!L.Browser.touch) {
 
 
 
-//
 // Time Scrubber
 //
 
@@ -736,7 +737,7 @@ $(function(){
     $scrubber.drags();
 });
 
-// End Scrubber
+//  /Scrubber
 
 
 
@@ -757,9 +758,12 @@ $(document).ready(function() {
             $('a.toggle i').toggleClass('fa fa-chevron-left fa fa-chevron-right');
             $('#map').toggleClass('#sidebar');
             $('#sidebar').toggle();
-            map.invalidateSize();
+            //map.invalidateSize();
+           
             return false;
+
         });
 
 
 // End Dashboard Widget Toggle
+
