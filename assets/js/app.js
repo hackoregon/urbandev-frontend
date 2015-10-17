@@ -524,8 +524,8 @@ $(document).one("ajaxStop", function () {
   //sizeLayerControl();
   /* Fit map to boroughs bounds */
   //map.fitBounds(boroughs.getBounds());
-  featureList = new List("features", {valueNames: ["feature-name"]});
-  featureList.sort("feature-name", {order:"asc"});
+  //featureList = new List("features", {valueNames: ["feature-name"]});
+  //featureList.sort("feature-name", {order:"asc"});
 
   var boroughsBH = new Bloodhound({
     name: "Boroughs",
@@ -752,7 +752,7 @@ $(document).ready(function() {
                 $('a.toggle i').toggleClass('fa fa-chevron-right fa fa-chevron-left');
             };
         });
-  
+
 
         $('a.toggle').click(function() {
             $('a.toggle i').toggleClass('fa fa-chevron-left fa fa-chevron-right');
@@ -766,10 +766,4 @@ $(document).ready(function() {
 
 
 // End Dashboard Widget Toggle
-
-
-// var widthSidebar = $("#sidebar").width();
-  //          $("#sidebar").css({"right":"0px"}).animate({"right":-widthSidebar}, "slow");
-
-
 
