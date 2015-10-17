@@ -12,8 +12,8 @@ input[type="radio"], input[type="checkbox"] {
 #sidebar {
   width: 250px;
   height: 100%;
-  max-width: 100%;
   position: relative;
+  max-width: 100%;
   float: right;
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
