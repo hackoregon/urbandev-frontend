@@ -676,3 +676,93 @@ if (!L.Browser.touch) {
 } else {
   L.DomEvent.disableClickPropagation(container);
 }
+
+
+
+
+
+
+//
+// Time Scrubber
+//
+
+
+(function($) {
+    $.fn.drags = function(opt) {
+
+        opt = $.extend({ cursor: 'move' }, opt);
+
+        var $el = this,
+            klass = 'draggable',
+            startDrag = function(ev) {
+
+                var $drag = $el.addClass(klass),
+                    drg_h = $drag.outerHeight(),
+                    drg_w = $drag.outerWidth(),
+                    pos_x = $drag.offset().left + drg_w - ev.pageX;
+
+                $drag
+                    .parents()
+                    .on('mousemove', function(ev) {
+                        $('.' + klass)
+                            .offset({ left: ev.pageX + pos_x - drg_w })
+                            .on('mouseup', stopDrag);
+                    })
+                    .on('mouseleave', function() {
+                        $(window).one('mouseup', stopDrag);
+                    })
+                    .on('mouseenter', function() {
+                        $(window).off('mouseup');
+                    });
+
+                ev.preventDefault();
+            },
+            stopDrag = function() {
+                $el.removeClass('draggable');
+            },
+            init = function() {
+                $el
+                    .css('cursor', opt.cursor)
+                    .on('mousedown',startDrag)
+                    .on('mouseup', stopDrag);
+            };
+
+        return init();
+    };
+})(jQuery);
+
+$(function(){
+    var $scrubber = $('.scrubber');
+    $scrubber.drags();
+});
+
+// End Scrubber
+
+
+
+
+// Dashboard Widget Toggle
+//
+
+$(document).ready(function() {
+            $('[rel=tooltip]').tooltip();
+            if (document.body.clientWidth <= 767) {
+                $('#sidebar').toggle();
+                $('a.toggle i').toggleClass('fa fa-chevron-right fa fa-chevron-left');
+            };
+        });
+  
+
+        $('a.toggle').click(function() {
+            $('a.toggle i').toggleClass('fa fa-chevron-left fa fa-chevron-right');
+            $('#map').toggleClass('#sidebar');
+            $('#sidebar').toggle();
+            map.invalidateSize();
+            return false;
+        });
+
+
+// End Dashboard Widget Toggle
+
+
+   
