@@ -1,27 +1,27 @@
 html, body, #container {
   height: 100%;
   width: 100%;
-  overflow: hidden;
-}
+  overflow: hidden; }
+
 body {
-  padding-top: 50px;
-}
+  padding-top: 50px; }
+
 input[type="radio"], input[type="checkbox"] {
-  margin: 0;
-}
+  margin: 0; }
+
 #sidebar {
   width: 250px;
   height: 100%;
   max-width: 100%;
   float: right;
   -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
-}
+  -moz-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out; }
+
 #map {
   width: auto;
-  height: 100%;
-}
+  height: 100%; }
+
 #loading {
   position: absolute;
   width: 220px;
@@ -29,76 +29,76 @@ input[type="radio"], input[type="checkbox"] {
   top: 50%;
   left: 50%;
   margin: -10px 0 0 -110px;
-  z-index: 20001;
-}
+  z-index: 20001; }
+
 #features {
   margin: 0px;
   border: none;
   border-radius: 0px;
   -webkit-box-shadow: none;
-    box-shadow: none;
-}
+  box-shadow: none; }
+
 #sidebar-hide-btn {
-  margin-top: -2px;
-}
+  margin-top: -2px; }
+
 #aboutTabsContent {
-  padding-top: 10px;
-}
+  padding-top: 10px; }
+
 .progress-bar-full {
-  width: 100%;
-}
+  width: 100%; }
+
 .white {
-  color: #FFFFFF;
-}
+  color: #FFFFFF; }
+
 .feature-row {
-  cursor: pointer;
-}
+  cursor: pointer; }
+
 .sidebar-wrapper {
   width: 100%;
   height: 100%;
-  position: relative;
-}
+  position: relative; }
+
 .sidebar-table {
   position: absolute;
   width: 100%;
   top: 103px;
   bottom: 0px;
-  overflow: auto;
-}
+  overflow: auto; }
+
 .leaflet-control-layers {
-  overflow: auto;
-}
+  overflow: auto; }
+
 .leaflet-control-layers label {
   font-weight: normal;
-  margin-bottom: 0px;
-}
+  margin-bottom: 0px; }
+
 .leaflet-control-layers-list input[type="radio"], input[type="checkbox"] {
-  margin: 2px;
-}
+  margin: 2px; }
+
 .table {
-  margin-bottom: 0px;
-}
+  margin-bottom: 0px; }
+
 .navbar .navbar-brand {
   font-weight: bold;
   font-size: 25px;
-  color: #FFFFFF;
-}
+  color: #FFFFFF; }
+
 .navbar-collapse.in {
-  overflow-y: hidden;
-}
+  overflow-y: hidden; }
+
 .navbar-header .navbar-icon-container {
-  margin-right: 15px;
-}
+  margin-right: 15px; }
+
 .navbar-header .navbar-icon {
   line-height: 50px;
-  height: 50px;
-}
+  height: 50px; }
+
 .navbar-header a.navbar-icon {
-  margin-left: 25px;
-}
+  margin-left: 25px; }
+
 .typeahead {
-  background-color: #FFFFFF;
-}
+  background-color: #FFFFFF; }
+
 .tt-dropdown-menu {
   background-color: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -108,29 +108,29 @@ input[type="radio"], input[type="checkbox"] {
   padding: 4px 0;
   width: 100%;
   max-height: 300px;
-  overflow: auto;
-}
+  overflow: auto; }
+
 .tt-suggestion {
   font-size: 14px;
   line-height: 20px;
-  padding: 3px 10px;
-}
+  padding: 3px 10px; }
+
 .tt-suggestion.tt-cursor {
   background-color: #0097CF;
   color: #FFFFFF;
-  cursor: pointer;
-}
+  cursor: pointer; }
+
 .tt-suggestion p {
-  margin: 0;
-}
+  margin: 0; }
+
 .tt-suggestion + .tt-suggestion {
-  border-top: 1px solid #ccc;
-}
+  border-top: 1px solid #ccc; }
+
 .typeahead-header {
   margin: 0 5px 5px 5px;
   padding: 3px 0;
-  border-bottom: 2px solid #333;
-}
+  border-bottom: 2px solid #333; }
+
 .has-feedback .form-control-feedback {
   position: absolute;
   top: 0;
@@ -139,33 +139,29 @@ input[type="radio"], input[type="checkbox"] {
   width: 34px;
   height: 34px;
   line-height: 34px;
-  text-align: center;
-}
+  text-align: center; }
+
 @media (max-width: 992px) {
   .navbar .navbar-brand {
-    font-size: 18px;
-  }
-}
-@media (max-width: 767px){
+    font-size: 18px; } }
+@media (max-width: 767px) {
   #sidebar {
-    display: none;
-  }
+    display: none; }
+
   .url-break {
     word-break: break-all;
     word-break: break-word;
     -webkit-hyphens: auto;
-      hyphens: auto;
-  }
-  .dropdown-menu a i{
-    color: #FFFFFF;
-  }
-}
+    hyphens: auto; }
+
+  .dropdown-menu a i {
+    color: #FFFFFF; } }
 /* Print Handling */
 @media print {
   .navbar {
-    display: none !important;
-  }
+    display: none !important; }
+
   .leaflet-control-container {
-    display: none !important;
-  }
-}
+    display: none !important; } }
+
+/*# sourceMappingURL=app.css.map */
