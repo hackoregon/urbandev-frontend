@@ -13,6 +13,8 @@
   //   getPermits(startDate, endDate, map.getBounds().toBBoxString());
   // });
 
+  // Get neighborhoods list and bounding box coordinates
+  // store in Taffy db
   var nbhoodListUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.json";
   function getNbhoodList() {
     $.ajax({
@@ -46,41 +48,50 @@
   }
   getNbhoodList();
 
-
-
-  var nbhoodUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods";
+  // Get neighborhood shape, add to map
   var nbhoodLayer = new L.geoJson();
   function style(feature) {
     return {
-      fillColor: '#c8c8c8',
-      fillOpacity: 0.6,
+      fillColor: '#3CE646',
+      fillOpacity: 0.8,
       weight: 1,
       opacity: 0.8,
-      color: '#777'
+      color: '#3CE646'
     };
   }
-  function getNbhood() {
+  var nbhoodShapesUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.geojson";
+  function getNbhoodShape(nbhood) {
     $.ajax({
   	  method: "GET",
-  	  url: nbhoodUrl,
+  	  url: nbhoodShapesUrl,
   	  data: {
-
+        city: "portland",
+        name: nbhood
   	  }
   	})
     .done(function(data) {
-  	  var nbhoodJson = data;
-      //nbhoodLayer.clearLayers();
+  	  var nbhoodShapesJson = data;
+      nbhoodLayer.clearLayers();
   	  nbhoodLayer.addTo(map);
-      //console.log(nbhoodJson);
-  	  $(nbhoodJson.features).each(function(key, data) {
+  	  $(nbhoodShapesJson.features).each(function(key, data) {
         nbhoodLayer.addData(data);
+        nbhoodLayer.setStyle(style);
+        nbhoodLayer.bringToBack();
       });
     })
     .fail(function() {
-      console.log("Failed to fetch neighborhood json data");
+      console.log("Failed to fetch neighborhood shapes.");
     });
   }
 
+  var geojsonMarkerOptions = {
+    radius: 8,
+    fillColor: '#FF5500',
+    color: '#000',
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 1
+  };
   var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
   var permitsLayer = new L.geoJson();
 	var bounds = map.getBounds().toBBoxString();
@@ -88,9 +99,8 @@
     start = typeof start !== 'undefined' ? start : startDate;
     end = typeof end !== 'undefined' ? end : endDate;
     bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
-    console.log(bounds);
-    console.log('calling get permits');
     type = typeof type !== 'undefined' ? type : "residential";
+
     $.ajax({
   	  method: "GET",
   	  url: permitsUrl,
@@ -107,17 +117,24 @@
   	  permitsLayer.addTo(map);
   	  $(permitsJson.features).each(function(key, data) {
 
-        if (this.properties && this.properties.address) {
-          permitsLayer.bindPopup(this.properties.address);
-        }
+        L.geoJson(data, {
+          pointToLayer: function(feature, latlng) {
+            return L.circleMarker(latlng, geojsonMarkerOptions);
+          }
+        }).addTo(map);
 
-        permitsLayer.addData(data);
       });
-      //console.log(this.url);
+
     })
     .fail(function() {
       console.log("Failed to fetch permits json data");
     });
+  }
+
+  // Initialize date ranges
+  for (var i = 1995; i <= 2015; i++) {
+    $('#yearstart').append('<option value="' + i + '">' + i + '</option>');
+    $('#yearend').append('<option value="' + i + '">' + i + '</option>');
   }
 
   var hoodsShown = true;
@@ -131,11 +148,14 @@
     hoodsShown = !hoodsShown;
   }
 
+  function switchCoords(coordArray) {
+    var temp = coordArray[1];
+    coordArray[1] = coordArray[0];
+    coordArray[0] = temp;
+    return coordArray;
+  }
+
   $('#toggle-hoods').on('click', toggleHoods);
-  map.on('viewreset dragend', function(e) {
-    getPermits();
-  });
-  getNbhood();
 
   $('#neighborhoodselect').on('change', function() {
     var nbhoodVal = $(this).val();
@@ -143,11 +163,24 @@
 
   $('#plot-submit').on('click', function() {
     var nbhoodVal = $('#neighborhoodselect').val();
-    var currentHoodBbx = nbhoodDb({name: nbhoodVal}).first().bbx;
-    console.log(currentHoodBbx);
-    currentHoodBbx = (currentHoodBbx[0].concat(currentHoodBbx[1])).join(',');
-    getPermits('2013-01-01', '2014-01-01', currentHoodBbx, "residential");
-    //map.fitBounds(currentHoodBbx);
+    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
+    var yearStart = $('#yearstart').val();
+    var yearEnd = $('#yearend').val();
+
+    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
+
+    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+
+    map.fitBounds(hoodBbxArray, {
+      padding: [50, 80]
+    });
+    // temp workaround for "WTF, the nbhoodDb bbx arrays are getting switched vals too???"
+    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+    getNbhoodShape(nbhoodVal);
+    // Restricting to date selection to full year
+    getPermits(yearStart + '-01-01', yearEnd + '-12-31', currentHoodBbx, "residential");
   });
 
 })();

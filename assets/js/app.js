@@ -487,14 +487,14 @@ var baseLayers = {
 };
 
 var groupedOverlays = {
-  "Points of Interest": {
-    "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaterLayer,
-    "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museumLayer
-  },
-  "Toggle": {
-    "Hide Overlays": boroughs,
-    "Subway Lines": subwayLines
-  }
+  // "Points of Interest": {
+  //   "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaterLayer,
+  //   "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museumLayer
+  // },
+  // "Toggle": {
+  //   "Hide Overlays": boroughs,
+  //   "Subway Lines": subwayLines
+  // }
 };
 
 // control box
@@ -759,11 +759,10 @@ $(document).ready(function() {
             $('#map').toggleClass('#sidebar');
             $('#sidebar').toggle();
             //map.invalidateSize();
-           
+
             return false;
 
         });
 
 
 // End Dashboard Widget Toggle
-

@@ -38,12 +38,12 @@
           <a class="navbar-brand" href="#">PlotPDX</a>
         </div>
         <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="search">
+          <!-- <form class="navbar-form navbar-right" role="search">
             <div class="form-group has-feedback">
                 <input id="searchbox" type="text" placeholder="Search" class="form-control">
                 <span id="searchicon" class="fa fa-search form-control-feedback"></span>
             </div>
-          </form>
+          </form> -->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
             <li class="dropdown">
@@ -55,7 +55,7 @@
                 <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
               </ul>
             </li>
-            <li class="dropdown">
+            <!-- <li class="dropdown">
                 <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="data/boroughs.geojson" download="boroughs.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Boroughs</a></li>
@@ -63,7 +63,7 @@
                   <li><a href="data/DOITT_THEATER_01_13SEPT2010.geojson" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Theaters</a></li>
                   <li><a href="data/DOITT_MUSEUM_01_13SEPT2010.geojson" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Museums</a></li>
                 </ul>
-            </li>
+            </li> -->
 
 
             <li class="dropdown">
@@ -90,13 +90,13 @@
             </div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-xs-8 col-md-8">
+                <!-- <div class="col-xs-8 col-md-8">
                   <input type="text" class="form-control search" placeholder="Filter" />
                 </div>
                 <div class="col-xs-4 col-md-4">
                   <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
-                </div>
-            </div>
+                </div> -->
+              </div>
                 <!-- Variables-->
               <div class="col-xs-10">
                 <h4>Variables</h4>
@@ -131,25 +131,33 @@
                   </label>
                 </div>
               </div>
-              <div class="col-xs-10">
-                <label class="h4" for="daterange">Time Frame</label>
-                <select name="years" id="years">
-
-                </select>
+              <div class="col-xs-10 form-inline">
+                <p class="h4">Time Frame</p>
+                <div class="form-group">
+                  <select name="yearstart" id="yearstart" class="form-control">
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select name="yearend" id="yearend" class="form-control">
+                  </select>
+                </div>
               </div>
               <div class="col-xs-10">
-                <label class="h4" for="neighborhoodselect">Neighborhood</label>
-                <select name="neighborhoodselect" id="neighborhoodselect" class="form-control">
-                  <option value="all">All</option>
-                </select>
+                <div class="form-group">
+                  <label class="h4" for="neighborhoodselect">Neighborhood</label>
+                    <select name="neighborhoodselect" id="neighborhoodselect" class="form-control">
+                      <!-- <option value="all">All</option> -->
+                  </select>
+                </div>
               </div>
 
-
               <div class="col-xs-10">
-                <button id="plot-submit" class="btn btn-primary">Plot</button>
+                <div class="form-group">
+                  <button id="plot-submit" class="btn btn-primary">Plot</button>
+                </div>
               </div>
               </div> <!-- / Variables -->
-           
+
 
             <!--
 
