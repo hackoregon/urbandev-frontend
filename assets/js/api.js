@@ -100,7 +100,6 @@
     end = typeof end !== 'undefined' ? end : endDate;
     bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
     type = typeof type !== 'undefined' ? type : "residential";
-
     $.ajax({
   	  method: "GET",
   	  url: permitsUrl,
@@ -114,17 +113,17 @@
   	.done(function(data) {
   	  var permitsJson = data;
       permitsLayer.clearLayers();
-  	  permitsLayer.addTo(map);
-  	  $(permitsJson.features).each(function(key, data) {
 
-        L.geoJson(data, {
+  	  $(permitsJson.features).each(function(key, data) {
+        permitsLayer[key] = L.geoJson(data, {
           pointToLayer: function(feature, latlng) {
             return L.circleMarker(latlng, geojsonMarkerOptions);
           }
-        }).addTo(map);
-
+        });
+        permitsLayer.addLayer(permitsLayer[key]);
       });
-
+      
+      permitsLayer.addTo(map);
     })
     .fail(function() {
       console.log("Failed to fetch permits json data");
