@@ -680,68 +680,6 @@ if (!L.Browser.touch) {
 }
 
 
-
-
-
-
-// Time Scrubber
-//
-
-
-(function($) {
-    $.fn.drags = function(opt) {
-
-        opt = $.extend({ cursor: 'move' }, opt);
-
-        var $el = this,
-            klass = 'draggable',
-            startDrag = function(ev) {
-
-                var $drag = $el.addClass(klass),
-                    drg_h = $drag.outerHeight(),
-                    drg_w = $drag.outerWidth(),
-                    pos_x = $drag.offset().left + drg_w - ev.pageX;
-
-                $drag
-                    .parents()
-                    .on('mousemove', function(ev) {
-                        $('.' + klass)
-                            .offset({ left: ev.pageX + pos_x - drg_w })
-                            .on('mouseup', stopDrag);
-                    })
-                    .on('mouseleave', function() {
-                        $(window).one('mouseup', stopDrag);
-                    })
-                    .on('mouseenter', function() {
-                        $(window).off('mouseup');
-                    });
-
-                ev.preventDefault();
-            },
-            stopDrag = function() {
-                $el.removeClass('draggable');
-            },
-            init = function() {
-                $el
-                    .css('cursor', opt.cursor)
-                    .on('mousedown',startDrag)
-                    .on('mouseup', stopDrag);
-            };
-
-        return init();
-    };
-})(jQuery);
-
-$(function(){
-    var $scrubber = $('.scrubber');
-    $scrubber.drags();
-});
-
-//  /Scrubber
-
-
-
-
 // Dashboard Widget Toggle
 //
 
@@ -767,6 +705,79 @@ $(document).ready(function() {
 
 // End Dashboard Widget Toggle
 
+// D3 Brush
+
+var margin = {top: 20, right: 40, bottom: 20, left: 40},
+    width = 800 - margin.left - margin.right,
+    height = 80 - margin.top - margin.bottom;
+
+var x = d3.time.scale()
+    .domain([new Date(1995, 1, 1), new Date(2014, 12, 31) ])
+    .range([0, width]);
+
+var brush = d3.svg.brush()
+    .x(x)
+    .extent([new Date(1995, 1, 1), new Date(1995, 12, 31)])
+    .on("brushend", brushended);
+
+var svg = d3.select("#brush").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("rect")
+    .attr("class", "grid-background")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("g")
+    .attr("class", "x grid")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .ticks(d3.time.year)
+        .tickSize(-height)
+        .tickFormat(""))
+  .selectAll(".tick")
+    .classed("minor", function(d) { return d.getYear(); });
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      .ticks(d3.time.year)
+      .tickPadding(0))
+  .selectAll("text")
+    .attr("x", 6)
+    .style("text-anchor", null);
+
+var gBrush = svg.append("g")
+    .attr("class", "brush")
+    .call(brush)
+    .call(brush.event);
+
+gBrush.selectAll("rect")
+    .attr("height", height);
+
+function brushended() {
+  if (!d3.event.sourceEvent) return; // only transition after input
+  var extent0 = brush.extent(),
+      extent1 = extent0.map(d3.time.year.round);
+
+  // if empty when rounded, use floor & ceil instead
+  if (extent1[0] >= extent1[1]) {
+    extent1[0] = d3.time.year.floor(extent0[0]);
+    extent1[1] = d3.time.year.ceil(extent0[1]);
+  }
+
+  d3.select(this).transition()
+      .call(brush.extent(extent1))
+      .call(brush.event);
+}
 (function() {
 
   var startDate = moment().subtract(3, 'months').format('YYYY-MM-DD');
