@@ -385,39 +385,6 @@ a {
   display: inline-block;
   margin: 2px; }
 
-#brush {
-  z-index: 3000;
-  position: absolute;
-  bottom: 0;
-  background: white; }
-
-.axis text {
-  font: 12px sans-serif; }
-
-.axis path {
-  display: none; }
-
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges; }
-
-.grid-background {
-  fill: #ddd; }
-
-.grid line,
-.grid path {
-  fill: none;
-  stroke: #fff;
-  shape-rendering: crispEdges; }
-
-.grid .minor.tick line {
-  stroke-opacity: .5; }
-
-.brush .extent {
-  fill: #1BABFF;
-  shape-rendering: crispEdges; }
-
 /* Print Handling */
 @media print {
   .navbar {
