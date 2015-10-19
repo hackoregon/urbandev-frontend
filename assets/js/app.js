@@ -487,14 +487,14 @@ var baseLayers = {
 };
 
 var groupedOverlays = {
-  "Points of Interest": {
-    "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaterLayer,
-    "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museumLayer
-  },
-  "Toggle": {
-    "Hide Overlays": boroughs,
-    "Subway Lines": subwayLines
-  }
+  // "Points of Interest": {
+  //   "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaterLayer,
+  //   "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museumLayer
+  // },
+  // "Toggle": {
+  //   "Hide Overlays": boroughs,
+  //   "Subway Lines": subwayLines
+  // }
 };
 
 // control box
@@ -680,68 +680,6 @@ if (!L.Browser.touch) {
 }
 
 
-
-
-
-
-// Time Scrubber
-//
-
-
-(function($) {
-    $.fn.drags = function(opt) {
-
-        opt = $.extend({ cursor: 'move' }, opt);
-
-        var $el = this,
-            klass = 'draggable',
-            startDrag = function(ev) {
-
-                var $drag = $el.addClass(klass),
-                    drg_h = $drag.outerHeight(),
-                    drg_w = $drag.outerWidth(),
-                    pos_x = $drag.offset().left + drg_w - ev.pageX;
-
-                $drag
-                    .parents()
-                    .on('mousemove', function(ev) {
-                        $('.' + klass)
-                            .offset({ left: ev.pageX + pos_x - drg_w })
-                            .on('mouseup', stopDrag);
-                    })
-                    .on('mouseleave', function() {
-                        $(window).one('mouseup', stopDrag);
-                    })
-                    .on('mouseenter', function() {
-                        $(window).off('mouseup');
-                    });
-
-                ev.preventDefault();
-            },
-            stopDrag = function() {
-                $el.removeClass('draggable');
-            },
-            init = function() {
-                $el
-                    .css('cursor', opt.cursor)
-                    .on('mousedown',startDrag)
-                    .on('mouseup', stopDrag);
-            };
-
-        return init();
-    };
-})(jQuery);
-
-$(function(){
-    var $scrubber = $('.scrubber');
-    $scrubber.drags();
-});
-
-//  /Scrubber
-
-
-
-
 // Dashboard Widget Toggle
 //
 
@@ -759,7 +697,7 @@ $(document).ready(function() {
             $('#map').toggleClass('#sidebar');
             $('#sidebar').toggle();
             //map.invalidateSize();
-           
+
             return false;
 
         });

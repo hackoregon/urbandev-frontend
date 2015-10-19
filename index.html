@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/d3.slider.css" media="screen" />
 
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
@@ -38,15 +39,15 @@
           <a class="navbar-brand" href="#">PlotPDX</a>
         </div>
         <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="search">
+          <!-- <form class="navbar-form navbar-right" role="search">
             <div class="form-group has-feedback">
                 <input id="searchbox" type="text" placeholder="Search" class="form-control">
                 <span id="searchicon" class="fa fa-search form-control-feedback"></span>
             </div>
-          </form>
+          </form> -->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
-            <li class="dropdown">
+            <!-- <li class="dropdown">
               <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
@@ -54,8 +55,8 @@
                 <li class="divider hidden-xs"></li>
                 <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
               </ul>
-            </li>
-            <li class="dropdown">
+            </li> -->
+            <!-- <li class="dropdown">
                 <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="data/boroughs.geojson" download="boroughs.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Boroughs</a></li>
@@ -63,7 +64,7 @@
                   <li><a href="data/DOITT_THEATER_01_13SEPT2010.geojson" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Theaters</a></li>
                   <li><a href="data/DOITT_MUSEUM_01_13SEPT2010.geojson" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Museums</a></li>
                 </ul>
-            </li>
+            </li> -->
 
 
             <li class="dropdown">
@@ -89,71 +90,78 @@
               <h3 class="panel-title">Explore the Data</h3>
             </div>
             <div class="panel-body">
-              <div class="row">
-                <div class="col-xs-8 col-md-8">
-                  <input type="text" class="form-control search" placeholder="Filter" />
-                </div>
-                <div class="col-xs-4 col-md-4">
-                  <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
-                </div>
-            </div>
+              <form action="">
+                <!-- <div class="row">
+                  <div class="col-xs-8 col-md-8">
+                    <input type="text" class="form-control search" placeholder="Filter" />
+                  </div>
+                  <div class="col-xs-4 col-md-4">
+                    <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+                  </div>
+                </div> -->
                 <!-- Variables-->
-              <div class="col-xs-10">
-                <h4>Variables</h4>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Housing Permits
-                  </label>
+                <div class="col-xs-10">
+                  <h4>Variables</h4>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="permits"> Housing Permits
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="crime"> Crime
+                    </label>
+                    <p id="crimetotal"></p>
+                  </div>
+                  <!-- <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="price_sqft"> Housing value per sq. ft.
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="income"> Income
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="density"> Density
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="demographics"> Demographics
+                    </label>
+                  </div> -->
                 </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Crime
-                  </label>
+                <div class="col-xs-10 form-inline">
+                  <p class="h4">Time Frame</p>
+                  <div class="form-group">
+                    <select name="yearstart" id="yearstart" class="form-control">
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <select name="yearend" id="yearend" class="form-control">
+                    </select>
+                  </div>
                 </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Housing value per sq. ft.
-                  </label>
+                <div class="col-xs-10">
+                  <div class="form-group">
+                    <label class="h4" for="neighborhoodselect">Neighborhood</label>
+                      <select name="neighborhoodselect" id="neighborhoodselect" class="form-control">
+                        <!-- <option value="all">All</option> -->
+                    </select>
+                  </div>
                 </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Income
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Density
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Demographics
-                  </label>
-                </div>
-              </div>
-              <div class="col-xs-10">
-                <label class="h4" for="daterange">Time Frame</label>
-                <select name="years" id="years">
 
-                </select>
-              </div>
-              <div class="col-xs-10">
-                <label class="h4" for="neighborhoodselect">Neighborhood</label>
-                <select name="neighborhoodselect" id="neighborhoodselect" class="form-control">
-                  <option value="all">All</option>
-                </select>
-              </div>
-
-
-              <div class="col-xs-10">
-                <button id="plot-submit" class="btn btn-primary">Plot</button>
-              </div>
-              </div> <!-- / Variables -->
-           
-
+                <div class="col-xs-10">
+                  <div class="form-group">
+                    <button id="plot-submit" type-"submit" class="btn btn-primary">Plot</button>
+                  </div>
+                </div>
+              </form>
+            </div> <!-- / Panel-body -->
             <!--
-
-
             <div class="sidebar-table">
               <table class="table table-hover" id="feature-list">
                 <thead class="hidden">
@@ -170,18 +178,15 @@
                 <tbody class="list"></tbody>
               </table>
             </div>
-
-
-              -->
-
-          </div>
+            -->
+          </div><!-- end .panel -->
         </div>
       </div>
+
       <div id="map"></div>
+      <div id="slider"></div>
 
-
-    </div>
-
+    </div><!-- end #container -->
 
     <div id="loading">
       <div class="loading-indicator">
@@ -191,24 +196,11 @@
       </div>
     </div>
 
-
      <!-- Dashboard Widget Toggle -->
 
   <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><i class="fa fa-chevron-right"></i></a>
 
 <!-- / Dashboard Widget Toggle -->
-
-
-
-
-<div class="time-bar">
-  <div class="scrub-container">
-  <div class="line">
-  <div class="scrubber"></div>
-  </div>
-</div>
-</div>
-
 
 
 
@@ -389,5 +381,25 @@
     <script src="assets/js/daterangepicker.js"></script>
     <!-- <script src="assets/js/app.js"></script> -->
     <script src="assets/js/production.js"></script>
+    <script src="assets/js/d3.v3.min.js"></script>
+    <script src="assets/js/d3.slider.js"></script>
+    <script>
+
+      // tick formatter
+       var formatter = d3.format("d");
+       var tickFormatter = function(d) {
+          return formatter(d);
+    };
+
+      // Initialize slider
+
+      var slider = d3.slider().min(1994).max(2014).tickValues([1994, 1997, 2000, 2003, 2006, 2009, 2012]).stepValues([1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]).tickFormat(tickFormatter);
+
+
+      // Render the slider in the div
+      d3.select('#slider').call(slider);
+
+
+    </script>
   </body>
 </html>
