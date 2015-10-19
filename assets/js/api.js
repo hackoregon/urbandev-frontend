@@ -122,13 +122,70 @@
         });
         permitsLayer.addLayer(permitsLayer[key]);
       });
-      
+
       permitsLayer.addTo(map);
     })
     .fail(function() {
       console.log("Failed to fetch permits json data");
     });
   }
+
+  // Get crime data
+  // store in Taffy db
+  var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/crimes.json";
+  function getCrimesYear(nbhood, yearRange) {
+    var crimeCount = 0;
+    for (var i = 0; i < yearRange.length; i++) {
+      //$('#crimetotal').append('<p id="crime-yearRange[i]">' + yearRange[i] + ': </p>');
+      $.ajax({
+    	  method: "GET",
+    	  url: crimeUrl,
+    	  data: {
+          query: "perNeighborhoodPerYear",
+          year: yearRange[i]
+    	  }
+    	})
+      .done(function(data) {
+
+    	  var crimesJson = data;
+        crimesTaffyList = [];
+        var crimesInNbhood = 0;
+        for (var j = 0; j < (crimesJson.rows).length; j++) {
+          var rec = {
+            year: yearRange[i],
+            name: crimesJson['rows'][j][0],
+            num: crimesJson['rows'][j][1]
+          };
+          crimesTaffyList.push(rec);
+
+          if (crimesJson['rows'][j][0] == nbhood) {
+            crimesInNbhood += crimesJson['rows'][j][1];
+          }
+
+        }
+        if (typeof crimesDb == "undefined") {
+          crimesDb = TAFFY(crimesTaffyList);
+        } else {
+          crimesDb.insert(crimesTaffyList);
+        }
+        crimeCount += crimesInNbhood;
+        $('#crimetotal').append(crimesInNbhood + '<br>');
+
+      })
+      .fail(function() {
+        console.log("Failed to fetch crimes.");
+      });
+    }
+  }
+
+  // function getTotalCrimes(nbhood, yearRange) {
+  //   var crimeCount = 0;
+  //   for (var i = 0; i < yearRange.length; i++) {
+  //     getCrimesYear(nbhood, yearRange[i]);
+  //     crimeCount += getCrimesYear(nbhood, yearRange[i]);
+  //   }
+  //   return crimeCount;
+  // }
 
   // Initialize date ranges
   for (var i = 1995; i <= 2015; i++) {
@@ -154,19 +211,56 @@
     return coordArray;
   }
 
+  function yearsInRange(startStr, endStr) {
+    var startInt = parseInt(startStr);
+    var endInt = parseInt(endStr);
+    var yearsArray = [];
+    for (var i = startInt; i <= endInt; i++) {
+      yearsArray.push(i);
+    }
+    return yearsArray;
+  }
+
   $('#toggle-hoods').on('click', toggleHoods);
 
   $('#neighborhoodselect').on('change', function() {
     var nbhoodVal = $(this).val();
   });
 
-  $('#plot-submit').on('click', function() {
+  $('#plot-submit').on('click', function(e) {
+    e.preventDefault();
     var nbhoodVal = $('#neighborhoodselect').val();
     var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
     var yearStart = $('#yearstart').val();
     var yearEnd = $('#yearend').val();
+    var formVars = [];
+    $("#sidebar input:checked").each(function() {
+      formVars.push($(this).val());
+    });
 
     currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
+
+    for (var i = 0; i < formVars.length; i++) {
+      switch (formVars[i]) {
+        case "permits":
+          console.log('get those permits!');
+          // Restricting to date selection to full year
+          getPermits(yearStart + '-01-01', yearEnd + '-12-31', currentHoodBbx, "residential");
+          break;
+        case "crime":
+          if (parseInt(yearStart) < 2004) {
+            yearStart = "2004";
+          }
+          var yearRange = yearsInRange(yearStart, yearEnd);
+          if (yearRange.length == 0) {
+            console.log('Year range is zero!');
+          }
+          $('#crimetotal').html('');
+          getCrimesYear(nbhoodVal, yearRange);
+          break;
+
+      }
+    }
 
     hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
     hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
@@ -178,8 +272,7 @@
     hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
     hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
     getNbhoodShape(nbhoodVal);
-    // Restricting to date selection to full year
-    getPermits(yearStart + '-01-01', yearEnd + '-12-31', currentHoodBbx, "residential");
+
   });
 
 })();
