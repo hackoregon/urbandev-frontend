@@ -117,7 +117,10 @@
   	  $(permitsJson.features).each(function(key, data) {
         permitsLayer[key] = L.geoJson(data, {
           pointToLayer: function(feature, latlng) {
-            return L.circleMarker(latlng, geojsonMarkerOptions);
+            var marker = L.circleMarker(latlng, geojsonMarkerOptions);
+            var popupContent = String(feature.properties.id);
+            marker.bindPopup(popupContent);
+            return marker;
           }
         });
         permitsLayer.addLayer(permitsLayer[key]);
