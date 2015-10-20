@@ -200,7 +200,7 @@
 
      <!-- Dashboard Widget Toggle -->
 
-  <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><i class="fa fa-chevron-right"></i></a>
+  <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-right"></i></a>
 
 <!-- / Dashboard Widget Toggle -->
 
@@ -219,13 +219,7 @@
               <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
               <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#boroughs-tab" data-toggle="tab">Boroughs</a></li>
-                  <li><a href="#subway-lines-tab" data-toggle="tab">Subway Lines</a></li>
-                  <li><a href="#theaters-tab" data-toggle="tab">Theaters</a></li>
-                  <li><a href="#museums-tab" data-toggle="tab">Museums</a></li>
-                </ul>
+                <a href="#metadata" data-toggle="tab"><i class="fa fa-globe"></i>&nbsp;Metadata</a>
               </li>
             </ul>
             <div class="tab-content" id="aboutTabsContent">
@@ -271,18 +265,16 @@
                   </div>
                 </form>
               </div>
-              <div class="tab-pane fade" id="boroughs-tab">
-                <p>Borough data courtesy of <a href="http://www.nyc.gov/html/dcp/pdf/bytes/nybbwi_metadata.pdf" target="_blank">New York City Department of City Planning</a></p>
+
+               <div id="metadata" class="tab-pane fade">
+                <h1>Want to see our data?</h1>
+                <p>All of our data is open-source and available for further exploration on Github.</p>
+                <p><a href="#"><i class="fa fa-github"></i></a></p>
               </div>
-              <div class="tab-pane fade" id="subway-lines-tab">
-                <p><a href="http://spatialityblog.com/2010/07/08/mta-gis-data-update/#datalinks" target="_blank">MTA Subway data</a> courtesy of the <a href="http://www.urbanresearch.org/about/cur-components/cuny-mapping-service" target="_blank">CUNY Mapping Service at the Center for Urban Research</a></p>
-              </div>
-              <div class="tab-pane fade" id="theaters-tab">
-                <p>Theater data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Theaters/kdu2-865w" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
-              </div>
-              <div class="tab-pane fade" id="museums-tab">
-                <p>Museum data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Museums-and-Galleries/sat5-adpb" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
-              </div>
+
+
+             
+              
             </div>
           </div>
           <div class="modal-footer">
@@ -305,15 +297,15 @@
             <ul class="nav nav-tabs" id="aboutTabs">
             </ul>
             <div class="tab-content" id="aboutTabsContent">
-              <div class="tab-pane fade active in" id="about">
+              <div class="tab-pane fade active in" id="storiesBody">
 
                 <div class="container-fluid">
 <div class="row-fluid">
 <div class="span12">
 
     <div class="page-header">
-        <h3>Stories</h3>
-        <p>Select a story below to see how specific neighborhoods have changed over time.</p>
+        <h1>Stories</h1>
+        <h4>Select a story below to see how specific neighborhoods have changed over time.</h4>
     </div>
         
     <div class="carousel slide" id="myCarousel">
@@ -326,7 +318,7 @@
                             </div>
                             <div class="caption">
                                 <h4>The Pearl District</h4>
-                        <p>An area formerly occupied by warehouses, light industry and railroad classification yards and now noted for its art galleries, upscale businesses and residences. The area has been undergoing significant urban renewal since the mid-1980s when it was reclassified as mixed use from industrial, including the arrival of artists, the removal of a viaduct and construction of the Portland Streetcar. It now mostly consists of high-rise condominiums and warehouse-to-loft conversions.</p>
+                        <p class="stories-blurb">An area formerly occupied by warehouses, light industry and railroad classification yards and now noted for its art galleries, upscale businesses and residences. The area has been undergoing significant urban renewal since the mid-1980s when it was reclassified as mixed use from industrial, including the arrival of artists, the removal of a viaduct and construction of the Portland Streetcar. It now mostly consists of high-rise condominiums and warehouse-to-loft conversions.</p>
                                 <a class="btn btn-mini" href="#">&raquo; Read More</a>
                             </div>
                         </li>
@@ -340,7 +332,7 @@
                             </div>
                             <div class="caption">
                                 <h4>Hawthorne District</h4>
-                        <p>The area has numerous retail stores, including clothing shops, restaurants, bars, brewpubs and microbreweries. Hawthorne district is known for its liberal residents.</p>
+                        <p class="stories-blurb">The area has numerous retail stores, including clothing shops, restaurants, bars, brewpubs and microbreweries. Hawthorne district is known for its liberal residents.</p>
                                 <a class="btn btn-mini" href="#">&raquo; Read More</a>
                             </div>
                         </li>
@@ -355,7 +347,7 @@
                             </div>
                             <div class="caption">
                                 <h4>Alberta Street</h4>
-                        <p>Alberta Street has always been one of the main hubs of the Northeast area in Portland. The street was once the essence of the culture contained by the primarily urban and African-American community. Since the gentrification in the Northeast area, Alberta Street is the heart of an arts, restaurant, and shopping district approximately 20 blocks long. The area around Alberta is becoming very popular with yuppies as well as hipsters, bohemians, hippies and other groups associated with the counterculture.</p>
+                        <p class="stories-blurb">Alberta Street is one of the main hubs in the Northeast area of Portland. It is the heart of an arts, restaurant, and shopping district approximately 20 blocks long. The street was once the essence of the culture contained by the primarily urban and African-American community. The area around Alberta is now becoming very popular with hipsters as well as yuppies and bohemians.</p>
                                 <a class="btn btn-mini" href="#">&raquo; Read More</a>
                             </div>
                         </li>
