@@ -21,6 +21,12 @@ $("#about-btn").click(function() {
   return false;
 });
 
+$("#stories-btn").click(function() {
+  $("#storiesModal").modal("show");
+  $(".navbar-collapse.in").collapse("hide");
+  return false;
+});
+
 $("#full-extent-btn").click(function() {
   map.fitBounds(boroughs.getBounds());
   $(".navbar-collapse.in").collapse("hide");
