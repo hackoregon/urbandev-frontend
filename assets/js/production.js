@@ -717,6 +717,17 @@ $(document).ready(function() {
   var startDate = moment().subtract(3, 'months').format('YYYY-MM-DD');
   var endDate = moment().format('YYYY-MM-DD');
 
+  var dataDateRanges = [
+    {permits: {min: '1995-01-03', max: '2015-06-30'}},
+    {crimes: {min: '2004-01-01', max: '2014-12-31'}},
+    {demolitions: {min: '2004-01-14', max: '2014-12-31'}}
+  ];
+
+  $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
+  $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
+
+  $('[data-toggle="tooltip"]').tooltip();
+
   // $('#input--daterange').daterangepicker({
   //   startDate: moment().subtract(1, 'years'),
   //   endDate: moment()
@@ -850,11 +861,12 @@ $(document).ready(function() {
   // Get crime data
   // store in Taffy db
   var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/crimes.json";
+
   function getCrimesYear(nbhood, yearRange) {
     var crimeCount = 0;
+    var crimesPromises = [];
     for (var i = 0; i < yearRange.length; i++) {
-      //$('#crimetotal').append('<p id="crime-yearRange[i]">' + yearRange[i] + ': </p>');
-      $.ajax({
+      var promise = $.ajax({
     	  method: "GET",
     	  url: crimeUrl,
     	  data: {
@@ -886,13 +898,24 @@ $(document).ready(function() {
           crimesDb.insert(crimesTaffyList);
         }
         crimeCount += crimesInNbhood;
-        $('#crimetotal').append(crimesInNbhood + '<br>');
+        //$('#crimetotal').append(crimesInNbhood + '<br>');
 
       })
       .fail(function() {
         console.log("Failed to fetch crimes.");
       });
+      crimesPromises.push(promise);
     }
+
+    $.when.apply($, crimesPromises).done(function() {
+      $('#crimetotal').append(crimeCount);
+      nbhoodLayer.setStyle({
+        fillColor: getColor(crimeCount),
+      });
+    }).fail(function() {
+      console.log('Failed to finish iterating over crime.');
+    });
+
   }
 
   // function getTotalCrimes(nbhood, yearRange) {
@@ -940,9 +963,34 @@ $(document).ready(function() {
 
   $('#toggle-hoods').on('click', toggleHoods);
 
+  $('#yearstart').on('change', function() {
+    var minYear = $(this).val();
+    if ($('#yearend').val() < minYear) {
+      $('#yearend').val(minYear);
+    }
+  });
+
+  $('#yearend').on('change', function() {
+    var maxYear = $(this).val();
+    if ($('#yearstart').val() > maxYear) {
+      $('#yearstart').val(maxYear);
+    }
+  });
+
   $('#neighborhoodselect').on('change', function() {
     var nbhoodVal = $(this).val();
   });
+
+  function getColor(d) {
+    return d > 1000 ? '#3CE646' :
+           d > 500  ? '#63EB6B' :
+           d > 250  ? '#76ED7D' :
+           d > 200  ? '#9DF2A2' :
+           d > 150   ? '#B1F5B5' :
+           d > 100   ? '#C4F7C7' :
+           d > 50   ? '#D8FADA' :
+                      '#EBFCEC';
+  }
 
   $('#plot-submit').on('click', function(e) {
     e.preventDefault();
@@ -982,7 +1030,7 @@ $(document).ready(function() {
     hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
 
     map.fitBounds(hoodBbxArray, {
-      padding: [50, 80]
+      padding: [60, 90]
     });
     // temp workaround for "WTF, the nbhoodDb bbx arrays are getting switched vals too???"
     hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
