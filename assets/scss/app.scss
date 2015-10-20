@@ -404,10 +404,13 @@ z-index: 3000;
     line-height: 1;
     color: #000;
     opacity: 1;
+    text-shadow: none;
 }
 
 .close:hover {
 background-color: yellow;
+color: #000;
+transition:all .4s ease-in-out;
 
 }
 
@@ -446,12 +449,81 @@ background-color: yellow;
     transition: all .5s ease-in-out;
 }
 
+.btn-primary:focus {
+    color: #000000;
+    background-color: #F9FF00;
+    border-color: #000000;
+}
+
+.btn-primary:active:hover {
+    color: #000000;
+    background-color: #F9FF00;
+    border-color: #000000;
+}
+
 
 .years-display {
 
 display: inline-block;
 margin: 2px;
 
+}
+
+
+.carousel-control {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    font-size: 26px;
+    color: #fff;
+    text-align: center;
+    text-shadow: none;
+    opacity: 0.8;
+}
+
+
+.carousel-control.left {
+    background-color: black;
+    background-image: none;
+}
+
+.carousel-control.right {
+    background-color: black;
+    background-image: none;
+}
+
+.carousel-control:focus, .carousel-control:hover {
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    opacity: 1;
+    background-color: #1BABFF;
+    transition: all .4s ease-in-out;
+}
+
+.carousel .thumbnails {
+padding: 0px 85px;
+}
+
+.carousel .thumbnail {
+border:none;
+}
+
+.carousel i {
+position:absolute;
+top: 50%;
+left: 15px;
+}
+
+
+.thumbnails .caption {
+text-align:center;
+}
+
+ul.thumbnails {
+list-style: none;
 }
 
 
