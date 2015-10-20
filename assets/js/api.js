@@ -95,17 +95,17 @@
   var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
   var permitsLayer = new L.geoJson();
 	var bounds = map.getBounds().toBBoxString();
-  function getPermits(start, end, bounds, type) {
+  function getPermits(start, end, neighborhood, type) {
     start = typeof start !== 'undefined' ? start : startDate;
     end = typeof end !== 'undefined' ? end : endDate;
-    bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
+    //bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
     type = typeof type !== 'undefined' ? type : "residential";
     $.ajax({
   	  method: "GET",
   	  url: permitsUrl,
   	  data: {
   	    type: type, //type: "residential",
-  	    bounds: bounds,
+  	    neighborhood: neighborhood,
         startdate: start, //moment().subtract(1, 'years').format('YYYY-MM-DD'), //"2014-10-04"
         enddate: end //moment().format('YYYY-MM-DD') //"2015-10-04"
   	  }
@@ -117,7 +117,10 @@
   	  $(permitsJson.features).each(function(key, data) {
         permitsLayer[key] = L.geoJson(data, {
           pointToLayer: function(feature, latlng) {
-            return L.circleMarker(latlng, geojsonMarkerOptions);
+            var marker = L.circleMarker(latlng, geojsonMarkerOptions);
+            var popupContent = String(feature.properties.id);
+            marker.bindPopup(popupContent);
+            return marker;
           }
         });
         permitsLayer.addLayer(permitsLayer[key]);
@@ -243,9 +246,8 @@
     for (var i = 0; i < formVars.length; i++) {
       switch (formVars[i]) {
         case "permits":
-          console.log('get those permits!');
           // Restricting to date selection to full year
-          getPermits(yearStart + '-01-01', yearEnd + '-12-31', currentHoodBbx, "residential");
+          getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential");
           break;
         case "crime":
           if (parseInt(yearStart) < 2004) {
