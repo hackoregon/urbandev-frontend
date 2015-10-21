@@ -873,7 +873,7 @@ $(document).ready(function () {
                                 + "<br><strong>Issue Date: </strong>"
                                 + String(feature.properties.issuedate)
                                 + "<br><strong>Size: </strong>"
-                                + String(feature.properties.sqft) + "sqft"
+                                + String(feature.properties.sqft) + " sqft"
                                 + "<br><strong>Value: </strong>"
                                 + formatCurrency(feature.properties.value);
 
