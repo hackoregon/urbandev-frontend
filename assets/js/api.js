@@ -95,6 +95,13 @@
     });
   }
 
+
+  // formatting for marker values
+  function formatCurrency (num) {
+    return "$" + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
+  // Create permits markers
   var geojsonMarkerOptions = {
     radius: 8,
     fillColor: '#FF5500',
@@ -105,7 +112,7 @@
   };
   var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
   var permitsLayer = new L.geoJson();
-	var bounds = map.getBounds().toBBoxString();
+  var bounds = map.getBounds().toBBoxString();
   function getPermits(start, end, neighborhood, type) {
     start = typeof start !== 'undefined' ? start : startDate;
     end = typeof end !== 'undefined' ? end : endDate;
@@ -129,12 +136,20 @@
         permitsLayer[key] = L.geoJson(data, {
           pointToLayer: function(feature, latlng) {
             var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-            var popupContent = "<strong>address: </strong>"
-                                + String(feature.properties.address)
-                                + "<br><strong>issue date: </strong>"
+            var popupContent = "<strong>PERMIT DATA</strong> "
+                                + "<br><strong>Feature ID:</strong> "
+                                + String(feature.properties.id) + "<hr>"
+                                + "<strong>Address: </strong>"
+                                + feature.properties.address
+                                + "<br><strong>Units: </strong>"
+                                + String(feature.properties.units)
+                                + "<br><strong>Issue Date: </strong>"
                                 + String(feature.properties.issuedate)
-                                + "<br><strong>feature id:</strong> "
-                                + String(feature.properties.id);
+                                + "<br><strong>Square Feet: </strong>"
+                                + String(feature.properties.sqft)
+                                + "<br><strong>Value: </strong>"
+                                + formatCurrency(feature.properties.value);
+
             marker.bindPopup(popupContent);
             return marker;
           }
