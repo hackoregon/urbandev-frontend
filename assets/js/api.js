@@ -129,7 +129,12 @@
         permitsLayer[key] = L.geoJson(data, {
           pointToLayer: function(feature, latlng) {
             var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-            var popupContent = String(feature.properties.id);
+            var popupContent = "<strong>address: </strong>"
+                                + String(feature.properties.address)
+                                + "<br><strong>issue date: </strong>"
+                                + String(feature.properties.issuedate)
+                                + "<br><strong>feature id:</strong> "
+                                + String(feature.properties.id);
             marker.bindPopup(popupContent);
             return marker;
           }
