@@ -693,16 +693,16 @@ $(document).ready(function() {
             $('[rel=tooltip]').tooltip();
             if (document.body.clientWidth <= 767) {
                 $('#sidebar').toggle();
-                $('a.toggle i').toggleClass('fa fa-chevron-right fa fa-chevron-left');
+                $('a.toggle i').toggleClass('fa fa-chevron-left fa fa-chevron-right');
             };
         });
 
 
         $('a.toggle').click(function() {
-            $('a.toggle i').toggleClass('fa fa-chevron-left fa fa-chevron-right');
+            $('a.toggle i').toggleClass('fa fa-chevron-right fa fa-chevron-left');
             $('#map').toggleClass('#sidebar');
             $('#sidebar').toggle();
-            //map.invalidateSize();
+            map.invalidateSize();
 
             return false;
 
@@ -711,6 +711,19 @@ $(document).ready(function() {
 
 // End Dashboard Widget Toggle
 
+
+// Carousel Height Transition Customization
+$(document).ready(function () {
+    $('.carousel').carousel({
+        interval: 8500,
+        pause: "hover"
+    }).on('slide.bs.carousel', function (e) {
+        var nextH = $(e.relatedTarget).height();
+        $(this).find('.active').parent().animate({ height: nextH }, 600);
+    });
+
+});
+// End Carousel Customization
 
 (function() {
 
