@@ -145,8 +145,8 @@
                                 + String(feature.properties.units)
                                 + "<br><strong>Issue Date: </strong>"
                                 + String(feature.properties.issuedate)
-                                + "<br><strong>Square Feet: </strong>"
-                                + String(feature.properties.sqft)
+                                + "<br><strong>Size: </strong>"
+                                + String(feature.properties.sqft) + "sqft"
                                 + "<br><strong>Value: </strong>"
                                 + formatCurrency(feature.properties.value);
 
