@@ -19,8 +19,7 @@
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/d3.slider.css" media="screen" />
-
+    <link rel="stylesheet" type="text/css" href="assets/css/leaflet-slider.css" media="screen" />
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
@@ -470,25 +469,24 @@
     <script src="assets/js/daterangepicker.js"></script>
     <!-- <script src="assets/js/app.js"></script> -->
     <script src="assets/js/production.js"></script>
-    <script src="assets/js/d3.v3.min.js"></script>
-    <script src="assets/js/d3.slider.js"></script>
+
+<!--lEAFLET-SLIDER ASSETS AND SCRIPT------>
+    <script src="assets/js/leaflet-slider.js"></script>
     <script>
+        var slider = L.control.slider(function(value) {console.log(value);}, {
+            min: 1994,
+            max: 2015,
+            step: 1,
+            value: 1994,
+            collapsed: false,
+            title: "What should this title be?",
+            showValue: true,
+            getValue: function(value) {return value;},
+            orientation: 'horizontal',
+            increment: true,
+            id: 'slider'
 
-      // tick formatter
-       var formatter = d3.format("d");
-       var tickFormatter = function(d) {
-          return formatter(d);
-    };
-
-      // Initialize slider
-
-      var slider = d3.slider().min(1994).max(2014).tickValues([1994, 1997, 2000, 2003, 2006, 2009, 2012]).stepValues([1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]).tickFormat(tickFormatter);
-
-
-      // Render the slider in the div
-      d3.select('#slider').call(slider);
-
-
+        }).addTo(map);
     </script>
   </body>
 </html>
