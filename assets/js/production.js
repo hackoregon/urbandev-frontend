@@ -1099,8 +1099,22 @@ $(document).ready(function () {
     }
   });
 
+  function zoomToNeighborhood(nbhoodVal) {
+    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
+    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
+    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+    map.fitBounds(hoodBbxArray, {
+      padding: [60, 90]
+    });
+    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+    getNbhoodShape(nbhoodVal);
+  }
+
   $('#neighborhoodselect').on('change', function() {
     var nbhoodVal = $(this).val();
+    zoomToNeighborhood(nbhoodVal);
   });
 
   function getPermitColor(d) {
@@ -1142,15 +1156,12 @@ $(document).ready(function () {
   $('#plot-submit').on('click', function(e) {
     e.preventDefault();
     var nbhoodVal = $('#neighborhoodselect').val();
-    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
     var yearStart = $('#yearstart').val();
     var yearEnd = $('#yearend').val();
     var formVars = [];
     $("#sidebar input:checked").each(function() {
       formVars.push($(this).val());
     });
-
-    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
 
     for (var i = 0; i < formVars.length; i++) {
       switch (formVars[i]) {
@@ -1172,17 +1183,6 @@ $(document).ready(function () {
 
       }
     }
-
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-
-    map.fitBounds(hoodBbxArray, {
-      padding: [60, 90]
-    });
-    // temp workaround for "WTF, the nbhoodDb bbx arrays are getting switched vals too???"
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-    getNbhoodShape(nbhoodVal);
 
   });
 
