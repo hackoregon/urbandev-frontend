@@ -147,6 +147,11 @@ button#sidebar-hide-btn {
   width: 100%;
   height: 100%;
   position: relative;
+  .date-range {
+    color: #c8c8c8;
+    font-size: 11px;
+    margin-left: 5px;
+  }
 }
 
 .sidebar-table {

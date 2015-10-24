@@ -161,6 +161,8 @@ http://leafletjs.com
             this.addData(feature);
           }
         }
+        // Need to re-initialize the slider now that we have data
+        this.process(geojson);
         return this;
       }
       return this._addData(geojson);
@@ -439,6 +441,9 @@ http://leafletjs.com
       if (!this.timeline.options.waitToUpdateMap || e.type === 'change') {
         this.timeline.setTime(time);
       }
+      // This is likely the function where we'll add / update the counter or
+      // averages data
+      // console.log(this.timeline.options.formatDate(new Date(time)));
       return this._output.innerHTML = this.timeline.options.formatDate(new Date(time));
     },
     onAdd: function(map1) {

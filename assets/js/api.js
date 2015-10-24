@@ -1,18 +1,21 @@
 (function() {
 
+
   var startDate = moment().subtract(3, 'months').format('YYYY-MM-DD');
   var endDate = moment().format('YYYY-MM-DD');
 
-  var dataDateRanges = [
-    {permits: {min: '1995-01-03', max: '2015-06-30'}},
-    {crimes: {min: '2004-01-01', max: '2014-12-31'}},
-    {demolitions: {min: '2004-01-14', max: '2014-12-31'}}
-  ];
+  var dataDateRanges = {
+    'permits': {min: '1995-01-03', max: '2015-06-30'},
+    'crimes': {min: '2004-01-01', max: '2014-12-31'},
+    'demolitions': {min: '2004-01-14', max: '2014-12-31'}
+  };
 
-  $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
-  $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
+  // $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
+  // $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
+  // $('#demolitions-checkbox').attr('title', dataDateRanges[2].demolitions.min + ' to ' + dataDateRanges[2].demolitions.max);
 
-  $('[data-toggle="tooltip"]').tooltip();
+  // $('[data-toggle="tooltip"]').tooltip();
+
 
   // $('#input--daterange').daterangepicker({
   //   startDate: moment().subtract(1, 'years'),
@@ -57,7 +60,6 @@
       console.log("Failed to fetch neighborhood list.");
     });
   }
-  getNbhoodList();
 
   // Get neighborhood shape, add to map
   var nbhoodLayer = new L.geoJson();
@@ -95,12 +97,6 @@
     });
   }
 
-
-  // formatting for marker values
-  function formatCurrency (num) {
-    return "$" + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-}
-
   // Create permits markers
   var geojsonMarkerOptions = {
     radius: 8,
@@ -111,17 +107,82 @@
     fillOpacity: 1
   };
   var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
+  var demolitionsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/demolitions.geojson";
   var permitsLayer = new L.geoJson();
-  var timelineLayer = L.timeline;
+  var timelineLayer = L.timeline(null, {
+    formatDate: function(date) {
+      return moment(date).format("YYYY");
+    },
+    pointToLayer: function(feature, latlng) {
+      var marker = L.circleMarker(latlng, geojsonMarkerOptions);
+      if (typeof feature.properties.issuedate !== 'undefined') {
+        // console.log('not undefined');
+        dataType = "permits";
+        var date = feature.properties.issuedate;
+        var value = formatCurrency(feature.properties.value);
+      } else {
+        dataType = "demolitions";
+        var date = feature.properties.demolition_date;
+        var value = "NA";
+      }
+      var popupContent = "<strong>PERMIT DATA</strong> "
+                          + "<br><strong>Feature ID:</strong> "
+                          + String(feature.properties.id) + "<hr>"
+                          + "<strong>Address: </strong>"
+                          + feature.properties.address
+                          + "<br><strong>Units: </strong>"
+                          + String(feature.properties.units)
+                          + "<br><strong>Date: </strong>"
+                          + String(date)
+                          + "<br><strong>Size: </strong>"
+                          + String(feature.properties.sqft) + " sqft"
+                          + "<br><strong>Value: </strong>";
+                          + String(value);
+
+      marker.bindPopup(popupContent);
+      return marker;
+    },
+    style: function(data) {
+      //return markerStyle(data);
+        var year = parseInt(data.properties['start']);//.get('year'));
+        // console.log(data.properties.issuedate);
+        if (typeof data.properties.issuedate !== 'undefined') {
+          // console.log('not undefined');
+          dataType = "permits";
+          var color = getPermitColor(year);
+        } else {
+          dataType = "demolitions";
+          var color = getDemolitionsColor(year);
+        }
+
+        return {
+          radius: 8,
+          fillColor: color,//getPermitColor(year, dataType),//'#FF5500',
+          color: '#000',
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.7
+        };
+      },
+  });
+
   var bounds = map.getBounds().toBBoxString();
-  function getPermits(start, end, neighborhood, type) {
+
+  // Return marker data and add to the map using the leaflet timeline plugin
+  // works with permits and damolition data
+  function getPermits(start, end, neighborhood, type, dataType) {
+    if (dataType == "permits") {
+      url = permitsUrl;
+    } else {
+      url = demolitionsUrl;
+    }
     start = typeof start !== 'undefined' ? start : startDate;
     end = typeof end !== 'undefined' ? end : endDate;
     //bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
     type = typeof type !== 'undefined' ? type : "residential";
-    $.ajax({
+    return $.ajax({
   	  method: "GET",
-  	  url: permitsUrl,
+  	  url: url,
   	  data: {
   	    type: type, //type: "residential",
   	    neighborhood: neighborhood,
@@ -131,126 +192,31 @@
   	})
   	.done(function(data) {
   	  var permitsJson = data;
-      permitsLayer.clearLayers();
-      // timelineLayer.clearLayers();
-      map.removeLayer(timelineLayer);
+      // console.log(permitsJson);
+      // permitsLayer.clearLayers();
+      timelineLayer.clearLayers();
   	  $(permitsJson.features).each(function(key, data) {
-        // console.log(key);
-        // console.log(data);
-        var date = data.properties.issuedate;
-        var propStartYear = moment(date);//.get('year');
+
+        if (dataType == "permits") {
+          var date = data.properties.issuedate;
+        } else {
+          var date = data.properties.demolition_date;
+        }
+        var propStartYear = date;//moment(date);//.get('year');
         var propEndYear = end;//moment(date).add(150, 'days');//.get('year');
-        //console.log(propStartYear);
         data.properties['start'] = propStartYear;
         data.properties['end'] = propEndYear;
-        //console.log(data);
-        // timelineLayer[key] = L.timeline(data, {
-        //   formatDate: function(date) {
-        //     return moment(date).format("YYYY");
-        //   },
-        //   pointToLayer: function(data, latlng) {
-        //     var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-        //     var popupContent = "<strong>PERMIT DATA</strong> "
-        //                         + "<br><strong>Feature ID:</strong> "
-        //                         + String(feature.properties.id) + "<hr>"
-        //                         + "<strong>Address: </strong>"
-        //                         + feature.properties.address
-        //                         + "<br><strong>Units: </strong>"
-        //                         + String(feature.properties.units)
-        //                         + "<br><strong>Issue Date: </strong>"
-        //                         + String(feature.properties.issuedate)
-        //                         + "<br><strong>Size: </strong>"
-        //                         + String(feature.properties.sqft) + " sqft"
-        //                         + "<br><strong>Value: </strong>"
-        //                         + formatCurrency(feature.properties.value);
-        //
-        //     marker.bindPopup(popupContent);
-        //     return marker;
-        //   }
-        // });
-        //console.log(timeline);
-        permitsLayer[key] = L.geoJson(data, {
-          // formatDate: function(date) {
-          //   return moment(date).format("YYYY");
-          // },
-          pointToLayer: function(feature, latlng) {
-            var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-            var popupContent = "<strong>PERMIT DATA</strong> "
-                                + "<br><strong>Feature ID:</strong> "
-                                + String(feature.properties.id) + "<hr>"
-                                + "<strong>Address: </strong>"
-                                + feature.properties.address
-                                + "<br><strong>Units: </strong>"
-                                + String(feature.properties.units)
-                                + "<br><strong>Issue Date: </strong>"
-                                + String(feature.properties.issuedate)
-                                + "<br><strong>Size: </strong>"
-                                + String(feature.properties.sqft) + " sqft"
-                                + "<br><strong>Value: </strong>"
-                                + formatCurrency(feature.properties.value);
 
-            marker.bindPopup(popupContent);
-            return marker;
-          }
-
-        });
-
-        // timelineLayer.addLayer(timelineLayer[key])
-        permitsLayer.addLayer(permitsLayer[key]);
       });
-      // console.log(permitsJson);
-      timelineLayer = L.timeline(permitsJson, {
-        style: function(data) {
-          var year = parseInt(data.properties['start'].get('year'));
-          // console.log(year);
-          // console.log(year == 1995);
-          // console.log(getPermitColor(year));
-          return {
-            radius: 8,
-            fillColor: getPermitColor(year),//'#FF5500',
-            color: '#000',
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.7
-          };
-        },
-        formatDate: function(date) {
-          return moment(date).format("YYYY");
-        },
-        pointToLayer: function(feature, latlng) {
-          var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-          var popupContent = "<strong>PERMIT DATA</strong> "
-                              + "<br><strong>Feature ID:</strong> "
-                              + String(feature.properties.id) + "<hr>"
-                              + "<strong>Address: </strong>"
-                              + feature.properties.address
-                              + "<br><strong>Units: </strong>"
-                              + String(feature.properties.units)
-                              + "<br><strong>Issue Date: </strong>"
-                              + String(feature.properties.issuedate)
-                              + "<br><strong>Size: </strong>"
-                              + String(feature.properties.sqft) + " sqft"
-                              + "<br><strong>Value: </strong>"
-                              + formatCurrency(feature.properties.value);
-
-          marker.bindPopup(popupContent);
-          return marker;
-        }
-      });
-      timelineLayer.addTo(map);
-      // timline.on('change', function(e) {
-      //
-      // })
-      // timeline.addTo(map);
-      // timeline.on('change', function(e) {
-      //   updateList(e.target);
-      // });
-      // updateList(timeline);
-      //permitsLayer.addTo(map);
+      // permitsLayer.addLayer(permitsLayer[key]);
+      timelineLayer.addData(permitsJson);
+      console.log(this.url);
+      // permitsLayer.addTo(map);
     })
     .fail(function() {
       console.log("Failed to fetch permits json data");
     });
+    // promises.push(promise);
   }
 
   // Get crime data
@@ -322,13 +288,29 @@
   //   return crimeCount;
   // }
 
-  // Initialize date ranges
-  for (var i = 1995; i <= 2015; i++) {
-    $('#yearstart').append('<option value="' + i + '">' + i + '</option>');
-    $('#yearend').append('<option value="' + i + '">' + i + '</option>');
-  }
+
 
   var hoodsShown = true;
+
+  // Utility functions
+
+  // formatting for marker values
+  function formatCurrency (num) {
+    return "$" + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
+  function markerStyle(data) {
+    // console.log(data);
+    var year = parseInt(data.properties['start'].get('year'));
+    return {
+      radius: 8,
+      fillColor: getPermitColor(year),//'#FF5500',
+      color: '#000',
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.7
+    };
+  }
 
   function toggleHoods() {
     if (hoodsShown) {
@@ -356,21 +338,9 @@
     return yearsArray;
   }
 
-  $('#toggle-hoods').on('click', toggleHoods);
-
-  $('#yearstart').on('change', function() {
-    var minYear = $(this).val();
-    if ($('#yearend').val() < minYear) {
-      $('#yearend').val(minYear);
-    }
-  });
-
-  $('#yearend').on('change', function() {
-    var maxYear = $(this).val();
-    if ($('#yearstart').val() > maxYear) {
-      $('#yearstart').val(maxYear);
-    }
-  });
+  function getYearFromDate(date) {
+    return moment(date).year();
+  }
 
   function zoomToNeighborhood(nbhoodVal) {
     var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
@@ -385,34 +355,45 @@
     getNbhoodShape(nbhoodVal);
   }
 
-  $('#neighborhoodselect').on('change', function() {
-    var nbhoodVal = $(this).val();
-    zoomToNeighborhood(nbhoodVal);
-  });
+  function getPermitColor(year) {
+    return year >= 2015 ? '#E65100' :
+           year > 2014 ? '#DB4D00' :
+           year > 2013 ? '#EF6C00' :
+           year > 2012 ? '#FF7300' :
+           year > 2011 ? '#F57C00' :
+           year > 2010 ? '#FF850A' :
+           year > 2009 ? '#FB8C00' :
+           year > 2008 ? '#FF930F' :
+           year > 2007 ? '#FF9800' :
+           year > 2006 ? '#FFA114' :
+           year > 2005 ? '#FFA726' :
+           year > 2004 ? '#FFAD33' :
+           year > 2003 ? '#FFB442' :
+           year > 2002 ? '#FFBA52' :
+           year > 2001 ? '#FFC061' :
+           year > 2000 ? '#FFC46B' :
+           year > 1999 ? '#FFC875' :
+           year > 1998 ? '#FFCC80' :
+           year > 1997 ? '#FFD08A' :
+           year > 1996 ? '#FFD494' :
+           year >= 1995 ? '#FFD89E':
+                       '#FFD89E';
+  }
 
-  function getPermitColor(d) {
-    return d >= 2015 ? '#000' :
-           d > 2014 ? '#0d0d0d' :
-           d > 2013 ? '#1d1d1d' :
-           d > 2012 ? '#111' :
-           d > 2011 ? '#2d2d2d' :
-           d > 2010 ? '#222' :
-           d > 2009 ? '#3d3d3d' :
-           d > 2008 ? '#333' :
-           d > 2007 ? '#4d4d4d' :
-           d > 2006 ? '#444' :
-           d > 2005 ? '#5d5d5d' :
-           d > 2004 ? '#555' :
-           d > 2003 ? '#666' :
-           d > 2002 ? '#777' :
-           d > 2001 ? '#888' :
-           d > 2000 ? '#999' :
-           d > 1999 ? '#aaa' :
-           d > 1998 ? '#bbb' :
-           d > 1997 ? '#ccc' :
-           d > 1996 ? '#ddd' :
-           d >= 1995 ? '#eee':
-                       '#fff';
+  function getDemolitionsColor(year) {
+    return year >= 2015 ? '#4A148C' :
+           year > 2014 ? '#6A1B9A' :
+           year > 2013 ? '#7B1FA2' :
+           year > 2012 ? '#8E24AA' :
+           year > 2011 ? '#9C27B0' :
+           year > 2010 ? '#AB47BC' :
+           year > 2009 ? '#BA68C8' :
+           year > 2008 ? '#CE93D8' :
+           year > 2007 ? '#E1BEE7' :
+           year > 2006 ? '#E9CFED' :
+           year > 2005 ? '#EEDAF1' :
+           year >= 2004 ? '#F3E5F5' :
+                       '#F3E5F5';
   }
 
   function getColor(d) {
@@ -426,36 +407,132 @@
                       '#EBFCEC';
   }
 
-  $('#plot-submit').on('click', function(e) {
-    e.preventDefault();
-    var nbhoodVal = $('#neighborhoodselect').val();
-    var yearStart = $('#yearstart').val();
-    var yearEnd = $('#yearend').val();
-    var formVars = [];
-    $("#sidebar input:checked").each(function() {
-      formVars.push($(this).val());
+  function getEarliestYear(selectedData) {
+    var minYears = [];
+    for (var i = 0; i < selectedData.length; i++) {
+      var typeOfData = selectedData[i];
+      minYears.push(getYearFromDate(dataDateRanges[typeOfData].min));
+    }
+    return Math.max.apply(null, minYears);
+  }
+
+  // Bind or update dom elements once they're loaded
+  $(document).ready(function() {
+    console.log(dataDateRanges);
+    console.log('earliest year:');
+    console.log(getEarliestYear(['permits', 'crimes']));
+    $('#permits-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.permits.min) + ' to ' + getYearFromDate(dataDateRanges.permits.max) + ')</span>');
+    $('#crimes-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.crimes.min) + ' to ' + getYearFromDate(dataDateRanges.crimes.max) + ')</span>');
+    $('#demolitions-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.demolitions.min) + ' to ' + getYearFromDate(dataDateRanges.demolitions.max) + ')</span>');
+
+    // Initialize date range select boxes
+    for (var i = 1995; i <= 2015; i++) {
+      $('#yearstart').append('<option value="' + i + '">' + i + '</option>');
+      $('#yearend').append('<option value="' + i + '">' + i + '</option>');
+    }
+
+    $('#toggle-hoods').on('click', toggleHoods);
+
+    $('.form__data-types').on('change', function() {
+      var formVars = [];
+      $("#sidebar input:checked").each(function() {
+        formVars.push($(this).val());
+      });
+      if (formVars.length > 0) {
+        $('#yearstart').val(getEarliestYear(formVars));
+        if (parseInt($('#yearend').val()) < getEarliestYear(formVars)) {
+          $('#yearend').val(getEarliestYear(formVars));
+        }
+      }
     });
 
-    for (var i = 0; i < formVars.length; i++) {
-      switch (formVars[i]) {
-        case "permits":
-          // Restricting to date selection to full year
-          getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential");
-          break;
-        case "crime":
-          if (parseInt(yearStart) < 2004) {
-            yearStart = "2004";
-          }
-          var yearRange = yearsInRange(yearStart, yearEnd);
-          if (yearRange.length == 0) {
-            console.log('Year range is zero!');
-          }
-          $('#crimetotal').html('');
-          getCrimesYear(nbhoodVal, yearRange);
-          break;
-
+    $('#yearstart').on('change', function() {
+      var minYear = $(this).val();
+      if ($('#yearend').val() < minYear) {
+        $('#yearend').val(minYear);
       }
-    }
+    });
+
+    $('#yearend').on('change', function() {
+      var maxYear = $(this).val();
+      if ($('#yearstart').val() > maxYear) {
+        $('#yearstart').val(maxYear);
+      }
+    });
+
+    $('#neighborhoodselect').on('change', function() {
+      var nbhoodVal = $(this).val();
+      zoomToNeighborhood(nbhoodVal);
+    });
+
+    $('.time-text').on('change', function() {
+      // console.log($(this).val());
+    });
+
+    $('#plot-submit').on('click', function(e) {
+      e.preventDefault();
+      var nbhoodVal = $('#neighborhoodselect').val();
+      var yearStart = $('#yearstart').val();
+      var yearEnd = $('#yearend').val();
+      var formVars = [];
+      $("#sidebar input:checked").each(function() {
+        formVars.push($(this).val());
+      });
+      for (var i = 0; i < formVars.length; i++) {
+        switch (formVars[i]) {
+          case "permits":
+            // Restricting date selection to full year
+            var needPermits = true;
+            break;
+          case "crimes":
+            if (parseInt(yearStart) < 2004) {
+              yearStart = "2004";
+            }
+            var yearRange = yearsInRange(yearStart, yearEnd);
+            if (yearRange.length == 0) {
+              console.log('Year range is zero!');
+            }
+            $('#crimetotal').html('');
+            getCrimesYear(nbhoodVal, yearRange);
+            break;
+          case "demolitions":
+            var needDemolitions = true;
+            break;
+
+        }
+      }
+
+      // Should refactor this! Maybe attach a data attribute to each checkbox,
+      // then iterate through those needing to be added to the animation and
+      // call get permits for each of them, then apply 'then' callback
+      if (needPermits && needDemolitions) {
+        $.when(
+          // if we need to make sure permits finishes before demolitions b/c of the date range,
+          // can chain another "then" with the demolitions call; but we should instead constrain
+          // the date selection to the data availability
+          getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits"),
+          getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
+        ).then(function() {
+          timelineLayer.addTo(map);
+        });
+      } else if (needPermits) {
+        $.when(
+          getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
+        ).then(function() {
+          timelineLayer.addTo(map);
+        });
+      } else if (needDemolitions) {
+        $.when(
+          getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
+        ).then(function() {
+          timelineLayer.addTo(map);
+        });
+      }
+
+    });
+
+    // Initialize select box with neighborhoods
+    getNbhoodList();
 
   });
 
