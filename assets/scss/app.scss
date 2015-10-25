@@ -308,6 +308,26 @@ input[type="checkbox"] {
     transition: border-color ease-in-out .3s,box-shadow ease-in-out .3s;
 }
 
+.select {
+    select  {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+}
+
+.select:after {
+    content: '\f0d7';
+    font-family: "FontAwesome";
+    display: block;
+    position: absolute;
+    top: 40px;
+    right: 25px;
+    font-size: 22px;
+    pointer-events: none;
+
+}
 //---------------MODAL------------------------------
 .modal-dialog {
     position: relative;
