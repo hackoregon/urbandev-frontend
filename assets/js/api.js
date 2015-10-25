@@ -117,15 +117,15 @@
       var marker = L.circleMarker(latlng, geojsonMarkerOptions);
       if (typeof feature.properties.issuedate !== 'undefined') {
         // console.log('not undefined');
-        dataType = "permits";
+        dataType = "Permit";
         var date = feature.properties.issuedate;
         var value = formatCurrency(feature.properties.value);
       } else {
-        dataType = "demolitions";
+        dataType = "Demolition";
         var date = feature.properties.demolition_date;
         var value = "NA";
       }
-      var popupContent = "<strong>PERMIT DATA</strong> "
+      var popupContent = "<br><strong>" + dataType + "</strong> "
                           + "<br><strong>Feature ID:</strong> "
                           + String(feature.properties.id) + "<hr>"
                           + "<strong>Address: </strong>"
@@ -194,7 +194,8 @@
   	  var permitsJson = data;
       // console.log(permitsJson);
       // permitsLayer.clearLayers();
-      timelineLayer.clearLayers();
+      // map.removeControl(timelineLayer.timeSliderControl);
+      // timelineLayer.clearLayers();
   	  $(permitsJson.features).each(function(key, data) {
 
         if (dataType == "permits") {
@@ -418,9 +419,6 @@
 
   // Bind or update dom elements once they're loaded
   $(document).ready(function() {
-    console.log(dataDateRanges);
-    console.log('earliest year:');
-    console.log(getEarliestYear(['permits', 'crimes']));
     $('#permits-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.permits.min) + ' to ' + getYearFromDate(dataDateRanges.permits.max) + ')</span>');
     $('#crimes-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.crimes.min) + ' to ' + getYearFromDate(dataDateRanges.crimes.max) + ')</span>');
     $('#demolitions-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.demolitions.min) + ' to ' + getYearFromDate(dataDateRanges.demolitions.max) + ')</span>');
@@ -471,10 +469,12 @@
 
     $('#plot-submit').on('click', function(e) {
       e.preventDefault();
+      timelineLayer.clearLayers();
       var nbhoodVal = $('#neighborhoodselect').val();
       var yearStart = $('#yearstart').val();
       var yearEnd = $('#yearend').val();
       var formVars = [];
+
       $("#sidebar input:checked").each(function() {
         formVars.push($(this).val());
       });
@@ -513,18 +513,36 @@
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits"),
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
+          // console.log(timelineLayer);
+          // if (typeof timelineLayer.timeSliderControl != "undefined") {
+          //   map.removeControl(timelineLayer.timeSliderControl)
+          //   timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+          //   timelineLayer.timeSliderControl.addTo(map);
+          // }
           timelineLayer.addTo(map);
         });
       } else if (needPermits) {
         $.when(
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
         ).then(function() {
+          // console.log(timelineLayer);
+          // if (typeof timelineLayer.timeSliderControl != "undefined") {
+          //   map.removeControl(timelineLayer.timeSliderControl)
+          //   timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+          //   timelineLayer.timeSliderControl.addTo(map);
+          // }
           timelineLayer.addTo(map);
         });
       } else if (needDemolitions) {
         $.when(
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
+          // console.log(timelineLayer);
+          // if (typeof timelineLayer.timeSliderControl != "undefined") {
+          //   map.removeControl(timelineLayer.timeSliderControl)
+          //   timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+          //   timelineLayer.timeSliderControl.addTo(map);
+          // }
           timelineLayer.addTo(map);
         });
       }
