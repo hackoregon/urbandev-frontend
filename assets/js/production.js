@@ -963,6 +963,7 @@ $(document).ready(function () {
 
   function getCrimesYear(nbhood, yearRange) {
     var crimeCount = 0;
+    var crimesByYear = {}; // need year to count mapping to sync count animation to timeline
     var crimesPromises = [];
     for (var i = 0; i < yearRange.length; i++) {
       var promise = $.ajax({
@@ -970,11 +971,12 @@ $(document).ready(function () {
     	  url: crimeUrl,
     	  data: {
           query: "perNeighborhoodPerYear",
-          year: yearRange[i]
+          year: yearRange[i],
+          // hardcoding violent crime parameter for the time being:
+          type: "violent"
     	  }
     	})
       .done(function(data) {
-
     	  var crimesJson = data;
         crimesTaffyList = [];
         var crimesInNbhood = 0;
@@ -1081,6 +1083,7 @@ $(document).ready(function () {
   }
 
   function zoomToNeighborhood(nbhoodVal) {
+    timelineLayer.clearLayers();
     if (nbhoodVal == "all") {
       nbhoodLayer.clearLayers();
       map.fitBounds(pdxBounds);
@@ -1223,6 +1226,9 @@ $(document).ready(function () {
       delete timelineLayer.time;
       timelineLayer.times = Array();
       timelineLayer.initialize(null, {
+        // static data for testing counter update
+        // counterData: {2011: 300, 2012: 368, 2013: 402, 2014: 20002},
+        // counterId: 'average',
         formatDate: function(date) {
           return moment(date).format("YYYY");
         },

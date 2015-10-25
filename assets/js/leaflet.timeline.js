@@ -161,7 +161,7 @@ http://leafletjs.com
             this.addData(feature);
           }
         }
-        // Need to re-initialize the slider now that we have data
+        // Need to re-initialize the slider once data has been added
         this.process(geojson);
         return this;
       }
@@ -315,6 +315,14 @@ http://leafletjs.com
       this._timeSlider.addEventListener('input', this._sliderChanged.bind(this));
       return this._timeSlider.addEventListener('change', this._sliderChanged.bind(this));
     },
+    _addCounter: function(data, elementId) {
+      var elem = document.getElementById(elementId);
+      var yearKey = this.timeline.options.formatDate(new Date(this.start));
+      this._counteroutput = elem;
+      if (typeof data != "undefined") {
+        return this._counteroutput.innerHTML = data[yearKey];
+      }
+    },
     _makeOutput: function(container) {
       this._output = L.DomUtil.create('output', 'time-text', container);
       return this._output.innerHTML = this.timeline.options.formatDate(new Date(this.start));
@@ -441,9 +449,10 @@ http://leafletjs.com
       if (!this.timeline.options.waitToUpdateMap || e.type === 'change') {
         this.timeline.setTime(time);
       }
-      // This is likely the function where we'll add / update the counter or
-      // averages data
-      // console.log(this.timeline.options.formatDate(new Date(time)));
+      if (typeof this.timeline.options.counterData != "undefined") {
+        this._counteroutput.innerHTML = this.timeline.options.counterData[this.timeline.options.formatDate(new Date(time))];
+      }
+
       return this._output.innerHTML = this.timeline.options.formatDate(new Date(time));
     },
     onAdd: function(map1) {
@@ -461,6 +470,7 @@ http://leafletjs.com
       }
       this._makeSlider(container);
       this._makeOutput(sliderCtrlC);
+      this._addCounter(this.timeline.options.counterData, this.timeline.options.counterId);
       if (this.showTicks) {
         this._buildDataList(container, this.timeline.times);
       }
