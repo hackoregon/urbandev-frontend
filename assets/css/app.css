@@ -263,13 +263,11 @@ input[type="checkbox"] {
 
 .form-control {
   display: block;
-  width: 100%;
   height: 34px;
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
   color: #000000;
-  background-color: #fff;
   background-image: none;
   border: 2px solid #000;
   border-radius: 0px;
@@ -279,20 +277,29 @@ input[type="checkbox"] {
   -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .3s,box-shadow ease-in-out .3s; }
 
-.select select {
+select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none; }
+  appearance: none;
+  position: relative; }
+
+.select {
+  position: relative;
+  cursor: pointer; }
 
 .select:after {
   content: '\f0d7';
   font-family: "FontAwesome";
   display: block;
   position: absolute;
-  top: 40px;
-  right: 25px;
-  font-size: 22px;
-  pointer-events: none; }
+  right: 10px;
+  font-size: 20px; }
+
+.select-nbhood:after {
+  top: 43px; }
+
+.select-timeframe:after {
+  top: 4px; }
 
 .modal-dialog {
   position: relative;
