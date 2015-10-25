@@ -48,7 +48,8 @@ color: black;
     border-radius: 0px;
 }
 button#plot-submit {
-    letter-spacing: 1px;
+  letter-spacing: 1px;
+  margin: 15px 0px;
 }
 button#sidebar-hide-btn {
     border-radius: 32px !important;
@@ -170,7 +171,8 @@ button#sidebar-hide-btn {
   font-weight: normal;
   margin-bottom: 0px;
 }
-.leaflet-control-layers-list input[type="radio"], input[type="checkbox"] {
+.leaflet-control-layers-list input[type="radio"],
+.leaflet-control-layers-list input[type="checkbox"] {
   margin: 2px;
 }
 .table {
@@ -277,8 +279,37 @@ background-color: none;
   line-height: 34px;
   text-align: center;
 }
-input[type="radio"], input[type="checkbox"] {
+
+input[type="radio"],
+input[type="checkbox"] {
   margin: 0;
+}
+
+.dropdown-menu i {
+    width: 17px;
+}
+
+.time-bar {
+    position: absolute;
+    margin-left: 3%;
+    margin-right: 3%;
+    bottom: 6px;
+    width: 70%;
+    height: 50px;
+    background-color: white;
+    box-shadow: 1px 1px 3px #3E3E3E;
+}
+
+
+.scrub-container {
+    background: #FFF;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 .form-control {
     display: block;
@@ -342,11 +373,12 @@ font-size: 100px;
 }
 
 #metadata a:hover {
-color: #2198FF;
--webkit-transition: all .5s ease-in-out;
--o-transition: all .5s ease-in-out;
-transition: all .5s ease-in-out;
+  color: #2198FF;
+  -webkit-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
+
 
 div#metadata {
     text-align: center;
@@ -363,9 +395,9 @@ div#metadata {
 }
 
 .close:hover {
-background-color: yellow;
-color: #000;
-transition:all .4s ease-in-out;
+  background-color: yellow;
+  color: #000;
+  transition:all .4s ease-in-out;
 }
 
 //--------------PANEL-------------------------------
@@ -481,14 +513,172 @@ list-style: none;
     width: 580px;
 }
 
+#disclaimer p {
+    margin: 27px auto 38px;
+    width: 600px;
+}
+
+#metadata i {
+font-size: 100px;
+}
+
+#metadata a:hover {
+color: #2198FF;
+-webkit-transition: all .5s ease-in-out;
+-o-transition: all .5s ease-in-out;
+transition: all .5s ease-in-out;
+}
+
+
+
+div#metadata {
+    text-align: center;
+}
+
+#sidebar .panel-body {
+padding: 5px 5px 5px 20px;
+}
+
+#sidebar .panel-body .h4, h4 {
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+
+#about h5 {
+line-height: 29px;
+}
+
+#about .col-sm-6.col-md-4 {
+
+
+}
+
+#about .thumbnail {
+    border: none;
+    -webkit-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+}
+
+#about .thumbnail .caption {
+    padding: 9px;
+    color: #333;
+    height: 130px;
+}
+
+/* Leaflet Slider */
+
+.leaflet-control-layers-expanded {
+    padding: 6px 6px 6px 6px;
+    color: #333;
+    background: #fff;
+}
+
+
+.leaflet-timeline-controls .sldr-ctrl-container {
+    float: left;
+    width: 92%;
+}
+
+.leaflet-timeline-controls .button-container button {
+    position: relative;
+    width: 18%;
+    height: 31px;
+    margin: 0px 3px !important;
+    border: 2px solid black;
+    background-color: white;
+}
+
+.leaflet-timeline-controls {
+    width: 375px;
+    text-align: center;
+}
+
+.leaflet-timeline-controls * {
+    vertical-align: middle;
+    margin: 0 auto !important;
+}
+
+
+.leaflet-timeline-controls .button-container button:hover {
+    background-color: #2198FF;
+    transition: all .4s ease-in-out;
+}
+
+
+output {
+    display: block;
+    padding: 2px 0px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin: 0 auto;
+    line-height: 1.42857143;
+    color: #000000;
+}
+
+
+.leaflet-timeline-controls input[type=range] {
+    width: 98%;
+}
+
+.leaflet-control-layers {
+    box-shadow: 0px 2px 5px rgba(74, 74, 74, 0.77);
+    border-radius: 0px;
+}
+
+/* End Leaflet Slider */
+
+
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-animation: fadein .5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein .5s; /* Firefox < 16 */
+  -ms-animation: fadein .5s; /* Internet Explorer */
+  -o-animation: fadein .5s; /* Opera < 12.1 */
+  animation: fadein .5s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
+
+/* Laptop/Tablet */
 
 //-------MEDIA QUERIES
 @media (min-width: 992px){
   .modal-lg {
-      width: 100%;
-      margin: 0px auto;
-    }
+    width: 100%;
+    margin: 0px auto;
   }
+}
 
 @media (max-width: 992px){
   .navbar .navbar-brand {
@@ -534,6 +724,10 @@ list-style: none;
   }
 
 }
+/* End Laptop/Tablet */
+
+
+/* Smartphone */
 
 @media (max-width: 768px){
 
