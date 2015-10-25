@@ -358,6 +358,7 @@
       nbhoodLayer.clearLayers();
       map.fitBounds(pdxBounds);
     } else {
+      // Safari error here
       var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
       currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
       hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
@@ -490,6 +491,66 @@
       var yearEnd = $('#yearend').val();
       var formVars = [];
 
+      delete timelineLayer.options.start;
+      delete timelineLayer.options.end;
+      delete timelineLayer.time;
+      timelineLayer.times = Array();
+      timelineLayer.initialize(null, {
+        formatDate: function(date) {
+          return moment(date).format("YYYY");
+        },
+        pointToLayer: function(feature, latlng) {
+          var marker = L.circleMarker(latlng, geojsonMarkerOptions);
+          if (typeof feature.properties.issuedate !== 'undefined') {
+            dataType = "Permit";
+            var date = feature.properties.issuedate;
+            var value = formatCurrency(feature.properties.value);
+          } else {
+            dataType = "Demolition";
+            var date = feature.properties.demolition_date;
+            var value = "NA";
+          }
+          var popupContent = "<br><strong>" + dataType + "</strong> "
+                              + "<br><strong>Feature ID:</strong> "
+                              + String(feature.properties.id) + "<hr>"
+                              + "<strong>Address: </strong>"
+                              + feature.properties.address
+                              + "<br><strong>Units: </strong>"
+                              + String(feature.properties.units)
+                              + "<br><strong>Date: </strong>"
+                              + String(date)
+                              + "<br><strong>Size: </strong>"
+                              + String(feature.properties.sqft) + " sqft"
+                              + "<br><strong>Value: </strong>";
+                              + String(value);
+
+          marker.bindPopup(popupContent);
+          return marker;
+        },
+        style: function(data) {
+          //return markerStyle(data);
+            var year = parseInt(data.properties['start']);//.get('year'));
+            // console.log(data.properties.issuedate);
+            if (typeof data.properties.issuedate !== 'undefined') {
+              // console.log('not undefined');
+              dataType = "permits";
+              var color = getPermitColor(year);
+            } else {
+              dataType = "demolitions";
+              var color = getDemolitionsColor(year);
+            }
+
+            return {
+              radius: 8,
+              fillColor: color,//getPermitColor(year, dataType),//'#FF5500',
+              color: '#000',
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 0.7
+            };
+          },
+      });
+
       $("#sidebar input:checked").each(function() {
         formVars.push($(this).val());
       });
@@ -528,36 +589,33 @@
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits"),
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
-          // console.log(timelineLayer);
-          // if (typeof timelineLayer.timeSliderControl != "undefined") {
-          //   map.removeControl(timelineLayer.timeSliderControl)
-          //   timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          //   timelineLayer.timeSliderControl.addTo(map);
-          // }
+          if (typeof timelineLayer.timeSliderControl != "undefined") {
+            map.removeControl(timelineLayer.timeSliderControl)
+            timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+            timelineLayer.timeSliderControl.addTo(map);
+          }
           timelineLayer.addTo(map);
         });
       } else if (needPermits) {
         $.when(
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
         ).then(function() {
-          // console.log(timelineLayer);
-          // if (typeof timelineLayer.timeSliderControl != "undefined") {
-          //   map.removeControl(timelineLayer.timeSliderControl)
-          //   timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          //   timelineLayer.timeSliderControl.addTo(map);
-          // }
+          if (typeof timelineLayer.timeSliderControl != "undefined") {
+            map.removeControl(timelineLayer.timeSliderControl)
+            timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+            timelineLayer.timeSliderControl.addTo(map);
+          }
           timelineLayer.addTo(map);
         });
       } else if (needDemolitions) {
         $.when(
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
-          // console.log(timelineLayer);
-          // if (typeof timelineLayer.timeSliderControl != "undefined") {
-          //   map.removeControl(timelineLayer.timeSliderControl)
-          //   timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          //   timelineLayer.timeSliderControl.addTo(map);
-          // }
+          if (typeof timelineLayer.timeSliderControl != "undefined") {
+            map.removeControl(timelineLayer.timeSliderControl)
+            timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+            timelineLayer.timeSliderControl.addTo(map);
+          }
           timelineLayer.addTo(map);
         });
       }
