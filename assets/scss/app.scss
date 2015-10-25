@@ -48,7 +48,8 @@ color: black;
     border-radius: 0px;
 }
 button#plot-submit {
-    letter-spacing: 1px;
+  letter-spacing: 1px;
+  margin: 15px 0px;
 }
 button#sidebar-hide-btn {
     border-radius: 32px !important;
@@ -147,6 +148,11 @@ button#sidebar-hide-btn {
   width: 100%;
   height: 100%;
   position: relative;
+  .date-range {
+    color: #c8c8c8;
+    font-size: 11px;
+    margin-left: 5px;
+  }
 }
 
 .sidebar-table {
@@ -165,7 +171,8 @@ button#sidebar-hide-btn {
   font-weight: normal;
   margin-bottom: 0px;
 }
-.leaflet-control-layers-list input[type="radio"], input[type="checkbox"] {
+.leaflet-control-layers-list input[type="radio"],
+.leaflet-control-layers-list input[type="checkbox"] {
   margin: 2px;
 }
 .table {
@@ -274,9 +281,16 @@ background-color: none;
 }
 
 
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0;
+}
+
+
 .dropdown-menu i {
     width: 17px;
 }
+
 
 .time-bar {
     position: absolute;
@@ -301,9 +315,7 @@ background-color: none;
     width: 100%;
 }
 
-input[type="radio"], input[type="checkbox"] {
-  margin: 0;
-}
+
 .form-control {
     display: block;
     width: 100%;
@@ -323,6 +335,26 @@ input[type="radio"], input[type="checkbox"] {
     transition: border-color ease-in-out .3s,box-shadow ease-in-out .3s;
 }
 
+.select {
+    select  {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+}
+
+.select:after {
+    content: '\f0d7';
+    font-family: "FontAwesome";
+    display: block;
+    position: absolute;
+    top: 40px;
+    right: 25px;
+    font-size: 22px;
+    pointer-events: none;
+
+}
 //---------------MODAL------------------------------
 .modal-dialog {
     position: relative;
@@ -366,17 +398,19 @@ font-size: 100px;
 }
 
 
+
 button#plot-submit {
     letter-spacing: 1px;
     margin: 15px 0px;
 }
 
 #metadata a:hover {
-color: #2198FF;
--webkit-transition: all .5s ease-in-out;
--o-transition: all .5s ease-in-out;
-transition: all .5s ease-in-out;
+  color: #2198FF;
+  -webkit-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
+
 
 div#metadata {
     text-align: center;
@@ -393,9 +427,9 @@ div#metadata {
 }
 
 .close:hover {
-background-color: yellow;
-color: #000;
-transition:all .4s ease-in-out;
+  background-color: yellow;
+  color: #000;
+  transition:all .4s ease-in-out;
 }
 
 //--------------PANEL-------------------------------
@@ -515,9 +549,7 @@ list-style: none;
 #disclaimer p {
     margin: 27px auto 38px;
     width: 600px;
-}  
-
-
+}
 
 #metadata i {
 font-size: 100px;
@@ -673,13 +705,12 @@ output {
 
 /* Laptop/Tablet */
 
-
 //-------MEDIA QUERIES
 @media (min-width: 992px){
-.modal-lg {
+  .modal-lg {
     width: 100%;
     margin: 0px auto;
-}
+  }
 }
 
 
