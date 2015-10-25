@@ -737,6 +737,9 @@ $(document).ready(function () {
     'demolitions': {min: '2004-01-14', max: '2014-12-31'}
   };
 
+  var pdxBounds = [[45.43628556252907, -122.83573150634764],[45.56358318479177,-122.50442504882814]];
+  var pdxBoundsString = '-122.83573150634764,45.43628556252907,-122.50442504882814,45.56358318479177';
+
   // $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
   // $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
   // $('#demolitions-checkbox').attr('title', dataDateRanges[2].demolitions.min + ' to ' + dataDateRanges[2].demolitions.max);
@@ -898,6 +901,12 @@ $(document).ready(function () {
   // Return marker data and add to the map using the leaflet timeline plugin
   // works with permits and damolition data
   function getPermits(start, end, neighborhood, type, dataType) {
+    if (neighborhood == "all") {
+      bounds = pdxBounds;
+      neighborhood = '';
+    } else {
+      bounds = '';
+    }
     if (dataType == "permits") {
       url = permitsUrl;
     } else {
@@ -914,7 +923,8 @@ $(document).ready(function () {
   	    type: type, //type: "residential",
   	    neighborhood: neighborhood,
         startdate: start, //moment().subtract(1, 'years').format('YYYY-MM-DD'), //"2014-10-04"
-        enddate: end //moment().format('YYYY-MM-DD') //"2015-10-04"
+        enddate: end, //moment().format('YYYY-MM-DD') //"2015-10-04"
+        bounds: bounds
   	  }
   	})
   	.done(function(data) {
@@ -1071,16 +1081,21 @@ $(document).ready(function () {
   }
 
   function zoomToNeighborhood(nbhoodVal) {
-    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
-    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-    map.fitBounds(hoodBbxArray, {
-      padding: [60, 90]
-    });
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-    getNbhoodShape(nbhoodVal);
+    if (nbhoodVal == "all") {
+      nbhoodLayer.clearLayers();
+      map.fitBounds(pdxBounds);
+    } else {
+      var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
+      currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
+      hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+      hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+      map.fitBounds(hoodBbxArray, {
+        padding: [60, 90]
+      });
+      hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+      hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+      getNbhoodShape(nbhoodVal);
+    }
   }
 
   function getPermitColor(year) {
