@@ -839,6 +839,7 @@ $(document).ready(function () {
   };
   var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
   var permitsLayer = new L.geoJson();
+  var timelineLayer = L.timeline;
   var bounds = map.getBounds().toBBoxString();
   function getPermits(start, end, neighborhood, type) {
     start = typeof start !== 'undefined' ? start : startDate;
@@ -858,9 +859,47 @@ $(document).ready(function () {
   	.done(function(data) {
   	  var permitsJson = data;
       permitsLayer.clearLayers();
-
+      // timelineLayer.clearLayers();
+      map.removeLayer(timelineLayer);
   	  $(permitsJson.features).each(function(key, data) {
+        // console.log(key);
+        // console.log(data);
+        var date = data.properties.issuedate;
+        var propStartYear = moment(date);//.get('year');
+        var propEndYear = end;//moment(date).add(150, 'days');//.get('year');
+        //console.log(propStartYear);
+        data.properties['start'] = propStartYear;
+        data.properties['end'] = propEndYear;
+        //console.log(data);
+        // timelineLayer[key] = L.timeline(data, {
+        //   formatDate: function(date) {
+        //     return moment(date).format("YYYY");
+        //   },
+        //   pointToLayer: function(data, latlng) {
+        //     var marker = L.circleMarker(latlng, geojsonMarkerOptions);
+        //     var popupContent = "<strong>PERMIT DATA</strong> "
+        //                         + "<br><strong>Feature ID:</strong> "
+        //                         + String(feature.properties.id) + "<hr>"
+        //                         + "<strong>Address: </strong>"
+        //                         + feature.properties.address
+        //                         + "<br><strong>Units: </strong>"
+        //                         + String(feature.properties.units)
+        //                         + "<br><strong>Issue Date: </strong>"
+        //                         + String(feature.properties.issuedate)
+        //                         + "<br><strong>Size: </strong>"
+        //                         + String(feature.properties.sqft) + " sqft"
+        //                         + "<br><strong>Value: </strong>"
+        //                         + formatCurrency(feature.properties.value);
+        //
+        //     marker.bindPopup(popupContent);
+        //     return marker;
+        //   }
+        // });
+        //console.log(timeline);
         permitsLayer[key] = L.geoJson(data, {
+          // formatDate: function(date) {
+          //   return moment(date).format("YYYY");
+          // },
           pointToLayer: function(feature, latlng) {
             var marker = L.circleMarker(latlng, geojsonMarkerOptions);
             var popupContent = "<strong>PERMIT DATA</strong> "
@@ -880,11 +919,61 @@ $(document).ready(function () {
             marker.bindPopup(popupContent);
             return marker;
           }
+
         });
+
+        // timelineLayer.addLayer(timelineLayer[key])
         permitsLayer.addLayer(permitsLayer[key]);
       });
+      // console.log(permitsJson);
+      timelineLayer = L.timeline(permitsJson, {
+        style: function(data) {
+          var year = parseInt(data.properties['start'].get('year'));
+          // console.log(year);
+          // console.log(year == 1995);
+          // console.log(getPermitColor(year));
+          return {
+            radius: 8,
+            fillColor: getPermitColor(year),//'#FF5500',
+            color: '#000',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.7
+          };
+        },
+        formatDate: function(date) {
+          return moment(date).format("YYYY");
+        },
+        pointToLayer: function(feature, latlng) {
+          var marker = L.circleMarker(latlng, geojsonMarkerOptions);
+          var popupContent = "<strong>PERMIT DATA</strong> "
+                              + "<br><strong>Feature ID:</strong> "
+                              + String(feature.properties.id) + "<hr>"
+                              + "<strong>Address: </strong>"
+                              + feature.properties.address
+                              + "<br><strong>Units: </strong>"
+                              + String(feature.properties.units)
+                              + "<br><strong>Issue Date: </strong>"
+                              + String(feature.properties.issuedate)
+                              + "<br><strong>Size: </strong>"
+                              + String(feature.properties.sqft) + " sqft"
+                              + "<br><strong>Value: </strong>"
+                              + formatCurrency(feature.properties.value);
 
-      permitsLayer.addTo(map);
+          marker.bindPopup(popupContent);
+          return marker;
+        }
+      });
+      timelineLayer.addTo(map);
+      // timline.on('change', function(e) {
+      //
+      // })
+      // timeline.addTo(map);
+      // timeline.on('change', function(e) {
+      //   updateList(e.target);
+      // });
+      // updateList(timeline);
+      //permitsLayer.addTo(map);
     })
     .fail(function() {
       console.log("Failed to fetch permits json data");
@@ -1010,9 +1099,48 @@ $(document).ready(function () {
     }
   });
 
+  function zoomToNeighborhood(nbhoodVal) {
+    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
+    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
+    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+    map.fitBounds(hoodBbxArray, {
+      padding: [60, 90]
+    });
+    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
+    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
+    getNbhoodShape(nbhoodVal);
+  }
+
   $('#neighborhoodselect').on('change', function() {
     var nbhoodVal = $(this).val();
+    zoomToNeighborhood(nbhoodVal);
   });
+
+  function getPermitColor(d) {
+    return d >= 2015 ? '#000' :
+           d > 2014 ? '#0d0d0d' :
+           d > 2013 ? '#1d1d1d' :
+           d > 2012 ? '#111' :
+           d > 2011 ? '#2d2d2d' :
+           d > 2010 ? '#222' :
+           d > 2009 ? '#3d3d3d' :
+           d > 2008 ? '#333' :
+           d > 2007 ? '#4d4d4d' :
+           d > 2006 ? '#444' :
+           d > 2005 ? '#5d5d5d' :
+           d > 2004 ? '#555' :
+           d > 2003 ? '#666' :
+           d > 2002 ? '#777' :
+           d > 2001 ? '#888' :
+           d > 2000 ? '#999' :
+           d > 1999 ? '#aaa' :
+           d > 1998 ? '#bbb' :
+           d > 1997 ? '#ccc' :
+           d > 1996 ? '#ddd' :
+           d >= 1995 ? '#eee':
+                       '#fff';
+  }
 
   function getColor(d) {
     return d > 1000 ? '#3CE646' :
@@ -1028,15 +1156,12 @@ $(document).ready(function () {
   $('#plot-submit').on('click', function(e) {
     e.preventDefault();
     var nbhoodVal = $('#neighborhoodselect').val();
-    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
     var yearStart = $('#yearstart').val();
     var yearEnd = $('#yearend').val();
     var formVars = [];
     $("#sidebar input:checked").each(function() {
       formVars.push($(this).val());
     });
-
-    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
 
     for (var i = 0; i < formVars.length; i++) {
       switch (formVars[i]) {
@@ -1058,17 +1183,6 @@ $(document).ready(function () {
 
       }
     }
-
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-
-    map.fitBounds(hoodBbxArray, {
-      padding: [60, 90]
-    });
-    // temp workaround for "WTF, the nbhoodDb bbx arrays are getting switched vals too???"
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-    getNbhoodShape(nbhoodVal);
 
   });
 
