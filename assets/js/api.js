@@ -527,7 +527,7 @@
                               + String(date)
                               + "<br><strong>Size: </strong>"
                               + String(feature.properties.sqft) + " sqft"
-                              + "<br><strong>Value: </strong>";
+                              + "<br><strong>Value: </strong>"
                               + String(value);
 
           marker.bindPopup(popupContent);
