@@ -261,6 +261,26 @@ input[type="checkbox"] {
 .dropdown-menu i {
   width: 17px; }
 
+.time-bar {
+  position: absolute;
+  margin-left: 3%;
+  margin-right: 3%;
+  bottom: 6px;
+  width: 70%;
+  height: 50px;
+  background-color: white;
+  box-shadow: 1px 1px 3px #3E3E3E; }
+
+.scrub-container {
+  background: #FFF;
+  height: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 100%; }
+
 .form-control {
   display: block;
   height: 34px;
@@ -336,6 +356,10 @@ select {
 
 #metadata i {
   font-size: 100px; }
+
+button#plot-submit {
+  letter-spacing: 1px;
+  margin: 15px 0px; }
 
 #metadata a:hover {
   color: #2198FF;
