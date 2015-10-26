@@ -1088,7 +1088,8 @@ $(document).ready(function () {
       nbhoodLayer.clearLayers();
       map.fitBounds(pdxBounds);
     } else {
-      // Safari error here
+      // Troubleshooting Safari error
+      console.log(nbhoodDb);
       var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
       currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
       hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
@@ -1215,6 +1216,7 @@ $(document).ready(function () {
 
     $('#plot-submit').on('click', function(e) {
       e.preventDefault();
+      $("#loading").show();
       timelineLayer.clearLayers();
       var nbhoodVal = $('#neighborhoodselect').val();
       var yearStart = $('#yearstart').val();
@@ -1328,6 +1330,7 @@ $(document).ready(function () {
             timelineLayer.timeSliderControl.addTo(map);
           }
           timelineLayer.addTo(map);
+          $("#loading").hide();
         });
       } else if (needPermits) {
         $.when(
@@ -1339,6 +1342,7 @@ $(document).ready(function () {
             timelineLayer.timeSliderControl.addTo(map);
           }
           timelineLayer.addTo(map);
+          $("#loading").hide();
         });
       } else if (needDemolitions) {
         $.when(
@@ -1350,6 +1354,7 @@ $(document).ready(function () {
             timelineLayer.timeSliderControl.addTo(map);
           }
           timelineLayer.addTo(map);
+          $("#loading").hide();
         });
       }
 
