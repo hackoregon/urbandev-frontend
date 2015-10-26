@@ -879,10 +879,10 @@ $(document).ready(function () {
         if (typeof data.properties.issuedate !== 'undefined') {
           // console.log('not undefined');
           dataType = "permits";
-          var color = getPermitColor(year);
+          var color = getPermitColor(2015);//getPermitColor(year);
         } else {
           dataType = "demolitions";
-          var color = getDemolitionsColor(year);
+          var color = getDemolitionsColor(2015);//getDemolitionsColor(year);
         }
 
         return {
@@ -1164,9 +1164,9 @@ $(document).ready(function () {
 
   // Bind or update dom elements once they're loaded
   $(document).ready(function() {
-    $('#permits-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.permits.min) + ' to ' + getYearFromDate(dataDateRanges.permits.max) + ')</span>');
-    $('#crimes-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.crimes.min) + ' to ' + getYearFromDate(dataDateRanges.crimes.max) + ')</span>');
-    $('#demolitions-checkbox').after('<span class="date-range">(' + getYearFromDate(dataDateRanges.demolitions.min) + ' to ' + getYearFromDate(dataDateRanges.demolitions.max) + ')</span>');
+    $('#permits-checkbox').after('<p class="date-range">(' + getYearFromDate(dataDateRanges.permits.min) + ' to ' + getYearFromDate(dataDateRanges.permits.max) + ')</p>');
+    $('#crimes-checkbox').after('<p class="date-range">(' + getYearFromDate(dataDateRanges.crimes.min) + ' to ' + getYearFromDate(dataDateRanges.crimes.max) + ')</p>');
+    $('#demolitions-checkbox').after('<p class="date-range">(' + getYearFromDate(dataDateRanges.demolitions.min) + ' to ' + getYearFromDate(dataDateRanges.demolitions.max) + ')</p>');
 
     // Initialize date range select boxes
     for (var i = 1995; i <= 2015; i++) {
@@ -1267,10 +1267,10 @@ $(document).ready(function () {
             if (typeof data.properties.issuedate !== 'undefined') {
               // console.log('not undefined');
               dataType = "permits";
-              var color = getPermitColor(year);
+              var color = getPermitColor(2015);//getPermitColor(year);
             } else {
               dataType = "demolitions";
-              var color = getDemolitionsColor(year);
+              var color = getDemolitionsColor(2015);//getDemolitionsColor(year);
             }
 
             return {

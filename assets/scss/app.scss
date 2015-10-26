@@ -149,11 +149,6 @@ button#sidebar-hide-btn {
   height: 100%;
   position: relative;
   overflow: scroll;
-  .date-range {
-    color: #c8c8c8;
-    font-size: 11px;
-    margin-left: 5px;
-  }
 }
 
 .sidebar-table {
@@ -279,6 +274,20 @@ background-color: none;
   height: 34px;
   line-height: 34px;
   text-align: center;
+}
+
+.form__data-types {
+  label {
+    line-height: 1.4;
+  }
+  input[type="checkbox"] {
+    margin-top: 3px;
+  }
+  .date-range {
+    color: #a8a8a8;
+    font-size: 11px;
+    margin-left: 20px;
+  }
 }
 
 
