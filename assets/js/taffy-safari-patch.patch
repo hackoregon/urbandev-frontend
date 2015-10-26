@@ -1,0 +1,117 @@
+From 0e44c6a4a316a9b026a2c3ce7362c3338e8f3dca Mon Sep 17 00:00:00 2001
+From: Leif <leif.ullman@gmail.com>
+Date: Sun, 13 Sep 2015 12:10:33 -0600
+Subject: [PATCH] Update for iOS 9 and Safari 9 compatibility
+
+Add workaround for isArray check failing due to Arguments not being recognized as an Array in Safari 9.
+---
+ taffy.js | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
+
+diff --git a/taffy.js b/taffy.js
+index 350fb47..7357ff2 100644
+--- a/taffy.js
++++ b/taffy.js
+@@ -35,10 +35,10 @@ var TAFFY, exports, T;
+     isIndexable,  returnFilter, runFilters,
+     numcharsplit, orderByCol,   run,    intersection,
+     filter,       makeCid,      safeForJson,
+-    isRegexp
++    isRegexp, sortArgs
+     ;
+-
+-
++
++
+   if ( ! TAFFY ){
+     // TC = Counter for Taffy DBs on page, used for unique IDs
+     // cmax = size of charnumarray conversion cache
+@@ -49,6 +49,11 @@ var TAFFY, exports, T;
+     cmax    = 1000;
+     API     = {};
+
++    sortArgs = function(args) {
++      var v = Array.prototype.slice.call(args);
++      return v.sort();
++    }
++
+     protectJSON = function ( t ) {
+       // ****************************************
+       // *
+@@ -163,7 +168,7 @@ var TAFFY, exports, T;
+       // *
+       // ****************************************
+       API[m] = function () {
+-        return f.apply( this, arguments );
++        return f.apply( this, sortArgs(arguments) );
+       };
+     };
+
+@@ -633,7 +638,7 @@ var TAFFY, exports, T;
+       });
+       nc.q = nq;
+       // Hadnle passing of ___ID or a record on lookup.
+-      each( arguments, function ( f ) {
++      each( sortArgs(arguments), function ( f ) {
+         nc.q.push( returnFilter( f ) );
+         nc.filterRaw.push( f );
+       });
+@@ -719,7 +724,7 @@ var TAFFY, exports, T;
+       // *
+       // * Takes: a object and passes it off DBI update method for all matched records
+       // ****************************************
+-      var runEvent = true, o = {}, args = arguments, that;
++      var runEvent = true, o = {}, args = sortArgs(arguments), that;
+       if ( TAFFY.isString( arg0 ) &&
+         (arguments.length === 2 || arguments.length === 3) )
+       {
+@@ -848,7 +853,7 @@ var TAFFY, exports, T;
+       // ****************************************
+       var total = 0, that = this;
+       run.call( that );
+-      each( arguments, function ( c ) {
++      each( sortArgs(arguments), function ( c ) {
+         each( that.context().results, function ( r ) {
+           total = total + (r[c] || 0);
+         });
+@@ -979,7 +984,7 @@ var TAFFY, exports, T;
+         fnMain = function ( table ) {
+           var
+             right_table, i,
+-            arg_list = arguments,
++            arg_list = sortArgs(arguments),
+             arg_length = arg_list.length,
+             result_list = []
+             ;
+@@ -1053,7 +1058,7 @@ var TAFFY, exports, T;
+       // * Note if more than one column is given an array of arrays is returned
+       // ****************************************
+
+-      var ra = [], args = arguments;
++      var ra = [], args = sortArgs(arguments);
+       run.call( this );
+       if ( arguments.length === 1 ){
+
+@@ -1080,7 +1085,7 @@ var TAFFY, exports, T;
+       // * Returns: array of values
+       // * Note if more than one column is given an array of arrays is returned
+       // ****************************************
+-      var ra = [], args = arguments;
++      var ra = [], args = sortArgs(arguments);
+       run.call( this );
+       if ( arguments.length === 1 ){
+
+@@ -1600,7 +1605,7 @@ var TAFFY, exports, T;
+         // *
+         // * Call the query method to setup a new query
+         // ****************************************
+-        each( arguments, function ( f ) {
++        each( sortArgs(arguments), function ( f ) {
+
+           if ( isIndexable( f ) ){
+             context.index.push( f );
+@@ -2014,4 +2019,3 @@ var TAFFY, exports, T;
+ if ( typeof(exports) === 'object' ){
+   exports.taffy = TAFFY;
+ }
+-
