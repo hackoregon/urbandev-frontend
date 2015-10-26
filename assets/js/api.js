@@ -361,8 +361,6 @@
       nbhoodLayer.clearLayers();
       map.fitBounds(pdxBounds);
     } else {
-      // Troubleshooting Safari error
-      console.log(nbhoodDb);
       var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
       currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
       hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
