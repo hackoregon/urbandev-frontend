@@ -172,7 +172,7 @@
   var bounds = map.getBounds().toBBoxString();
 
   // Return marker data and add to the map using the leaflet timeline plugin
-  // works with permits and damolition data
+  // works with permits and demolition data
   function getPermits(start, end, neighborhood, type, dataType) {
     if (neighborhood == "all") {
       bounds = pdxBounds;
