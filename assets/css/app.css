@@ -393,6 +393,10 @@ h1 {
   font-size: smaller;
   margin: 0; }
 
+h4 {
+  font-size: 18px;
+  letter-spacing: 1px; }
+
 .page-header {
   border-bottom: 1px solid #eee;
   margin: 0 0 20px;
@@ -430,9 +434,9 @@ h1 {
 .feature-row {
   cursor: pointer; }
 
-#sidebar {
-  height: 100%;
+.sidebar {
   float: right;
+  height: 100%;
   margin-right: 50px;
   max-width: 100%;
   position: relative;
@@ -440,9 +444,6 @@ h1 {
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out; }
-
-#sidebar-hide-btn {
-  margin-top: -2px; }
 
 .sidebar-wrapper {
   height: 100%;
@@ -457,10 +458,10 @@ h1 {
   top: 103px;
   width: 100%; }
 
-#sidebar .panel-body {
+.panel-body {
   padding: 5px 5px 5px 20px; }
 
-#sidebar .panel-body .h4, h4 {
+.panel-body .h4, h4 {
   font-size: 18px;
   letter-spacing: 1px; }
 
@@ -592,23 +593,23 @@ select {
   border-bottom: 2px solid black; }
 
 a.toggle {
+  background-color: #000000;
+  border: none;
+  color: white;
+  display: block;
+  height: 100%;
+  opacity: 0.8;
   position: fixed;
   right: 0;
   top: 51px;
-  display: block;
-  background-color: #000000;
-  color: white;
-  opacity: 0.8;
-  z-index: 200;
-  height: 100%;
   width: 50px;
-  border: none; }
+  z-index: 200; }
 
 .toggle .fa {
+  font-size: 30px;
   position: fixed;
-  top: 50%;
   right: 10px;
-  font-size: 30px; }
+  top: 50%; }
 
 a.toggle:hover {
   background-color: #1BABFF;
