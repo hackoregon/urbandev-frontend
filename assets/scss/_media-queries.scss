@@ -1,0 +1,133 @@
+
+//Laptop/Tablet
+
+@media (min-width: 992px) {
+  .modal-lg {
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar .navbar-brand {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 32px;
+    word-wrap: break-word;
+  }
+
+  .nav-tabs > li {
+    float: left;
+    margin: 16px 0 16px 0 !important;
+    text-align: left;
+    width: 50%;
+  }
+
+  .modal .nav > li > a {
+    display: inline !important;
+    padding: 10px 15px;
+    position: relative;
+
+  }
+
+  .modal .nav-tabs > li.active > a {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-bottom: 2px solid #000 !important;
+    color: #000;
+    cursor: default;
+  }
+
+  .stories-blurb {
+    font-size: 12px;
+    margin: 15px auto 20px;
+    text-align: left;
+    width: 90% !important;
+  }
+
+  .carousel .thumbnails {
+    padding: 0 70px !important;
+  }
+
+}
+
+/* End Laptop/Tablet */
+
+/* Smartphone */
+
+@media (max-width: 768px) {
+
+  .stories-blurb {
+    font-size: 12px;
+    margin: 15px auto 20px;
+    text-align: left;
+    width: 100% !important;
+  }
+
+  #storiesBody .container-fluid {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+}
+
+@media (max-width: 667px) {
+  #sidebar {
+    float: right;
+    height: 100%;
+    max-width: 100%;
+    position: relative;
+    width: 185px;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+  }
+
+  #sidebar .panel-body {
+    padding: 10px 0 15px 0;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+  }
+
+  #disclaimer p {
+    margin: 27px auto 38px;
+    width: 90%;
+  }
+
+  .modal-title {
+    font-size: 20px;
+  }
+
+  .nav-tabs {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  #sidebar {
+    display: none;
+  }
+  .url-break {
+    hyphens: auto;
+    word-break: break-all;
+    -webkit-hyphens: auto;
+  }
+  .dropdown-menu a i {
+    color: #FFFFFF;
+  }
+}
+
+/* Print Handling */
+@media print {
+  .navbar {
+    display: none !important;
+  }
+  .leaflet-control-container {
+    display: none !important;
+  }
+}
