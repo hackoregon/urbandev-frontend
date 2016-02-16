@@ -1,0 +1,58 @@
+.btn-default {
+  background-color: #fff;
+  border-color: #000;
+  color: #000;
+  letter-spacing: 2px;
+}
+
+.btn {
+  background-image: none;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  text-align: center;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  -ms-touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: manipulation;
+}
+
+.plot-submit-btn {
+  letter-spacing: 1px;
+  margin: 15px 0;
+}
+
+.btn-primary {
+  background-color: #2198FF;
+  border-color: #000000;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #F9FF00;
+  border-color: #000000;
+  color: #000000;
+  transition: all .5s ease-in-out;
+}
+
+.btn-primary:focus {
+  background-color: #F9FF00;
+  border-color: #000000;
+  color: #000000;
+}
+
+.btn-primary:active:hover {
+  background-color: #F9FF00;
+  border-color: #000000;
+  color: #000000;
+}
