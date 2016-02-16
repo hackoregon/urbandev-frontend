@@ -1,4 +1,12 @@
-html, body, .main-container {
+@import 'button-styles';
+@import 'modal-styles';
+@import 'about';
+@import 'leaflet-styles';
+@import 'media-queries';
+
+html,
+body,
+.main-container {
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -21,66 +29,6 @@ h1 {
   border-bottom: 1px solid #eee;
   margin: 0 0 20px;
   padding-bottom: 9px;
-}
-
-//------------BUTTON STYLES-----------------------
-.btn-default {
-  background-color: #fff;
-  border-color: #000;
-  color: #000;
-  letter-spacing: 2px;
-}
-
-.btn {
-  background-image: none;
-  border: 2px solid rgb(0, 0, 0);
-  border-radius: 0;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.42857143;
-  margin-bottom: 0;
-  padding: 6px 12px;
-  text-align: center;
-  user-select: none;
-  vertical-align: middle;
-  white-space: nowrap;
-  -ms-touch-action: manipulation;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  touch-action: manipulation;
-}
-
-.plot-submit-btn {
-  letter-spacing: 1px;
-  margin: 15px 0;
-}
-
-.btn-primary {
-  background-color: #2198FF;
-  border-color: #000000;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background-color: #F9FF00;
-  border-color: #000000;
-  color: #000000;
-  transition: all .5s ease-in-out;
-}
-
-.btn-primary:focus {
-  background-color: #F9FF00;
-  border-color: #000000;
-  color: #000000;
-}
-
-.btn-primary:active:hover {
-  background-color: #F9FF00;
-  border-color: #000000;
-  color: #000000;
 }
 
 .map {
@@ -154,30 +102,20 @@ h1 {
   width: 100%;
 }
 
-// --------------LEAFLET LAYERS------------------
-.leaflet-control-layers {
-  overflow: auto;
+#sidebar .panel-body {
+  padding: 5px 5px 5px 20px;
 }
 
-.leaflet-control-layers label {
-  font-weight: normal;
-  margin-bottom: 0;
-}
-
-.leaflet-control-layers-list input[type="radio"],
-.leaflet-control-layers-list input[type="checkbox"] {
-  margin: 2px;
-}
-
-.table {
-  margin-bottom: 0;
+#sidebar .panel-body .h4, h4 {
+  font-size: 18px;
+  letter-spacing: 1px;
 }
 
 //---------------NAVIGATION---------------------------
 .navbar .navbar-brand {
   color: #FFFFFF;
-  font-weight: bold;
   font-size: 25px;
+  font-weight: bold;
 }
 
 .navbar-collapse.in {
@@ -321,78 +259,7 @@ select {
   top: 4px;
 }
 
-//---------------MODAL------------------------------
-.modal-dialog {
-  position: relative;
-  width: auto;
-  margin: 0;
-}
 
-.modal-content {
-  position: relative;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: none;
-  border-radius: 0;
-  outline: 0;
-}
-
-.modal-header {
-  min-height: 16.43px;
-  padding: 15px;
-  border-bottom: 2px solid #000000;
-  letter-spacing: 1px;
-}
-
-.modal {
-  z-index: 3000;
-
-}
-
-.modal-header .close {
-  margin-top: -16px;
-}
-
-#disclaimer p {
-  margin: 27px auto 38px;
-  width: 664px;
-  line-height: 21px;
-  text-align: justify;
-  letter-spacing: 1px;
-  color: hsla(25, 100%, 49%, 1);
-}
-
-#metadata i {
-  font-size: 100px;
-}
-
-#metadata a:hover {
-  color: #2198FF;
-  -webkit-transition: all .5s ease-in-out;
-  -o-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
-}
-
-#metadata {
-  text-align: center;
-}
-
-.close {
-  float: right;
-  font-size: 47px;
-  font-weight: 100;
-  line-height: 1;
-  color: #000;
-  opacity: 1;
-  text-shadow: none;
-}
-
-.close:hover {
-  background-color: yellow;
-  color: #000;
-  transition: all .4s ease-in-out;
-}
 
 //--------------PANEL-------------------------------
 .panel-default > .panel-heading {
@@ -442,205 +309,6 @@ a.toggle:hover {
 
 }
 
-//-----------------CAROUSEL------------------------
-.carousel-control {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  font-size: 26px;
-  color: #fff;
-  text-align: center;
-  text-shadow: none;
-  opacity: 0.8;
-}
-
-.carousel-control.left {
-  background: black none;
-}
-
-.carousel-control.right {
-  background: black none;
-}
-
-.carousel-control:focus, .carousel-control:hover {
-  background-color: #1BABFF;
-  color: #fff;
-  opacity: 1;
-  outline: 0;
-  text-decoration: none;
-  transition: all .4s ease-in-out;
-}
-
-.carousel .thumbnails {
-  padding: 0 85px;
-}
-
-.carousel {
-  position: relative;
-  transition: all .6s ease-in-out;
-  height: auto;
-}
-
-.carousel .thumbnail {
-  border: none;
-}
-
-.carousel i {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-}
-
-.thumbnails .caption {
-  text-align: center;
-}
-
-ul.thumbnails {
-  list-style: none;
-}
-
-.stories-blurb {
-  margin: 15px auto 20px;
-  text-align: left;
-  width: 580px;
-}
-
-#disclaimer p {
-  margin: 27px auto 38px;
-  width: 600px;
-}
-
-#metadata i {
-  font-size: 100px;
-}
-
-#metadata a:hover {
-  color: #2198FF;
-  -webkit-transition: all .5s ease-in-out;
-  -o-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
-}
-
-div#metadata {
-  text-align: center;
-}
-
-#sidebar .panel-body {
-  padding: 5px 5px 5px 20px;
-}
-
-#sidebar .panel-body .h4, h4 {
-  font-size: 18px;
-  letter-spacing: 1px;
-}
-
-.hackoregon-logo {
-  margin-top: 10px;
-  width: 300px;
-}
-
-#about .intro-text {
-  width: 664px;
-  margin: 28px auto;
-  line-height: 21px;
-  text-align: justify;
-  letter-spacing: 0;
-
-}
-
-#about h4 {
-  letter-spacing: 0;
-}
-
-#about h5 {
-  line-height: 29px;
-}
-
-#about .col-sm-6.col-md-4 {
-
-}
-
-#about .thumbnail {
-  border: none;
-  -webkit-transition: all .5s ease-in-out;
-  -o-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
-}
-
-#about .thumbnail .caption {
-  padding: 9px;
-  color: #333;
-  height: 130px;
-}
-
-/* Leaflet Slider */
-
-.leaflet-control-layers-expanded {
-  padding: 6px 6px 6px 6px;
-  color: #333;
-  background: #fff;
-}
-
-.leaflet-timeline-controls .sldr-ctrl-container {
-  float: left;
-  width: 92%;
-}
-
-.leaflet-timeline-controls .button-container button {
-  position: relative;
-  width: 18%;
-  height: 31px;
-  margin: 0 3px !important;
-  border: 2px solid black;
-  background-color: white;
-}
-
-.leaflet-timeline-controls {
-  width: 375px;
-  text-align: center;
-}
-
-.leaflet-timeline-controls * {
-  vertical-align: middle;
-  margin: 0 auto !important;
-}
-
-.leaflet-timeline-controls .button-container button:hover {
-  background-color: #2198FF;
-  transition: all .4s ease-in-out;
-}
-
-output {
-  display: block;
-  padding: 2px 0;
-  font-size: 22px;
-  letter-spacing: 1px;
-  margin: 0 auto;
-  line-height: 1.42857143;
-  color: #000000;
-}
-
-.leaflet-timeline-controls input[type=range] {
-  width: 98%;
-}
-
-.leaflet-control-layers {
-  box-shadow: 0 2px 5px rgba(74, 74, 74, 0.77);
-  border-radius: 0;
-}
-
-/* End Leaflet Slider */
-
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  -webkit-animation: fadein .5s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein .5s; /* Firefox < 16 */
-  -ms-animation: fadein .5s; /* Internet Explorer */
-  -o-animation: fadein .5s; /* Opera < 12.1 */
-  animation: fadein .5s;
-}
 
 @keyframes fadein {
   from {
@@ -688,131 +356,5 @@ output {
   }
   to {
     opacity: 1;
-  }
-}
-
-/* Laptop/Tablet */
-
-//-------MEDIA QUERIES
-@media (min-width: 992px) {
-  .modal-lg {
-    margin: 0 auto;
-    width: 100%;
-  }
-}
-
-@media (max-width: 992px) {
-  .navbar .navbar-brand {
-    font-size: 18px;
-  }
-
-  h1 {
-    font-size: 32px !important;
-    word-wrap: break-word;
-  }
-
-  .nav-tabs > li {
-    float: left;
-    margin: 16px 0 16px 0 !important;
-    text-align: left;
-    width: 50%;
-  }
-
-  .modal .nav > li > a {
-    display: inline !important;
-    padding: 10px 15px;
-    position: relative;
-
-  }
-
-  .modal .nav-tabs > li.active > a {
-    background-color: #fff;
-    border: 2px solid #000;
-    border-bottom: 2px solid #000 !important;
-    color: #000;
-    cursor: default;
-  }
-
-  .stories-blurb {
-    font-size: 12px;
-    margin: 15px auto 20px;
-    text-align: left;
-    width: 90% !important;
-  }
-
-  .carousel .thumbnails {
-    padding: 0 70px !important;
-  }
-
-}
-
-/* End Laptop/Tablet */
-
-/* Smartphone */
-
-@media (max-width: 768px) {
-
-  .stories-blurb {
-    font-size: 12px;
-    margin: 15px auto 20px;
-    text-align: left;
-    width: 100% !important;
-  }
-
-  #storiesBody .container-fluid {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-}
-
-@media (max-width: 667px) {
-  #sidebar {
-    float: right;
-    height: 100%;
-    max-width: 100%;
-    position: relative;
-    width: 185px;
-    -webkit-transition: all 0.5s ease-out;
-    -moz-transition: all 0.5s ease-out;
-    transition: all 0.5s ease-out;
-  }
-
-  #sidebar .panel-body {
-    padding: 10px 0 15px 0;
-    -webkit-transition: all 0.5s ease-out;
-    -moz-transition: all 0.5s ease-out;
-    transition: all 0.5s ease-out;
-  }
-
-  #disclaimer p {
-    margin: 27px auto 38px;
-    width: 90%;
-  }
-}
-
-@media (max-width: 767px) {
-  #sidebar {
-    display: none;
-  }
-  .url-break {
-    hyphens: auto;
-    word-break: break-all;
-    -webkit-hyphens: auto;
-  }
-  .dropdown-menu a i {
-    color: #FFFFFF;
-  }
-}
-
-/* Print Handling */
-@media print {
-  .navbar {
-    display: none !important;
-  }
-  .leaflet-control-container {
-    display: none !important;
   }
 }
