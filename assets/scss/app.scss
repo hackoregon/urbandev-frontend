@@ -275,24 +275,24 @@ select {
 
 //---------------TOGGLE----------------------------
 a.toggle {
+  background-color: #000000;
+  border: none;
+  color: white;
+  display: block;
+  height: 100%;
+  opacity: 0.8;
   position: fixed;
   right: 0;
   top: 51px;
-  display: block;
-  background-color: #000000;
-  color: white;
-  opacity: 0.8;
-  z-index: 200;
-  height: 100%;
   width: 50px;
-  border: none;
+  z-index: 200;
 }
 
 .toggle .fa {
-  position: fixed;
-  top: 50%;
-  right: 10px;
   font-size: 30px;
+  position: fixed;
+  right: 10px;
+  top: 50%;
 }
 
 a.toggle:hover {
@@ -303,10 +303,8 @@ a.toggle:hover {
 }
 
 .years-display {
-
   display: inline-block;
   margin: 2px;
-
 }
 
 
