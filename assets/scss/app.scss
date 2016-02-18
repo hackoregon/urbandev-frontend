@@ -242,7 +242,7 @@ select {
   z-index: 5;
 }
 
-.select:after {
+.select::after {
   content: '\f0d7';
   display: block;
   font-family: "FontAwesome", Arial, sans-serif;
@@ -251,12 +251,12 @@ select {
   right: 10px;
 }
 
-.select-nbhood:after {
+.select-nbhood::after {
   top: 43px;
 
 }
 
-.select-timeframe:after {
+.select-timeframe::after {
   top: 4px;
 }
 

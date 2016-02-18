@@ -495,7 +495,7 @@ ul.nav.navbar-nav.navbar-right {
 
 .nav > li > a:hover {
   background-color: #FFF900;
-  border: none;
+  border: 0;
   text-decoration: none; }
 
 .nav > li > a:focus {
@@ -569,7 +569,7 @@ select {
   position: relative;
   z-index: 5; }
 
-.select:after {
+.select::after {
   content: '\f0d7';
   display: block;
   font-family: "FontAwesome", Arial, sans-serif;
@@ -577,10 +577,10 @@ select {
   position: absolute;
   right: 10px; }
 
-.select-nbhood:after {
+.select-nbhood::after {
   top: 43px; }
 
-.select-timeframe:after {
+.select-timeframe::after {
   top: 4px; }
 
 .panel-default > .panel-heading {
