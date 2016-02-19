@@ -1,0 +1,118 @@
+.carousel-control {
+  bottom: 0;
+  color: #fff;
+  font-size: 26px;
+  left: 0;
+  opacity: 0.8;
+  position: absolute;
+  text-align: center;
+  text-shadow: none;
+  top: 0;
+  width: 50px;
+}
+
+.carousel-control.left {
+  background: black none;
+}
+
+.carousel-control.right {
+  background: black none;
+}
+
+.carousel-control:focus, .carousel-control:hover {
+  background-color: #1BABFF;
+  color: #fff;
+  opacity: 1;
+  outline: 0;
+  text-decoration: none;
+  transition: all .4s ease-in-out;
+}
+
+.carousel .thumbnails {
+  padding: 0 85px;
+}
+
+.carousel {
+  height: auto;
+  position: relative;
+  transition: all .6s ease-in-out;
+}
+
+.carousel .thumbnail {
+  border: 0;
+}
+
+.carousel i {
+  left: 15px;
+  position: absolute;
+  top: 50%;
+}
+
+.thumbnails .caption {
+  text-align: center;
+}
+
+ul.thumbnails {
+  list-style: none;
+}
+
+.stories-blurb {
+  margin: 15px auto 20px;
+  text-align: left;
+  width: 580px;
+}
+
+.disclaimer-text {
+  margin: 27px auto 38px;
+  width: 600px;
+}
+
+#metadata i {
+  font-size: 100px;
+}
+
+#metadata a:hover {
+  color: #2198FF;
+  -webkit-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+div#metadata {
+  text-align: center;
+}
+
+.hackoregon-logo {
+  margin-top: 10px;
+  width: 300px;
+}
+
+#about .intro-text {
+  width: 664px;
+  margin: 28px auto;
+  line-height: 21px;
+  text-align: justify;
+  letter-spacing: 0;
+
+}
+
+#about h4 {
+  letter-spacing: 0;
+}
+
+#about h5 {
+  line-height: 29px;
+}
+
+#about .thumbnail {
+  border: none;
+  -webkit-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+#about .thumbnail .caption {
+  padding: 9px;
+  color: #333;
+  height: 130px;
+}

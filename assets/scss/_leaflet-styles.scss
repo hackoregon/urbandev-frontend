@@ -1,0 +1,86 @@
+// --------------LEAFLET LAYERS------------------
+.leaflet-control-layers {
+  overflow: auto;
+}
+
+.leaflet-control-layers label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.leaflet-control-layers-list input[type="radio"],
+.leaflet-control-layers-list input[type="checkbox"] {
+  margin: 2px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+
+/* Leaflet Slider */
+
+.leaflet-control-layers-expanded {
+  padding: 6px 6px 6px 6px;
+  color: #333;
+  background: #fff;
+}
+
+.leaflet-timeline-controls .sldr-ctrl-container {
+  float: left;
+  width: 92%;
+}
+
+.leaflet-timeline-controls .button-container button {
+  position: relative;
+  width: 18%;
+  height: 31px;
+  margin: 0 3px !important;
+  border: 2px solid black;
+  background-color: white;
+}
+
+.leaflet-timeline-controls {
+  width: 375px;
+  text-align: center;
+}
+
+.leaflet-timeline-controls * {
+  vertical-align: middle;
+  margin: 0 auto !important;
+}
+
+.leaflet-timeline-controls .button-container button:hover {
+  background-color: #2198FF;
+  transition: all .4s ease-in-out;
+}
+
+output {
+  display: block;
+  padding: 2px 0;
+  font-size: 22px;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  line-height: 1.42857143;
+  color: #000000;
+}
+
+.leaflet-timeline-controls input[type=range] {
+  width: 98%;
+}
+
+.leaflet-control-layers {
+  box-shadow: 0 2px 5px rgba(74, 74, 74, 0.77);
+  border-radius: 0;
+}
+
+/* End Leaflet Slider */
+
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-animation: fadein .5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein .5s; /* Firefox < 16 */
+  -ms-animation: fadein .5s; /* Internet Explorer */
+  -o-animation: fadein .5s; /* Opera < 12.1 */
+  animation: fadein .5s;
+}

@@ -1,0 +1,71 @@
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 0;
+}
+
+.modal-content {
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+  -webkit-background-clip: padding-box;
+  outline: 0;
+  position: relative;
+}
+
+.modal-header {
+  border-bottom: 2px solid #000000;
+  min-height: 16.43px;
+  padding: 15px;
+  letter-spacing: 1px;
+}
+
+.modal {
+  z-index: 3000;
+
+}
+
+.modal-header .close {
+  margin-top: -16px;
+}
+
+.disclaimer-text {
+  margin: 27px auto 38px;
+  width: 664px;
+  line-height: 21px;
+  text-align: justify;
+  letter-spacing: 1px;
+  color: hsla(25, 100%, 49%, 1);
+}
+
+#metadata i {
+  font-size: 100px;
+}
+
+#metadata a:hover {
+  color: #2198FF;
+  -webkit-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+#metadata {
+  text-align: center;
+}
+
+.close {
+  float: right;
+  font-size: 47px;
+  font-weight: 100;
+  line-height: 1;
+  color: #000;
+  opacity: 1;
+  text-shadow: none;
+}
+
+.close:hover {
+  background-color: yellow;
+  color: #000;
+  transition: all .4s ease-in-out;
+}

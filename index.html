@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="viewport"
+          content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
+    <!--TODO add description content-->
     <meta name="description" content="">
     <meta name="author" content="">
     <title>PlotPDX</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.css">
-    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
-    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
-    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
-    <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.css">
+    <link rel="stylesheet"
+          href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+    <link rel="stylesheet"
+          href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+    <link rel="stylesheet"
+          href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+    <link rel="stylesheet"
+          href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="assets/css/leaflet.timeline.css">
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
@@ -25,543 +34,623 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
     <link rel="icon" sizes="196x196" href="assets/img/favicon-196.png">
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-  </head>
+</head>
 
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
         <div class="navbar-header">
-          <div class="navbar-icon-container">
-            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
-            <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i class="fa fa-search fa-lg white"></i></a>
-          </div>
-          <a class="navbar-brand" href="#">PlotPDX</a>
+            <div class="navbar-icon-container">
+                <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i
+                    class="fa fa-bars fa-lg white"></i></a>
+                <a href="#" class="navbar-icon pull-right visible-xs"
+                   id="sidebar-toggle-btn"><i class="fa fa-search fa-lg white"></i></a>
+            </div>
+            <a class="navbar-brand" href="#"><h1>PlotPDX</h1></a>
         </div>
         <div class="navbar-collapse collapse">
-          <!-- <form class="navbar-form navbar-right" role="search">
-            <div class="form-group has-feedback">
-                <input id="searchbox" type="text" placeholder="Search" class="form-control">
-                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-            </div>
-          </form> -->
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
-            <!-- <li class="dropdown">
-              <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
-                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Show Legend</a></li>
-                <li class="divider hidden-xs"></li>
-                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
-              </ul>
-            </li> -->
-            <!-- <li class="dropdown">
-                <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="data/boroughs.geojson" download="boroughs.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Boroughs</a></li>
-                  <li><a href="data/subways.geojson" download="subways.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Subway Lines</a></li>
-                  <li><a href="data/DOITT_THEATER_01_13SEPT2010.geojson" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Theaters</a></li>
-                  <li><a href="data/DOITT_MUSEUM_01_13SEPT2010.geojson" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Museums</a></li>
-                </ul>
-            </li> -->
+            <!-- <form class="navbar-form navbar-right" role="search">
+              <div class="form-group has-feedback">
+                  <input id="searchbox" type="text" placeholder="Search" class="form-control">
+                  <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+              </div>
+            </form> -->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                       id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a>
+                </li>
+                <!-- <li class="dropdown">
+                  <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Show Legend</a></li>
+                    <li class="divider hidden-xs"></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
+                  </ul>
+                </li> -->
+                <!-- <li class="dropdown">
+                    <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="data/boroughs.geojson" download="boroughs.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Boroughs</a></li>
+                      <li><a href="data/subways.geojson" download="subways.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Subway Lines</a></li>
+                      <li><a href="data/DOITT_THEATER_01_13SEPT2010.geojson" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Theaters</a></li>
+                      <li><a href="data/DOITT_MUSEUM_01_13SEPT2010.geojson" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Museums</a></li>
+                    </ul>
+                </li> -->
 
 
-            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="stories-btn"><i class="fa fa-puzzle-piece white"></i>&nbsp;&nbsp;Stories</a></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                       id="stories-btn"><i class="fa fa-puzzle-piece white"></i>&nbsp;&nbsp;Stories</a>
+                </li>
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-share-alt white"></i>&nbsp;&nbsp;Share <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="https://www.facebook.com/sharer.php?u=_url_&t=_text_" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-facebook"></i>&nbsp;&nbsp;Facebook</a></li>
-                  <li><a href="http://twitter.com/intent/tweet?text=Urban Development in Portland plotpdx.com&url=plotpdx.com" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-twitter"></i>&nbsp;&nbsp;Twitter</a></li>
-                  <li><a href="http://www.reddit.com/submit?url=http://plotpdx.com" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-reddit"></i>&nbsp;&nbsp;Reddit</a></li>
-                  <li><a href="http://tumblr.com/widgets/share/tool?canonicalUrl=http://plotpdx.com" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-tumblr"></i>&nbsp;&nbsp;Tumblr</a></li>
-                </ul>
-            </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" id="downloadDrop" href="#" role="button"
+                       data-toggle="dropdown"><i class="fa fa-share-alt white"></i>&nbsp;&nbsp;Share
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://www.facebook.com/sharer.php?u=_url_&t=_text_"
+                               target="_blank" data-toggle="collapse"
+                               data-target=".navbar-collapse.in"><i
+                            class="fa fa-facebook"></i>&nbsp;&nbsp;Facebook</a></li>
+                        <li><a
+                            href="http://twitter.com/intent/tweet?text=Urban Development in Portland plotpdx.com&url=plotpdx.com"
+                            target="_blank" data-toggle="collapse"
+                            data-target=".navbar-collapse.in"><i
+                            class="fa fa-twitter"></i>&nbsp;&nbsp;Twitter</a></li>
+                        <li><a href="http://www.reddit.com/submit?url=http://plotpdx.com"
+                               target="_blank" data-toggle="collapse"
+                               data-target=".navbar-collapse.in"><i
+                            class="fa fa-reddit"></i>&nbsp;&nbsp;Reddit</a></li>
+                        <li><a
+                            href="http://tumblr.com/widgets/share/tool?canonicalUrl=http://plotpdx.com"
+                            target="_blank" data-toggle="collapse"
+                            data-target=".navbar-collapse.in"><i class="fa fa-tumblr"></i>&nbsp;&nbsp;Tumblr</a>
+                        </li>
+                    </ul>
+                </li>
 
-          </ul>
+            </ul>
         </div><!--/.navbar-collapse -->
-      </div>
     </div>
+</div>
 
-    <div id="container">
-      <div id="sidebar">
+<div id="container" class="main-container">
+    <div id="sidebar" class="sidebar">
         <div class="sidebar-wrapper">
-          <div class="panel panel-default" id="features">
-            <div class="panel-heading">
-              <h3 class="panel-title">Explore the Data</h3>
-            </div>
-            <div class="panel-body">
-              <form action="">
-
-                <!-- <div class="row">
-                  <div class="col-xs-8 col-md-8">
-                    <input type="text" class="form-control search" placeholder="Filter" />
-                  </div>
-                  <div class="col-xs-4 col-md-4">
-                    <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
-                  </div>
-                </div> -->
-
-                <div class="col-xs-10">
-                  <div class="form-group select select-nbhood">
-                    <label class="h4" for="neighborhoodselect">Neighborhood</label>
-                      <select name="neighborhoodselect" id="neighborhoodselect" class="form-control">
-                        <option value="all">All</option>
-                    </select>
-                  </div>
+            <div class="panel panel-default features-panel" id="features">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Explore the Data</h3>
                 </div>
+                <div class="panel-body">
+                    <form action="">
 
-                <!-- Variables-->
-                <div class="col-xs-10 form__data-types">
-                  <h4>Variables</h4>
-                  <div class="checkbox">
-                    <label id="permits-checkbox">
-                      <input type="checkbox" value="permits"> New Construction Permits
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label id="demolitions-checkbox">
-                      <input type="checkbox" value="demolitions"> Demolitions
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label id="crimes-checkbox">
-                      <input type="checkbox" value="crimes"> Crime
-                    </label>
-                    <p>Total crimes: <span id="crimetotal"></span></p>
-                  </div>
-                  <!-- <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="price_sqft"> Housing value per sq. ft.
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="income"> Income
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="density"> Density
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="demographics"> Demographics
-                    </label>
-                  </div> -->
-                </div>
-                <div class="col-xs-10">
-                  <p class="h4">Time Frame</p>
-                  <div class="form-group select select-timeframe">
-                    <select name="yearstart" id="yearstart" class="form-control">
-                    </select>
-                  </div>
-                  <div class="form-group select select-timeframe">
-                    <select name="yearend" id="yearend" class="form-control">
-                    </select>
-                  </div>
-                </div>
+                        <!-- <div class="row">
+                          <div class="col-xs-8 col-md-8">
+                            <input type="text" class="form-control search" placeholder="Filter" />
+                          </div>
+                          <div class="col-xs-4 col-md-4">
+                            <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+                          </div>
+                        </div> -->
 
-                <div class="col-xs-10">
-                  <div class="form-group">
-                    <button id="plot-submit" type-"submit" class="btn btn-primary">Plot</button>
-                  </div>
-                </div>
+                        <div class="col-xs-10">
+                            <div class="form-group select select-nbhood">
+                                <label class="h4"
+                                       for="neighborhoodselect">Neighborhood</label>
+                                <select name="neighborhoodselect" id="neighborhoodselect"
+                                        class="form-control">
+                                    <option value="all">All</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <div class="col-xs-10">
-                  <div id="average">
+                        <!-- Variables-->
+                        <div class="col-xs-10 form__data-types">
+                            <h4>Variables</h4>
+                            <div class="checkbox">
+                                <label id="permits-checkbox">
+                                    <input type="checkbox" value="permits"> New
+                                    Construction Permits
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label id="demolitions-checkbox">
+                                    <input type="checkbox" value="demolitions">
+                                    Demolitions
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label id="crimes-checkbox">
+                                    <input type="checkbox" value="crimes"> Crime
+                                </label>
+                                <p>Total crimes: <span id="crimetotal"></span></p>
+                            </div>
+                            <!-- <div class="checkbox">
+                              <label>
+                                <input type="checkbox" value="price_sqft"> Housing value per sq. ft.
+                              </label>
+                            </div>
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" value="income"> Income
+                              </label>
+                            </div>
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" value="density"> Density
+                              </label>
+                            </div>
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" value="demographics"> Demographics
+                              </label>
+                            </div> -->
+                        </div>
+                        <div class="col-xs-10">
+                            <p class="h4">Time Frame</p>
+                            <div class="form-group select select-timeframe">
+                                <select name="yearstart" id="yearstart"
+                                        class="form-control" title="yearstart">
+                                </select>
+                            </div>
+                            <div class="form-group select select-timeframe">
+                                <select name="yearend" id="yearend"
+                                        class="form-control" title="yearend">
+                                </select>
+                            </div>
+                        </div>
 
-                  </div>
+                        <div class="col-xs-10">
+                            <div class="form-group">
+                                <button id="plot-submit" type="submit"
+                                        class="btn btn-primary plot-submit-btn">Plot
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-10">
+                            <div id="average">
+
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- / Panel-body -->
+                <!--
+                <div class="sidebar-table">
+                  <table class="table table-hover" id="feature-list">
+                    <thead class="hidden">
+                      <tr>
+                        <th>Icon</th>
+                      <tr>
+                      <tr>
+                        <th>Name</th>
+                      <tr>
+                      <tr>
+                        <th>Chevron</th>
+                      <tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                  </table>
                 </div>
-              </form>
-            </div> <!-- / Panel-body -->
-            <!--
-            <div class="sidebar-table">
-              <table class="table table-hover" id="feature-list">
-                <thead class="hidden">
-                  <tr>
-                    <th>Icon</th>
-                  <tr>
-                  <tr>
-                    <th>Name</th>
-                  <tr>
-                  <tr>
-                    <th>Chevron</th>
-                  <tr>
-                </thead>
-                <tbody class="list"></tbody>
-              </table>
-            </div>
-            -->
-          </div><!-- end .panel -->
+                -->
+            </div><!-- end .panel -->
         </div>
-      </div>
-
-      <div id="map"></div>
-      <div id="slider"></div>
-
-    </div><!-- end #container -->
-
-    <div id="loading">
-      <div class="loading-indicator">
-        <div class="progress progress-striped active">
-          <div class="progress-bar progress-bar-info progress-bar-full"></div>
-        </div>
-      </div>
     </div>
 
-     <!-- Dashboard Widget Toggle -->
+    <div id="map" class="map"></div>
+    <div id="slider"></div>
 
-  <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-right"></i></a>
+</div><!-- end #container -->
+
+<div id="loading">
+    <div class="loading-indicator">
+        <div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-info progress-bar-full"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard Widget Toggle -->
+
+<a href="#" type="button" rel="tooltip" class="toggle btn btn-default"
+   data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-right"></i></a>
 
 <!-- / Dashboard Widget Toggle -->
 
 
-    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg">
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Welcome to PlotPDX!</h4>
-          </div>
-          <div class="modal-body">
-            <ul class="nav nav-tabs" id="aboutTabs">
-              <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the project</a></li>
-              <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
-              <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
-              <li class="dropdown">
-                <a href="#metadata" data-toggle="tab"><i class="fa fa-globe"></i>&nbsp;Metadata</a>
-              </li>
-            </ul>
-            <div class="tab-content" id="aboutTabsContent">
-              <div class="tab-pane fade active in" id="about">
-                <h4 class="intro-text">It’s no secret that Portland is going through a period of incredible urban growth, and many feel like the decisions that are being made today will impact our city for decades to come.  It’s also no secret that this issue has many different points of view and not everyone sees the information the same way.  We’ve pulled together datasets on all things Urban Development, current and historic, and put them at your fingertips to explore trends, keep track of current activity, and tell your own story.</h4>
-              <a href="http://www.hackoregon.org" target="_blank"><img class="center-block img-responsive hackoregon-logo" src="assets/img/hackoregon_logo.png"></a>
-                <h1>The Team</h1>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="assets/img/catnikolovski.jpeg">
-      <div class="caption">
-        <h3>Catherine Nikolovski</h3>
-        <h4>Producer</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="assets/img/jesselopez.jpeg">
-      <div class="caption">
-        <h3>Jesse Lopez</h3>
-        <h4>Data Scientist and Backend Web Development</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="assets/img/nicoleanderson.jpeg">
-      <div class="caption">
-        <h3>Nicole Anderson</h3>
-        <h4>Front-End Web Development</h4>
-      </div>
-    </div>
-  </div>
-
-
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="assets/img/jamilalvi.jpeg">
-      <div class="caption">
-        <h3>Jamil Alvi</h3>
-        <h4>GIS and Back-End Web Development</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="assets/img/danieltomasku.jpeg">
-      <div class="caption">
-        <h3>Daniel Tomás Ku</h3>
-        <h4>Product Design and Front-End Web Development</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="assets/img/corneliusswart.jpeg">
-      <div class="caption">
-        <h3>Cornelius Swart</h3>
-        <h4>Journalism and Research Head</h4>
-      </div>
-    </div>
-  </div>
-
-
-    <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <div class="caption">
-        <h3>Chris Liu</h3>
-        <h4>Journalism and Research</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <div class="caption">
-        <h3>Tree Casiano</h3>
-        <h4>Front-End Web Development</h4>
-      </div>
-    </div>
-  </div>
-
-
-<div class="col-sm-6 col-md-4">
-     <h5>Other Contributing Team Members:
-      <br>Leslie Waara - Branding
-      <br>Jen Terry - Project Management
-    </h5>
-</div>
-
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Welcome to PlotPDX!</h2>
             </div>
-              <div id="disclaimer" class="tab-pane fade text-danger">
-                <p>The data provided on this site is for informational and planning purposes only. We strive to produce and work with the most accurate data we can, however, accuracy or completeness cannot be guaranteed. All information on this map is subject to such variations and corrections.</p>
-              </div>
-              <div class="tab-pane fade" id="contact">
-                <form id="contact-form">
-                  <div class="well well-sm">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="first-name">First Name:</label>
-                          <input type="text" class="form-control" id="first-name">
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="aboutTabs">
+                    <li class="active"><a href="#about" data-toggle="tab"><i
+                        class="fa fa-question-circle"></i>&nbsp;About the project</a></li>
+                    <li><a href="#contact" data-toggle="tab"><i
+                        class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
+                    <li><a href="#disclaimer" data-toggle="tab"><i
+                        class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                    <li class="dropdown">
+                        <a href="#metadata" data-toggle="tab"><i class="fa fa-globe"></i>&nbsp;Metadata</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="aboutTabsContent">
+                    <div class="tab-pane fade active in" id="about">
+                        <p class="intro-text">It’s no secret that Portland is going
+                            through a period of incredible urban growth, and many feel
+                            like the decisions that are being made today will impact our
+                            city for decades to come. It’s also no secret that this issue
+                            has many different points of view and not everyone sees the
+                            information the same way. We’ve pulled together datasets on
+                            all things Urban Development, current and historic, and put
+                            them at your fingertips to explore trends, keep track of
+                            current activity, and tell your own story.</p>
+                        <a href="http://www.hackoregon.org" target="_blank"><img
+                            class="center-block img-responsive hackoregon-logo"
+                            src="assets/img/hackoregon_logo.png"></a>
+                        <h3>The Team</h3>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="assets/img/catnikolovski.jpeg">
+                                <div class="caption">
+                                    <h3>Catherine Nikolovski</h3>
+                                    <h4>Producer</h4>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="last-name">Last Name:</label>
-                          <input type="text" class="form-control" id="last-email">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="assets/img/jesselopez.jpeg">
+                                <div class="caption">
+                                    <h3>Jesse Lopez</h3>
+                                    <h4>Data Scientist and Backend Web Development</h4>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="email">Email:</label>
-                          <input type="text" class="form-control" id="email">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="assets/img/nicoleanderson.jpeg">
+                                <div class="caption">
+                                    <h3>Nicole Anderson</h3>
+                                    <h4>Front-End Web Development</h4>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      <div class="col-md-8">
-                        <label for="message">Message:</label>
-                        <textarea class="form-control" rows="8" id="message"></textarea>
-                      </div>
-                      <div class="col-md-12">
-                        <p>
-                          <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Submit</button>
-                        </p>
-                      </div>
+
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="assets/img/jamilalvi.jpeg">
+                                <div class="caption">
+                                    <h3>Jamil Alvi</h3>
+                                    <h4>GIS and Back-End Web Development</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="assets/img/danieltomasku.jpeg">
+                                <div class="caption">
+                                    <h3>Daniel Tomás Ku</h3>
+                                    <h4>Product Design and Front-End Web Development</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="assets/img/corneliusswart.jpeg">
+                                <div class="caption">
+                                    <h3>Cornelius Swart</h3>
+                                    <h4>Journalism and Research Head</h4>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <h3>Chris Liu</h3>
+                                    <h4>Journalism and Research</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <h3>Tree Casiano</h3>
+                                    <h4>Front-End Web Development</h4>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-md-4">
+                            <h5>Other Contributing Team Members:
+                                <br>Leslie Waara - Branding
+                                <br>Jen Terry - Project Management
+                            </h5>
+                        </div>
+
                     </div>
-                  </div>
-                </form>
-              </div>
+                    <div id="disclaimer" class="tab-pane fade text-danger">
+                        <p class="disclaimer-text">The data provided on this site is for informational and
+                            planning purposes only. We strive to produce and work with the
+                            most accurate data we can, however, accuracy or completeness
+                            cannot be guaranteed. All information on this map is subject
+                            to such variations and corrections.</p>
+                    </div>
+                    <div class="tab-pane fade" id="contact">
+                        <form id="contact-form">
+                            <div class="well well-sm">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="first-name">First Name:</label>
+                                            <input type="text" class="form-control"
+                                                   id="first-name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="last-name">Last Name:</label>
+                                            <input type="text" class="form-control"
+                                                   id="last-name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email:</label>
+                                            <input type="text" class="form-control"
+                                                   id="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="message">Message:</label>
+                                        <textarea class="form-control" rows="8"
+                                                  id="message"></textarea>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p>
+                                            <button type="submit"
+                                                    class="btn btn-primary pull-right"
+                                                    data-dismiss="modal">Submit
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-               <div id="metadata" class="tab-pane fade">
-                <h1>Want to see our data?</h1>
-                <p>All of our data is open-source and available for further exploration on Github.</p>
-                <p><a href="#"><i class="fa fa-github"></i></a></p>
-              </div>
+                    <div id="metadata" class="tab-pane fade">
+                        <h3>Want to see our data?</h3>
+                        <p>All of our data is open-source and available for further
+                            exploration on Github.</p>
+                        <p><a href="#"><i class="fa fa-github"></i></a></p>
+                    </div>
 
 
-
-
+                </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                </button>
+            </div>
         </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-    <div class="modal fade" id="storiesModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg">
+<div class="modal fade" id="storiesModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">PlotPDX</h4>
-          </div>
-          <div class="modal-body">
-            <ul class="nav nav-tabs" id="aboutTabs">
-            </ul>
-            <div class="tab-content" id="aboutTabsContent">
-              <div class="tab-pane fade active in" id="storiesBody">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h2 class="modal-title">PlotPDX Stories</h2>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content" >
+                    <div class="tab-pane fade active in" id="storiesBody">
 
-                <div class="container-fluid">
-                  <div class="row-fluid">
-                    <div class="span12">
-                      <div class="page-header">
-        <h1>Stories</h1>
-        <h4>Select a story below to see how specific neighborhoods have changed over time.</h4>
-    </div>
-                      <div class="carousel slide" id="myCarousel">
-        <div class="carousel-inner">
-            <div class="item active">
-                    <ul class="thumbnails">
-                        <li class="span3">
-                            <div class="thumbnail">
-                                <a href="#"><img src="http://placehold.it/360x240" alt=""></a>
-                            </div>
-                            <div class="caption">
-                                <h4>The Pearl District</h4>
-                        <p class="stories-blurb">An area formerly occupied by warehouses, light industry and railroad classification yards and now noted for its art galleries, upscale businesses and residences. The area has been undergoing significant urban renewal since the mid-1980s when it was reclassified as mixed use from industrial, including the arrival of artists, the removal of a viaduct and construction of the Portland Streetcar. It now mostly consists of high-rise condominiums and warehouse-to-loft conversions.</p>
-                                <a class="btn btn-mini" href="#">&raquo; Read More</a>
-                            </div>
-                        </li>
-                    </ul>
-              </div><!-- /Slide1 -->
-            <div class="item">
-                    <ul class="thumbnails">
-                        <li class="span3">
-                            <div class="thumbnail">
-                                <a href="#"><img src="http://placehold.it/360x240" alt=""></a>
-                            </div>
-                            <div class="caption">
-                                <h4>Hawthorne District</h4>
-                        <p class="stories-blurb">The area has numerous retail stores, including clothing shops, restaurants, bars, brewpubs and microbreweries. Hawthorne district is known for its liberal residents.</p>
-                                <a class="btn btn-mini" href="#">&raquo; Read More</a>
-                            </div>
-                        </li>
+                        <div class="container-fluid">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="page-header">
+                                        <p>Select a story below to see how specific
+                                            neighborhoods have changed over time.</p>
+                                    </div>
+                                    <div class="carousel slide" id="myCarousel">
+                                        <div class="carousel-inner">
+                                            <div class="item active">
+                                                <ul class="thumbnails">
+                                                    <li class="span3">
+                                                        <div class="thumbnail">
+                                                            <a href="#"><img
+                                                                src="http://placehold.it/360x240"
+                                                                alt=""></a>
+                                                        </div>
+                                                        <div class="caption">
+                                                            <h3>The Pearl District</h3>
+                                                            <p class="stories-blurb">An
+                                                                area formerly occupied by
+                                                                warehouses, light industry
+                                                                and railroad
+                                                                classification yards and
+                                                                now noted for its art
+                                                                galleries, upscale
+                                                                businesses and residences.
+                                                                The area has been
+                                                                undergoing significant
+                                                                urban renewal since the
+                                                                mid-1980s when it was
+                                                                reclassified as mixed use
+                                                                from industrial, including
+                                                                the arrival of artists,
+                                                                the removal of a viaduct
+                                                                and construction of the
+                                                                Portland Streetcar. It now
+                                                                mostly consists of
+                                                                high-rise condominiums and
+                                                                warehouse-to-loft
+                                                                conversions.</p>
+                                                            <a class="btn btn-mini"
+                                                               href="#">&raquo; Read
+                                                                More</a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- /Slide1 -->
+                                            <div class="item">
+                                                <ul class="thumbnails">
+                                                    <li class="span3">
+                                                        <div class="thumbnail">
+                                                            <a href="#"><img
+                                                                src="http://placehold.it/360x240"
+                                                                alt=""></a>
+                                                        </div>
+                                                        <div class="caption">
+                                                            <h3>Hawthorne District</h3>
+                                                            <p class="stories-blurb">The
+                                                                area has numerous retail
+                                                                stores, including clothing
+                                                                shops, restaurants, bars,
+                                                                brewpubs and
+                                                                microbreweries. Hawthorne
+                                                                district is known for its
+                                                                liberal residents.</p>
+                                                            <a class="btn btn-mini"
+                                                               href="#">&raquo; Read
+                                                                More</a>
+                                                        </div>
+                                                    </li>
 
-                    </ul>
-              </div><!-- /Slide2 -->
-            <div class="item">
-                    <ul class="thumbnails">
-                        <li class="span3">
-                            <div class="thumbnail">
-                                <a href="#"><img src="http://placehold.it/360x240" alt=""></a>
-                            </div>
-                            <div class="caption">
-                                <h4>Alberta Street</h4>
-                        <p class="stories-blurb">Alberta Street is one of the main hubs in the Northeast area of Portland. It is the heart of an arts, restaurant, and shopping district approximately 20 blocks long. The street was once the essence of the culture contained by the primarily urban and African-American community. The area around Alberta is now becoming very popular with hipsters as well as yuppies and bohemians.</p>
-                                <a class="btn btn-mini" href="#">&raquo; Read More</a>
-                            </div>
-                        </li>
+                                                </ul>
+                                            </div><!-- /Slide2 -->
+                                            <div class="item">
+                                                <ul class="thumbnails">
+                                                    <li class="span3">
+                                                        <div class="thumbnail">
+                                                            <a href="#"><img
+                                                                src="http://placehold.it/360x240"
+                                                                alt=""></a>
+                                                        </div>
+                                                        <div class="caption">
+                                                            <h3>Alberta Street</h3>
+                                                            <p class="stories-blurb">
+                                                                Alberta Street is one of
+                                                                the main hubs in the
+                                                                Northeast area of
+                                                                Portland. It is the heart
+                                                                of an arts, restaurant,
+                                                                and shopping district
+                                                                approximately 20 blocks
+                                                                long. The street was once
+                                                                the essence of the culture
+                                                                contained by the primarily
+                                                                urban and African-American
+                                                                community. The area around
+                                                                Alberta is now becoming
+                                                                very popular with hipsters
+                                                                as well as yuppies and
+                                                                bohemians.</p>
+                                                            <a class="btn btn-mini"
+                                                               href="#">&raquo; Read
+                                                                More</a>
+                                                        </div>
+                                                    </li>
 
-                    </ul>
-              </div><!-- /Slide3 -->
+                                                </ul>
+                                            </div><!-- /Slide3 -->
+                                        </div>
+
+                                        <div class="control-box">
+                                            <a data-slide="prev" href="#myCarousel"
+                                               class="carousel-control left"><i
+                                                class="fa fa-chevron-left"></i></a>
+                                            <a data-slide="next" href="#myCarousel"
+                                               class="carousel-control right"><i
+                                                class="fa fa-chevron-right"></i></a>
+                                        </div><!-- /.control-box -->
+
+                                    </div><!-- /#myCarousel -->
+                                </div><!-- /.span12 -->
+                            </div><!-- /.row -->
+                        </div><!-- /.container -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Close
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div>
         </div>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-        <div class="control-box">
-            <a data-slide="prev" href="#myCarousel" class="carousel-control left"><i class="fa fa-chevron-left"></i></a>
-            <a data-slide="next" href="#myCarousel" class="carousel-control right"><i class="fa fa-chevron-right"></i></a>
-        </div><!-- /.control-box -->
-
-    </div><!-- /#myCarousel -->
-                    </div><!-- /.span12 -->
-                  </div><!-- /.row -->
-               </div><!-- /.container -->
-              </div>
-              <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-            </div><!-- /.modal-content -->
-          </div>
-        </div>
-      </div><!-- /.modal-dialog -->
-     </div><!-- /.modal -->
-
-    <div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
+<div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Map Legend</h4>
-          </div>
-          <div class="modal-body">
-            <p>Map Legend goes here...</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Map Legend</h2>
+            </div>
+            <div class="modal-body">
+                <p>Map Legend goes here...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                </button>
+            </div>
         </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-sm">
+<div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Login</h4>
-          </div>
-          <div class="modal-body">
-            <form id="contact-form">
-              <fieldset>
-                <div class="form-group">
-                  <label for="name">Username:</label>
-                  <input type="text" class="form-control" id="username">
-                </div>
-                <div class="form-group">
-                  <label for="email">Password:</label>
-                  <input type="password" class="form-control" id="password">
-                </div>
-              </fieldset>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" data-dismiss="modal">Login</button>
-          </div>
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    Developed by <a href='http://hackoregon.org'>Hack Oregon</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="attribution"></div>
+            </div>
         </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title text-primary" id="feature-title"></h4>
-          </div>
-          <div class="modal-body" id="feature-info"></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="assets/js/taffy.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.js"></script>
+<script
+    src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+<script
+    src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
+<script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+<script src="assets/js/leaflet.timeline.js"></script>
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/daterangepicker.js"></script>
+<!-- <script src="assets/js/app.js"></script> -->
+<script src="assets/js/production.js"></script>
 
-    <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">
-              Developed by <a href='http://hackoregon.org'>Hack Oregon</a>
-            </h4>
-          </div>
-          <div class="modal-body">
-            <div id="attribution"></div>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="assets/js/taffy.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.js"></script>
-    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
-    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
-    <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
-    <script src="assets/js/leaflet.timeline.js"></script>
-    <script src="assets/js/moment.min.js"></script>
-    <script src="assets/js/daterangepicker.js"></script>
-    <!-- <script src="assets/js/app.js"></script> -->
-    <script src="assets/js/production.js"></script>
-
-  </body>
+</body>
 </html>
