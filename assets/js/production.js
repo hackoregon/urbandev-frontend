@@ -1,7 +1,6 @@
 
 /*---global variables---*/
-var map,
-  boroughSearch = [];
+var map;
 
 /* Larger screens get expanded layer control and visible sidebar */
 var isCollapsed = document.body.clientWidth <= 767;
@@ -73,27 +72,6 @@ var mapquestHYB = L.layerGroup([L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/sa
 
 /* Overlay Layers */
 var highlight = L.geoJson(null);
-var boroughs = L.geoJson(null, {
-  style: function () {
-    return {
-      color: "black",
-      fill: false,
-      opacity: 1,
-      clickable: false
-    };
-  },
-  onEachFeature: function (feature, layer) {
-    boroughSearch.push({
-      name: layer.feature.properties.BoroName,
-      source: "Boroughs",
-      id: L.stamp(layer),
-      bounds: layer.getBounds()
-    });
-  }
-});
-$.getJSON("data/boroughs.geojson", function (data) {
-  boroughs.addData(data);
-});
 
 /* Single marker cluster layer to hold all clusters */
 var markerClusters = new L.MarkerClusterGroup({
@@ -106,7 +84,7 @@ var markerClusters = new L.MarkerClusterGroup({
 map = L.map("map", {
   zoom: 12,
   center: [45.5, -122.67],
-  layers: [mapquestOSM, boroughs, markerClusters, highlight, stamenToner],
+  layers: [mapquestOSM, markerClusters, highlight, stamenToner],
   zoomControl: false,
   attributionControl: false
 });
@@ -203,9 +181,6 @@ $("#featureModal").on("hidden.bs.modal", function (e) {
 
 $(document).one("ajaxStop", function () {
   $("#loading").hide();
-  /* Fit map to boroughs bounds */
-  map.fitBounds(boroughs.getBounds());
-
 });
 
 // Leaflet patch to make layer control scrollable on touch browsers
