@@ -240,6 +240,9 @@ $(document).ready(function () {
   var pdxBounds = [[45.43628556252907, -122.83573150634764],[45.56358318479177,-122.50442504882814]];
   var pdxBoundsString = '-122.83573150634764,45.43628556252907,-122.50442504882814,45.56358318479177';
 
+  var $yearStart = $('#yearstart');
+  var $yearEnd = $('#yearend');
+
   // $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
   // $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
   // $('#demolitions-checkbox').attr('title', dataDateRanges[2].demolitions.min + ' to ' + dataDateRanges[2].demolitions.max);
@@ -393,7 +396,7 @@ $(document).ready(function () {
           opacity: 1,
           fillOpacity: 0.7
         };
-      },
+      }
   });
 
   var bounds = map.getBounds().toBBoxString();
@@ -511,7 +514,7 @@ $(document).ready(function () {
     $.when.apply($, crimesPromises).done(function() {
       $('#crimetotal').append(crimeCount);
       nbhoodLayer.setStyle({
-        fillColor: getColor(crimeCount),
+        fillColor: getColor(crimeCount)
       });
     }).fail(function() {
       console.log('Failed to finish iterating over crime.');
@@ -670,8 +673,8 @@ $(document).ready(function () {
 
     // Initialize date range select boxes
     for (var i = 1995; i <= 2015; i++) {
-      $('#yearstart').append('<option value="' + i + '">' + i + '</option>');
-      $('#yearend').append('<option value="' + i + '">' + i + '</option>');
+      $yearStart.append('<option value="' + i + '">' + i + '</option>');
+      $yearEnd.append('<option value="' + i + '">' + i + '</option>');
     }
 
     $('#toggle-hoods').on('click', toggleHoods);
@@ -682,24 +685,24 @@ $(document).ready(function () {
         formVars.push($(this).val());
       });
       if (formVars.length > 0) {
-        $('#yearstart').val(getEarliestYear(formVars));
+        $yearStart.val(getEarliestYear(formVars));
         if (parseInt($('#yearend').val()) < getEarliestYear(formVars)) {
-          $('#yearend').val(getEarliestYear(formVars));
+          $yearEnd.val(getEarliestYear(formVars));
         }
       }
     });
 
-    $('#yearstart').on('change', function() {
+    $yearStart.on('change', function() {
       var minYear = $(this).val();
       if ($('#yearend').val() < minYear) {
-        $('#yearend').val(minYear);
+        $yearEnd.val(minYear);
       }
     });
 
-    $('#yearend').on('change', function() {
+    $yearEnd.on('change', function() {
       var maxYear = $(this).val();
-      if ($('#yearstart').val() > maxYear) {
-        $('#yearstart').val(maxYear);
+      if ($yearStart.val() > maxYear) {
+        $yearStart.val(maxYear);
       }
     });
 
@@ -717,14 +720,14 @@ $(document).ready(function () {
       $("#loading").show();
       timelineLayer.clearLayers();
       var nbhoodVal = $('#neighborhoodselect').val();
-      var yearStart = $('#yearstart').val();
-      var yearEnd = $('#yearend').val();
+      var yearStart = $yearStart.val();
+      var yearEnd = $yearEnd.val();
       var formVars = [];
 
       delete timelineLayer.options.start;
       delete timelineLayer.options.end;
       delete timelineLayer.time;
-      timelineLayer.times = Array();
+      timelineLayer.times = [];
       timelineLayer.initialize(null, {
         // static data for testing counter update
         // counterData: {2011: 300, 2012: 368, 2013: 402, 2014: 20002},
@@ -781,7 +784,7 @@ $(document).ready(function () {
               opacity: 1,
               fillOpacity: 0.7
             };
-          },
+          }
       });
 
       $("#sidebar input:checked").each(function() {
@@ -823,7 +826,7 @@ $(document).ready(function () {
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
           if (typeof timelineLayer.timeSliderControl != "undefined") {
-            map.removeControl(timelineLayer.timeSliderControl)
+            map.removeControl(timelineLayer.timeSliderControl);
             timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
             timelineLayer.timeSliderControl.addTo(map);
           }
@@ -835,7 +838,7 @@ $(document).ready(function () {
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
         ).then(function() {
           if (typeof timelineLayer.timeSliderControl != "undefined") {
-            map.removeControl(timelineLayer.timeSliderControl)
+            map.removeControl(timelineLayer.timeSliderControl);
             timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
             timelineLayer.timeSliderControl.addTo(map);
           }
@@ -847,7 +850,7 @@ $(document).ready(function () {
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
           if (typeof timelineLayer.timeSliderControl != "undefined") {
-            map.removeControl(timelineLayer.timeSliderControl)
+            map.removeControl(timelineLayer.timeSliderControl);
             timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
             timelineLayer.timeSliderControl.addTo(map);
           }
