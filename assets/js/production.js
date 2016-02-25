@@ -3,6 +3,9 @@
 var map,
   boroughSearch = [];
 
+/* Larger screens get expanded layer control and visible sidebar */
+var isCollapsed = document.body.clientWidth <= 767;
+
 /*---jQuery variables---*/
 var $navbarCollapseIn = $(".navbar-collapse.in");
 var $sidebar = $('#sidebar');
@@ -16,30 +19,6 @@ $("#about-btn").click(function() {
 $("#stories-btn").click(function() {
   $("#storiesModal").modal("show");
   $navbarCollapseIn.collapse("hide");
-  return false;
-});
-
-$("#full-extent-btn").click(function() {
-  map.fitBounds(boroughs.getBounds());
-  $navbarCollapseIn.collapse("hide");
-  return false;
-});
-
-$("#legend-btn").click(function() {
-  $("#legendModal").modal("show");
-  $navbarCollapseIn.collapse("hide");
-  return false;
-});
-
-$("#login-btn").click(function() {
-  $("#loginModal").modal("show");
-  $navbarCollapseIn.collapse("hide");
-  return false;
-});
-
-$("#list-btn").click(function() {
-  $sidebar.toggle();
-  map.invalidateSize();
   return false;
 });
 
@@ -63,21 +42,9 @@ function clearHighlight() {
   highlight.clearLayers();
 }
 
-function sidebarClick(id) {
-  var layer = markerClusters.getLayer(id);
-  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 17);
-  //map.setView([45.5, -122.67], 12);
-  layer.fire("click");
-  /* Hide sidebar and go to the map on small screens */
-  if (document.body.clientWidth <= 767) {
-    $sidebar.hide();
-    map.invalidateSize();
-  }
-}
-
 function syncSidebar() {
   /* Empty sidebar features */
-  $("#feature-list tbody").empty();
+  $("tbody#feature-list").empty();
 }
 
 /* Basemap Layers */
@@ -106,15 +73,8 @@ var mapquestHYB = L.layerGroup([L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/sa
 
 /* Overlay Layers */
 var highlight = L.geoJson(null);
-var highlightStyle = {
-  stroke: false,
-  fillColor: "#00FFFF",
-  fillOpacity: 0.7,
-  radius: 10
-};
-
 var boroughs = L.geoJson(null, {
-  style: function (feature) {
+  style: function () {
     return {
       color: "black",
       fill: false,
@@ -142,36 +102,13 @@ var markerClusters = new L.MarkerClusterGroup({
   zoomToBoundsOnClick: true,
   disableClusteringAtZoom: 16
 });
+
 map = L.map("map", {
   zoom: 12,
   center: [45.5, -122.67],
   layers: [mapquestOSM, boroughs, markerClusters, highlight, stamenToner],
   zoomControl: false,
   attributionControl: false
-});
-
-
-/* Layer control listeners that allow for a single markerClusters layer */
-map.on("overlayadd", function(e) {
-  if (e.layer === theaterLayer) {
-    markerClusters.addLayer(theaters);
-    syncSidebar();
-  }
-  if (e.layer === museumLayer) {
-    markerClusters.addLayer(museums);
-    syncSidebar();
-  }
-});
-
-map.on("overlayremove", function(e) {
-  if (e.layer === theaterLayer) {
-    markerClusters.removeLayer(theaters);
-    syncSidebar();
-  }
-  if (e.layer === museumLayer) {
-    markerClusters.removeLayer(museums);
-    syncSidebar();
-  }
 });
 
 /* Filter sidebar feature list to only show features in current map bounds */
@@ -185,6 +122,7 @@ map.on("click", function(e) {
 });
 
 /* Attribution control */
+// TODO: add attribution info associated with each map layer
 function updateAttribution(e) {
   $.each(map._layers, function(index, layer) {
     if (layer.getAttribution) {
@@ -199,7 +137,7 @@ var attributionControl = L.control({
   position: "bottomright"
 });
 
-attributionControl.onAdd = function (map) {
+attributionControl.onAdd = function () {
   var div = L.DomUtil.create("div", "leaflet-control-attribution");
   div.innerHTML = "<span class='hidden-xs'><a href='http://hackoregon.org'>Hack Oregon</a> | </span><a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
   return div;
@@ -208,7 +146,8 @@ map.addControl(attributionControl);
 
 var zoomControl = L.control.zoom({
   position: "topleft"
-}).addTo(map);
+});
+zoomControl.addTo(map);
 
 /* GPS enabled geolocation control set to follow the user's location */
 var locateControl = L.control.locate({
@@ -240,14 +179,8 @@ var locateControl = L.control.locate({
     maximumAge: 10000,
     timeout: 10000
   }
-}).addTo(map);
-
-/* Larger screens get expanded layer control and visible sidebar */
-if (document.body.clientWidth <= 767) {
-  var isCollapsed = true;
-} else {
-  var isCollapsed = false;
-}
+});
+locateControl.addTo(map);
 
 var baseLayers = {
   "Street Map": mapquestOSM,
@@ -260,8 +193,9 @@ var groupedOverlays = {};
 
 // control box
 var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
-  collapsed: isCollapsed,
-}).addTo(map);
+  collapsed: isCollapsed
+});
+layerControl.addTo(map);
 
 $("#featureModal").on("hidden.bs.modal", function (e) {
   $(document).on("mouseout", ".feature-row", clearHighlight);
@@ -284,14 +218,13 @@ if (!L.Browser.touch) {
   L.DomEvent.disableClickPropagation(container);
 }
 
-
 // Dashboard Widget Toggle
 $(document).ready(function() {
     $('[rel=tooltip]').tooltip();
     if (document.body.clientWidth <= 767) {
       $sidebar.toggle();
       $('a.toggle i').toggleClass('fa fa-chevron-left fa fa-chevron-right');
-    };
+    }
 });
 
 $('a.toggle').click(function() {
