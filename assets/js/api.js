@@ -166,7 +166,7 @@
           opacity: 1,
           fillOpacity: 0.7
         };
-      },
+      }
   });
 
   var bounds = map.getBounds().toBBoxString();
@@ -284,7 +284,7 @@
     $.when.apply($, crimesPromises).done(function() {
       $('#crimetotal').append(crimeCount);
       nbhoodLayer.setStyle({
-        fillColor: getColor(crimeCount),
+        fillColor: getColor(crimeCount)
       });
     }).fail(function() {
       console.log('Failed to finish iterating over crime.');
@@ -554,7 +554,7 @@
               opacity: 1,
               fillOpacity: 0.7
             };
-          },
+          }
       });
 
       $("#sidebar input:checked").each(function() {
