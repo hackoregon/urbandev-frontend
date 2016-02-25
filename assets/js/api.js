@@ -596,7 +596,7 @@
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
           if (typeof timelineLayer.timeSliderControl != "undefined") {
-            map.removeControl(timelineLayer.timeSliderControl)
+            map.removeControl(timelineLayer.timeSliderControl);
             timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
             timelineLayer.timeSliderControl.addTo(map);
           }
@@ -608,7 +608,7 @@
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
         ).then(function() {
           if (typeof timelineLayer.timeSliderControl != "undefined") {
-            map.removeControl(timelineLayer.timeSliderControl)
+            map.removeControl(timelineLayer.timeSliderControl);
             timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
             timelineLayer.timeSliderControl.addTo(map);
           }
@@ -620,7 +620,7 @@
           getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
         ).then(function() {
           if (typeof timelineLayer.timeSliderControl != "undefined") {
-            map.removeControl(timelineLayer.timeSliderControl)
+            map.removeControl(timelineLayer.timeSliderControl);
             timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
             timelineLayer.timeSliderControl.addTo(map);
           }
