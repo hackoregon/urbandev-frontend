@@ -49,12 +49,6 @@
             <a class="navbar-brand" href="#"><h1>PlotPDX</h1></a>
         </div>
         <div class="navbar-collapse collapse">
-            <!-- <form class="navbar-form navbar-right" role="search">
-              <div class="form-group has-feedback">
-                  <input id="searchbox" type="text" placeholder="Search" class="form-control">
-                  <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-              </div>
-            </form> -->
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
                        id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a>
@@ -102,15 +96,6 @@
                 <div class="panel-body">
                     <form action="">
 
-                        <!-- <div class="row">
-                          <div class="col-xs-8 col-md-8">
-                            <input type="text" class="form-control search" placeholder="Filter" />
-                          </div>
-                          <div class="col-xs-4 col-md-4">
-                            <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
-                          </div>
-                        </div> -->
-
                         <div class="col-xs-10">
                             <div class="form-group select select-nbhood">
                                 <label class="h4"
@@ -143,26 +128,6 @@
                                 </label>
                                 <p>Total crimes: <span id="crimetotal"></span></p>
                             </div>
-                            <!-- <div class="checkbox">
-                              <label>
-                                <input type="checkbox" value="price_sqft"> Housing value per sq. ft.
-                              </label>
-                            </div>
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" value="income"> Income
-                              </label>
-                            </div>
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" value="density"> Density
-                              </label>
-                            </div>
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" value="demographics"> Demographics
-                              </label>
-                            </div> -->
                         </div>
                         <div class="col-xs-10">
                             <p class="h4">Time Frame</p>
@@ -193,28 +158,9 @@
                         </div>
                     </form>
                 </div> <!-- / Panel-body -->
-                <!--
-                <div class="sidebar-table">
-                  <table class="table table-hover" id="feature-list">
-                    <thead class="hidden">
-                      <tr>
-                        <th>Icon</th>
-                      <tr>
-                      <tr>
-                        <th>Name</th>
-                      <tr>
-                      <tr>
-                        <th>Chevron</th>
-                      <tr>
-                    </thead>
-                    <tbody class="list"></tbody>
-                  </table>
-                </div>
-                -->
             </div><!-- end .panel -->
         </div>
     </div>
-
     <div id="map" class="map"></div>
     <div id="slider"></div>
 
@@ -573,25 +519,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">&times;</button>
-                <h2 class="modal-title">Map Legend</h2>
-            </div>
-            <div class="modal-body">
-                <p>Map Legend goes here...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -627,7 +554,6 @@
 <script src="assets/js/leaflet.timeline.js"></script>
 <script src="assets/js/moment.min.js"></script>
 <script src="assets/js/daterangepicker.js"></script>
-<!-- <script src="assets/js/app.js"></script> -->
 <script src="assets/js/production.js"></script>
 
 </body>
