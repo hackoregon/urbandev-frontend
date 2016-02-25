@@ -240,8 +240,10 @@ $(document).ready(function () {
   var pdxBounds = [[45.43628556252907, -122.83573150634764],[45.56358318479177,-122.50442504882814]];
   var pdxBoundsString = '-122.83573150634764,45.43628556252907,-122.50442504882814,45.56358318479177';
 
+  // jQuery variables
   var $yearStart = $('#yearstart');
   var $yearEnd = $('#yearend');
+  var $loading = $("#loading");
 
   // $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
   // $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
@@ -686,7 +688,7 @@ $(document).ready(function () {
       });
       if (formVars.length > 0) {
         $yearStart.val(getEarliestYear(formVars));
-        if (parseInt($('#yearend').val()) < getEarliestYear(formVars)) {
+        if (parseInt($yearEnd.val()) < getEarliestYear(formVars)) {
           $yearEnd.val(getEarliestYear(formVars));
         }
       }
@@ -694,7 +696,7 @@ $(document).ready(function () {
 
     $yearStart.on('change', function() {
       var minYear = $(this).val();
-      if ($('#yearend').val() < minYear) {
+      if ($yearEnd.val() < minYear) {
         $yearEnd.val(minYear);
       }
     });
@@ -717,7 +719,7 @@ $(document).ready(function () {
 
     $('#plot-submit').on('click', function(e) {
       e.preventDefault();
-      $("#loading").show();
+      $loading.show();
       timelineLayer.clearLayers();
       var nbhoodVal = $('#neighborhoodselect').val();
       var yearStart = $yearStart.val();
@@ -831,7 +833,7 @@ $(document).ready(function () {
             timelineLayer.timeSliderControl.addTo(map);
           }
           timelineLayer.addTo(map);
-          $("#loading").hide();
+          $loading.hide();
         });
       } else if (needPermits) {
         $.when(
@@ -843,7 +845,7 @@ $(document).ready(function () {
             timelineLayer.timeSliderControl.addTo(map);
           }
           timelineLayer.addTo(map);
-          $("#loading").hide();
+          $loading.hide();
         });
       } else if (needDemolitions) {
         $.when(
@@ -855,7 +857,7 @@ $(document).ready(function () {
             timelineLayer.timeSliderControl.addTo(map);
           }
           timelineLayer.addTo(map);
-          $("#loading").hide();
+          $loading.hide();
         });
       }
 
