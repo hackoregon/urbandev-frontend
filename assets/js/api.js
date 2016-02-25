@@ -497,7 +497,7 @@
       delete timelineLayer.options.start;
       delete timelineLayer.options.end;
       delete timelineLayer.time;
-      timelineLayer.times = Array();
+      timelineLayer.times = [];
       timelineLayer.initialize(null, {
         // static data for testing counter update
         // counterData: {2011: 300, 2012: 368, 2013: 402, 2014: 20002},
