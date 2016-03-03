@@ -88,4 +88,4 @@ GitHub Guides. [Mastering Markdown](https://guides.github.com/features/mastering
 
 Scott Chacon and Ben Straub. 2014. [Pro Git](https://git-scm.com/book/en/v2), 2nd edition. Accessed 2016-02-27.
 
-[How to undo (almost) anything with Git](https://github.com/blog/2019-how-to-undo-almost-anything-with-git)
+[How to undo (almost) anything with Git](https://github.com/blog/2019-how-to-undo-almost-anything-with-git). Accessed 2016-03-02.
