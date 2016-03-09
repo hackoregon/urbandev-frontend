@@ -2,6 +2,7 @@
 node_modules/**
 .sass-cache/**
 **.css.map
+app.css
 
 # Development tools.
 .idea/
