@@ -3,6 +3,7 @@ node_modules/**
 .sass-cache/**
 **.css.map
 app.css
+production.js
 
 # Development tools.
 .idea/
