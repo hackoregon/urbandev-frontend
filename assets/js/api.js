@@ -9,6 +9,7 @@ var dataDateRanges = {
 
 var pdxBounds = [[45.43628556252907, -122.83573150634764],[45.56358318479177,-122.50442504882814]];
 var pdxBoundsString = '-122.83573150634764,45.43628556252907,-122.50442504882814,45.56358318479177';
+var bounds = map.getBounds().toBBoxString();
 
 // jQuery variables
 var $yearStart = $('#yearstart');
@@ -39,6 +40,10 @@ var nbhoodDb;
 // Get neighborhoods list and bounding box coordinates
 // store in Taffy db
 var nbhoodListUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.json";
+var nbhoodShapesUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.geojson";
+
+// Get neighborhood shape, add to map
+var nbhoodLayer = new L.geoJson();
 
 function getNbhoodList() {
   $.ajax({
@@ -69,11 +74,6 @@ function getNbhoodList() {
   });
 }
 
-// Get neighborhood shape, add to map
-var nbhoodLayer = new L.geoJson();
-
-var nbhoodShapesUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.geojson";
-
 function getNbhoodShape(nbhood) {
   $.ajax({
     method: "GET",
@@ -98,9 +98,16 @@ function getNbhoodShape(nbhood) {
   });
 }
 
+// get permits data
 var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
+
+// get demolitions data
 var demolitionsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/demolitions.geojson";
-var permitsLayer = new L.geoJson();
+
+// Get crime data
+// store in Taffy db
+var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/crimes.json";
+
 var timelineLayer = L.timeline(null, {
   formatDate: function(date) {
     return moment(date).format("YYYY");
@@ -157,8 +164,6 @@ var timelineLayer = L.timeline(null, {
       };
     }
 });
-
-var bounds = map.getBounds().toBBoxString();
 
 // Return marker data and add to the map using the leaflet timeline plugin
 // works with permits and demolition data
@@ -218,10 +223,6 @@ function getPermits(start, end, neighborhood, type, dataType) {
   });
   // promises.push(promise);
 }
-
-// Get crime data
-// store in Taffy db
-var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/crimes.json";
 
 function getCrimesYear(nbhood, yearRange) {
   var crimeCount = 0;
@@ -289,8 +290,6 @@ function getCrimesYear(nbhood, yearRange) {
 //   }
 //   return crimeCount;
 // }
-
-
 
 var hoodsShown = true;
 
