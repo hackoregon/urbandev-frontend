@@ -14,6 +14,10 @@ var pdxBoundsString = '-122.83573150634764,45.43628556252907,-122.50442504882814
 var $yearStart = $('#yearstart');
 var $yearEnd = $('#yearend');
 var $loading = $("#loading");
+var $nbSelect = $('#neighborhoodselect');
+
+// this variable will hold the TAFFY list of neighborhoods
+var nbhoodDb;
 
 // $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
 // $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
@@ -35,6 +39,7 @@ var $loading = $("#loading");
 // Get neighborhoods list and bounding box coordinates
 // store in Taffy db
 var nbhoodListUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.json";
+
 function getNbhoodList() {
   $.ajax({
     method: "GET",
@@ -47,9 +52,7 @@ function getNbhoodList() {
   })
   .done(function(data) {
     var nbhoodListJson = data;
-
-    $nbSelect = $('#neighborhoodselect');
-    nbhoodTaffyList = [];
+    var nbhoodTaffyList = [];
     for (var i = 0; i < (nbhoodListJson.rows).length; i++) {
       var nbhoodName = nbhoodListJson.rows[i][0];
       $nbSelect.append('<option value="' + nbhoodName + '">' + nbhoodName + '</option>');
@@ -462,7 +465,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#neighborhoodselect').on('change', function() {
+  $nbSelect.on('change', function() {
     var nbhoodVal = $(this).val();
     zoomToNeighborhood(nbhoodVal);
   });
@@ -475,7 +478,7 @@ $(document).ready(function() {
     e.preventDefault();
     $loading.show();
     timelineLayer.clearLayers();
-    var nbhoodVal = $('#neighborhoodselect').val();
+    var nbhoodVal = $nbSelect.val();
     var yearStart = $yearStart.val();
     var yearEnd = $yearEnd.val();
     var formVars = [];
