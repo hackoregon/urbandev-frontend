@@ -96,6 +96,7 @@ var timelineLayer = L.timeline(null, timelineConfig);
 // Return marker data and add to the map using the leaflet timeline plugin
 // works with permits and demolition data
 function getPermits(start, end, neighborhood, type, dataType) {
+  var url;
   if (neighborhood == "all") {
     bounds = pdxBounds;
     neighborhood = '';
@@ -117,13 +118,15 @@ function getPermits(start, end, neighborhood, type, dataType) {
     data: {
       type: type, //type: "residential",
       neighborhood: neighborhood,
-      startdate: start, //moment().subtract(1, 'years').format('YYYY-MM-DD'), //"2014-10-04"
+      startdate: start, //moment().subtract(1, 'years').format('YYYY-MM-DD'),
+                        // //"2014-10-04"
       enddate: end, //moment().format('YYYY-MM-DD') //"2015-10-04"
       bounds: bounds
     }
   })
   .done(function(data) {
     var permitsJson = data;
+    var date;
     // console.log(permitsJson);
     // permitsLayer.clearLayers();
     // map.removeControl(timelineLayer.timeSliderControl);
@@ -131,9 +134,9 @@ function getPermits(start, end, neighborhood, type, dataType) {
     $(permitsJson.features).each(function(key, data) {
 
       if (dataType == "permits") {
-        var date = data.properties.issuedate;
+        date = data.properties.issuedate;
       } else {
-        var date = data.properties.demolition_date;
+        date = data.properties.demolition_date;
       }
       var propStartYear = date;//moment(date);//.get('year');
       var propEndYear = end;//moment(date).add(150, 'days');//.get('year');
@@ -169,7 +172,7 @@ function getCrimesYear(nbhood, yearRange) {
     })
     .done(function(data) {
       var crimesJson = data;
-      crimesTaffyList = [];
+      var crimesTaffyList = [];
       var crimesInNbhood = 0;
       for (var j = 0; j < (crimesJson.rows).length; j++) {
         var rec = {
@@ -260,7 +263,6 @@ function zoomToNeighborhood(nbhoodVal) {
     map.fitBounds(pdxBounds);
   } else {
     var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
-    currentHoodBbx = (hoodBbxArray[0].concat(hoodBbxArray[1])).join(',');
     hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
     hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
     map.fitBounds(hoodBbxArray, {
@@ -378,9 +380,9 @@ $(document).ready(function() {
     // call get permits for each of them, then apply 'then' callback
     if (needPermits && needDemolitions) {
       $.when(
-        // if we need to make sure permits finishes before demolitions b/c of the date range,
-        // can chain another "then" with the demolitions call; but we should instead constrain
-        // the date selection to the data availability
+        // if we need to make sure permits finishes before demolitions b/c of the date
+        // range, can chain another "then" with the demolitions call; but we should
+        // instead constrain the date selection to the data availability
         getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits"),
         getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
       ).then(function() {
