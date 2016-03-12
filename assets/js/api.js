@@ -17,9 +17,9 @@ var $yearEnd = $('#yearend');
 var $loading = $("#loading");
 var $nbSelect = $('#neighborhoodselect');
 
-// this variable will hold the TAFFY list of neighborhoods
-var nbhoodDb;
-
+// these variable will hold TAFFY lists
+var nbhoodDb,
+  crimesDb;
 // $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
 // $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
 // $('#demolitions-checkbox').attr('title', dataDateRanges[2].demolitions.min + ' to ' + dataDateRanges[2].demolitions.max);
