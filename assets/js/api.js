@@ -222,67 +222,6 @@ function getCrimesYear(nbhood, yearRange) {
 //   return crimeCount;
 // }
 
-var hoodsShown = true;
-
-// Utility functions
-
-function toggleHoods() {
-  if (hoodsShown) {
-    map.removeLayer(hoods);
-  } else {
-    map.addLayer(hoods);
-  }
-  hoodsShown = !hoodsShown;
-}
-
-function switchCoords(coordArray) {
-  var temp = coordArray[1];
-  coordArray[1] = coordArray[0];
-  coordArray[0] = temp;
-  return coordArray;
-}
-
-function yearsInRange(startStr, endStr) {
-  var startInt = parseInt(startStr);
-  var endInt = parseInt(endStr);
-  var yearsArray = [];
-  for (var i = startInt; i <= endInt; i++) {
-    yearsArray.push(i);
-  }
-  return yearsArray;
-}
-
-function getYearFromDate(date) {
-  return moment(date).year();
-}
-
-function zoomToNeighborhood(nbhoodVal) {
-  timelineLayer.clearLayers();
-  if (nbhoodVal == "all") {
-    nbhoodLayer.clearLayers();
-    map.fitBounds(pdxBounds);
-  } else {
-    var hoodBbxArray = nbhoodDb({name: nbhoodVal}).first().bbx;
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-    map.fitBounds(hoodBbxArray, {
-      padding: [60, 90]
-    });
-    hoodBbxArray[0] = switchCoords(hoodBbxArray[0]);
-    hoodBbxArray[1] = switchCoords(hoodBbxArray[1]);
-    getNbhoodShape(nbhoodVal);
-  }
-}
-
-function getEarliestYear(selectedData) {
-  var minYears = [];
-  for (var i = 0; i < selectedData.length; i++) {
-    var typeOfData = selectedData[i];
-    minYears.push(getYearFromDate(dataDateRanges[typeOfData].min));
-  }
-  return Math.max.apply(null, minYears);
-}
-
 // Bind or update dom elements once they're loaded
 $(document).ready(function() {
   $('#permits-checkbox').after('<p class="date-range">(' + getYearFromDate(dataDateRanges.permits.min) + ' to ' + getYearFromDate(dataDateRanges.permits.max) + ')</p>');
