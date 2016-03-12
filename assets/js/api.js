@@ -109,9 +109,7 @@ var demolitionsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/s
 var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/crimes.json";
 
 var timelineLayer = L.timeline(null, {
-  formatDate: function(date) {
-    return moment(date).format("YYYY");
-  },
+  formatDate: formatDate,
   pointToLayer: function(feature, latlng) {
     var marker = L.circleMarker(latlng, geojsonMarkerOptions);
     if (typeof feature.properties.issuedate !== 'undefined') {
@@ -404,9 +402,7 @@ $(document).ready(function() {
       // static data for testing counter update
       // counterData: {2011: 300, 2012: 368, 2013: 402, 2014: 20002},
       // counterId: 'average',
-      formatDate: function(date) {
-        return moment(date).format("YYYY");
-      },
+      formatDate: formatDate,
       pointToLayer: function(feature, latlng) {
         var marker = L.circleMarker(latlng, geojsonMarkerOptions);
         if (typeof feature.properties.issuedate !== 'undefined') {

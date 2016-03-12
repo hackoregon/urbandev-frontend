@@ -96,4 +96,8 @@ function getColor(d) {
 }
 
 
+// ui utility functions
 
+function formatDate(date) {
+    return moment(date).format("YYYY");
+  }
