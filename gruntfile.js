@@ -11,10 +11,18 @@ module.exports = function(grunt) {
         }
       }
     },
-    concat: {
+  concat: {
       dist: {
-        src: ['assets/js/app.js', 'assets/js/api.js'],
-        dest: 'assets/js/production.js'
+        src: [
+          'assets/js/app.js',
+          'assets/js/ui.js',
+          'assets/js/api.js'
+        ],
+        dest: 'assets/js/production.js',
+        options: {
+          banner: ';(function($) {',
+          footer: '})(jQuery);'
+        }
       }
     },
     watch: {
