@@ -108,11 +108,7 @@ var demolitionsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/s
 // store in Taffy db
 var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/crimes.json";
 
-var timelineLayer = L.timeline(null, {
-  formatDate: formatDate,
-  pointToLayer: pointToLayer,
-  style: timelineLayerStyle
-});
+var timelineLayer = L.timeline(null, timelineConfig);
 
 // Return marker data and add to the map using the leaflet timeline plugin
 // works with permits and demolition data
@@ -365,14 +361,7 @@ $(document).ready(function() {
     delete timelineLayer.options.end;
     delete timelineLayer.time;
     timelineLayer.times = [];
-    timelineLayer.initialize(null, {
-      // static data for testing counter update
-      // counterData: {2011: 300, 2012: 368, 2013: 402, 2014: 20002},
-      // counterId: 'average',
-      formatDate: formatDate,
-      pointToLayer: pointToLayer,
-      style: timelineLayerStyle
-    });
+    timelineLayer.initialize(null, timelineConfig);
 
     $("#sidebar input:checked").each(function() {
       formVars.push($(this).val());

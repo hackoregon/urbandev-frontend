@@ -33,6 +33,11 @@ function timelineLayerStyle(data) {
   };
 }
 
+var timelineConfig = {
+      formatDate: formatDate,
+      pointToLayer: pointToLayer,
+      style: timelineLayerStyle
+    }
 // marker styles
 var geojsonMarkerOptions = {
   radius: 8,
