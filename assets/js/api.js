@@ -8,7 +8,6 @@ var dataDateRanges = {
 };
 
 var pdxBounds = [[45.43628556252907, -122.83573150634764],[45.56358318479177,-122.50442504882814]];
-var pdxBoundsString = '-122.83573150634764,45.43628556252907,-122.50442504882814,45.56358318479177';
 var bounds = map.getBounds().toBBoxString();
 
 // jQuery variables
@@ -20,22 +19,6 @@ var $nbSelect = $('#neighborhoodselect');
 // these variable will hold TAFFY lists
 var nbhoodDb,
   crimesDb;
-// $('#permits-checkbox').attr('title', dataDateRanges[0].permits.min + ' to ' + dataDateRanges[0].permits.max);
-// $('#crimes-checkbox').attr('title', dataDateRanges[1].crimes.min + ' to ' + dataDateRanges[1].crimes.max);
-// $('#demolitions-checkbox').attr('title', dataDateRanges[2].demolitions.min + ' to ' + dataDateRanges[2].demolitions.max);
-
-// $('[data-toggle="tooltip"]').tooltip();
-
-
-// $('#input--daterange').daterangepicker({
-//   startDate: moment().subtract(1, 'years'),
-//   endDate: moment()
-// })
-// .on('apply.daterangepicker', function(ev, picker) {
-//   startDate = picker.startDate.format('YYYY-MM-DD');
-//   endDate = picker.endDate.format('YYYY-MM-DD');
-//   getPermits(startDate, endDate, map.getBounds().toBBoxString());
-// });
 
 // Get neighborhoods list and bounding box coordinates
 // store in Taffy db
