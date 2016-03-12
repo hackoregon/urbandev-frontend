@@ -68,16 +68,9 @@ function getNbhoodList() {
 
 // Get neighborhood shape, add to map
 var nbhoodLayer = new L.geoJson();
-function style(feature) {
-  return {
-    fillColor: '#3CE646',
-    fillOpacity: 0.8,
-    weight: 1,
-    opacity: 0.8,
-    color: '#3CE646'
-  };
-}
+
 var nbhoodShapesUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/neighborhoods.geojson";
+
 function getNbhoodShape(nbhood) {
   $.ajax({
     method: "GET",
@@ -93,7 +86,7 @@ function getNbhoodShape(nbhood) {
     nbhoodLayer.addTo(map);
     $(nbhoodShapesJson.features).each(function(key, data) {
       nbhoodLayer.addData(data);
-      nbhoodLayer.setStyle(style);
+      nbhoodLayer.setStyle(nbhoodLayerStyle);
       nbhoodLayer.bringToBack();
     });
   })
@@ -102,15 +95,6 @@ function getNbhoodShape(nbhood) {
   });
 }
 
-// Create permits markers
-var geojsonMarkerOptions = {
-  radius: 8,
-  fillColor: '#FF5500',
-  color: '#000',
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 1
-};
 var permitsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/permits.geojson";
 var demolitionsUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/demolitions.geojson";
 var permitsLayer = new L.geoJson();
