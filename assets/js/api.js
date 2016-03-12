@@ -110,35 +110,7 @@ var crimeUrl = "http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/service
 
 var timelineLayer = L.timeline(null, {
   formatDate: formatDate,
-  pointToLayer: function(feature, latlng) {
-    var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-    if (typeof feature.properties.issuedate !== 'undefined') {
-      // console.log('not undefined');
-      dataType = "Permit";
-      var date = feature.properties.issuedate;
-      var value = formatCurrency(feature.properties.value);
-    } else {
-      dataType = "Demolition";
-      var date = feature.properties.demolition_date;
-      var value = "NA";
-    }
-    var popupContent = "<br><strong>" + dataType + "</strong> "
-                        + "<br><strong>Feature ID:</strong> "
-                        + String(feature.properties.id) + "<hr>"
-                        + "<strong>Address: </strong>"
-                        + feature.properties.address
-                        + "<br><strong>Units: </strong>"
-                        + String(feature.properties.units)
-                        + "<br><strong>Date: </strong>"
-                        + String(date)
-                        + "<br><strong>Size: </strong>"
-                        + String(feature.properties.sqft) + " sqft"
-                        + "<br><strong>Value: </strong>";
-                        + String(value);
-
-    marker.bindPopup(popupContent);
-    return marker;
-  },
+  pointToLayer: pointToLayer,
   style: timelineLayerStyle
 });
 
@@ -272,11 +244,6 @@ var hoodsShown = true;
 
 // Utility functions
 
-// formatting for marker values
-function formatCurrency (num) {
-  return "$" + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-}
-
 function toggleHoods() {
   if (hoodsShown) {
     map.removeLayer(hoods);
@@ -403,34 +370,7 @@ $(document).ready(function() {
       // counterData: {2011: 300, 2012: 368, 2013: 402, 2014: 20002},
       // counterId: 'average',
       formatDate: formatDate,
-      pointToLayer: function(feature, latlng) {
-        var marker = L.circleMarker(latlng, geojsonMarkerOptions);
-        if (typeof feature.properties.issuedate !== 'undefined') {
-          dataType = "Permit";
-          var date = feature.properties.issuedate;
-          var value = formatCurrency(feature.properties.value);
-        } else {
-          dataType = "Demolition";
-          var date = feature.properties.demolition_date;
-          var value = "NA";
-        }
-        var popupContent = "<br><strong>" + dataType + "</strong> "
-                            + "<br><strong>Feature ID:</strong> "
-                            + String(feature.properties.id) + "<hr>"
-                            + "<strong>Address: </strong>"
-                            + feature.properties.address
-                            + "<br><strong>Units: </strong>"
-                            + String(feature.properties.units)
-                            + "<br><strong>Date: </strong>"
-                            + String(date)
-                            + "<br><strong>Size: </strong>"
-                            + String(feature.properties.sqft) + " sqft"
-                            + "<br><strong>Value: </strong>"
-                            + String(value);
-
-        marker.bindPopup(popupContent);
-        return marker;
-      },
+      pointToLayer: pointToLayer,
       style: timelineLayerStyle
     });
 
