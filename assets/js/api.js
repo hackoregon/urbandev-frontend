@@ -328,58 +328,6 @@ function zoomToNeighborhood(nbhoodVal) {
   }
 }
 
-function getPermitColor(year) {
-  return year >= 2015 ? '#E65100' :
-         year > 2014 ? '#DB4D00' :
-         year > 2013 ? '#EF6C00' :
-         year > 2012 ? '#FF7300' :
-         year > 2011 ? '#F57C00' :
-         year > 2010 ? '#FF850A' :
-         year > 2009 ? '#FB8C00' :
-         year > 2008 ? '#FF930F' :
-         year > 2007 ? '#FF9800' :
-         year > 2006 ? '#FFA114' :
-         year > 2005 ? '#FFA726' :
-         year > 2004 ? '#FFAD33' :
-         year > 2003 ? '#FFB442' :
-         year > 2002 ? '#FFBA52' :
-         year > 2001 ? '#FFC061' :
-         year > 2000 ? '#FFC46B' :
-         year > 1999 ? '#FFC875' :
-         year > 1998 ? '#FFCC80' :
-         year > 1997 ? '#FFD08A' :
-         year > 1996 ? '#FFD494' :
-         year >= 1995 ? '#FFD89E':
-                     '#FFD89E';
-}
-
-function getDemolitionsColor(year) {
-  return year >= 2015 ? '#4A148C' :
-         year > 2014 ? '#6A1B9A' :
-         year > 2013 ? '#7B1FA2' :
-         year > 2012 ? '#8E24AA' :
-         year > 2011 ? '#9C27B0' :
-         year > 2010 ? '#AB47BC' :
-         year > 2009 ? '#BA68C8' :
-         year > 2008 ? '#CE93D8' :
-         year > 2007 ? '#E1BEE7' :
-         year > 2006 ? '#E9CFED' :
-         year > 2005 ? '#EEDAF1' :
-         year >= 2004 ? '#F3E5F5' :
-                     '#F3E5F5';
-}
-
-function getColor(d) {
-  return d > 1000 ? '#3CE646' :
-         d > 500  ? '#63EB6B' :
-         d > 250  ? '#76ED7D' :
-         d > 200  ? '#9DF2A2' :
-         d > 150   ? '#B1F5B5' :
-         d > 100   ? '#C4F7C7' :
-         d > 50   ? '#D8FADA' :
-                    '#EBFCEC';
-}
-
 function getEarliestYear(selectedData) {
   var minYears = [];
   for (var i = 0; i < selectedData.length; i++) {
