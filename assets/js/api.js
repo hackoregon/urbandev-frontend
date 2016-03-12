@@ -141,28 +141,7 @@ var timelineLayer = L.timeline(null, {
     marker.bindPopup(popupContent);
     return marker;
   },
-  style: function(data) {
-    //return markerStyle(data);
-      var year = parseInt(data.properties['start']);//.get('year'));
-      // console.log(data.properties.issuedate);
-      if (typeof data.properties.issuedate !== 'undefined') {
-        // console.log('not undefined');
-        dataType = "permits";
-        var color = getPermitColor(2015);//getPermitColor(year);
-      } else {
-        dataType = "demolitions";
-        var color = getDemolitionsColor(2015);//getDemolitionsColor(year);
-      }
-
-      return {
-        radius: 8,
-        fillColor: color,//getPermitColor(year, dataType),//'#FF5500',
-        color: '#000',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.7
-      };
-    }
+  style: timelineLayerStyle
 });
 
 // Return marker data and add to the map using the leaflet timeline plugin
@@ -298,19 +277,6 @@ var hoodsShown = true;
 // formatting for marker values
 function formatCurrency (num) {
   return "$" + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-}
-
-function markerStyle(data) {
-  // console.log(data);
-  var year = parseInt(data.properties['start'].get('year'));
-  return {
-    radius: 8,
-    fillColor: getPermitColor(year),//'#FF5500',
-    color: '#000',
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.7
-  };
 }
 
 function toggleHoods() {
@@ -521,28 +487,7 @@ $(document).ready(function() {
         marker.bindPopup(popupContent);
         return marker;
       },
-      style: function(data) {
-        //return markerStyle(data);
-          var year = parseInt(data.properties['start']);//.get('year'));
-          // console.log(data.properties.issuedate);
-          if (typeof data.properties.issuedate !== 'undefined') {
-            // console.log('not undefined');
-            dataType = "permits";
-            var color = getPermitColor(2015);//getPermitColor(year);
-          } else {
-            dataType = "demolitions";
-            var color = getDemolitionsColor(2015);//getDemolitionsColor(year);
-          }
-
-          return {
-            radius: 8,
-            fillColor: color,//getPermitColor(year, dataType),//'#FF5500',
-            color: '#000',
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.7
-          };
-        }
+      style: timelineLayerStyle
     });
 
     $("#sidebar input:checked").each(function() {
