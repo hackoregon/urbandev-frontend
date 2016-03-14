@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         tasks: 'sass'
       },
       scripts: {
-        files: ['assets/js/app.js', 'assets/js/api.js'],
+        files: ['assets/js/app.js', 'assets/js/api.js', 'assets/js/ui.js'],
         tasks: 'concat'
       }
     }
