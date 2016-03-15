@@ -204,9 +204,6 @@ function getCrimesYear(nbhood, yearRange) {
 
   $.when.apply($, crimesPromises).done(function() {
     $('#crimetotal').append(crimeCount);
-    nbhoodLayer.setStyle({
-      fillColor: getColor(crimeCount)
-    });
   }).fail(function() {
     console.log('Failed to finish iterating over crime.');
   });
@@ -365,4 +362,3 @@ $(document).ready(function() {
   getNbhoodList();
 
 });
-
