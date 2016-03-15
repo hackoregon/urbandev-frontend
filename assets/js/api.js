@@ -270,9 +270,16 @@ $(document).ready(function() {
     // console.log($(this).val());
   });
 
+  $(document).on("ajaxStart", function () {
+    $loading.show();
+  });
+
+  $(document).on("ajaxStop", function () {
+    $loading.hide();
+  });
+
   $('#plot-submit').on('click', function(e) {
     e.preventDefault();
-    $loading.show();
     timelineLayer.clearLayers();
     var nbhoodVal = $nbSelect.val();
     var yearStart = $yearStart.val();
@@ -329,7 +336,6 @@ $(document).ready(function() {
           timelineLayer.timeSliderControl.addTo(map);
         }
         timelineLayer.addTo(map);
-        $loading.hide();
       });
     } else if (needPermits) {
       $.when(
@@ -341,7 +347,6 @@ $(document).ready(function() {
           timelineLayer.timeSliderControl.addTo(map);
         }
         timelineLayer.addTo(map);
-        $loading.hide();
       });
     } else if (needDemolitions) {
       $.when(
@@ -353,7 +358,6 @@ $(document).ready(function() {
           timelineLayer.timeSliderControl.addTo(map);
         }
         timelineLayer.addTo(map);
-        $loading.hide();
       });
     }
 
