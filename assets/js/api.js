@@ -220,6 +220,15 @@ function getCrimesYear(nbhood, yearRange) {
 //   return crimeCount;
 // }
 
+function updateTimelineLayer() {
+  if (typeof timelineLayer.timeSliderControl != "undefined") {
+    map.removeControl(timelineLayer.timeSliderControl);
+    timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+    timelineLayer.timeSliderControl.addTo(map);
+  }
+  timelineLayer.addTo(map);
+}
+
 // Bind or update dom elements once they're loaded
 $(document).ready(function() {
   $('#permits-checkbox').after('<p class="date-range">(' + getYearFromDate(dataDateRanges.permits.min) + ' to ' + getYearFromDate(dataDateRanges.permits.max) + ')</p>');
@@ -329,36 +338,15 @@ $(document).ready(function() {
         // instead constrain the date selection to the data availability
         getPermits(yearStart, yearEnd, nbhoodVal, "residential", "permits"),
         getPermits(yearStart, yearEnd, nbhoodVal, "residential", "demolitions")
-      ).then(function() {
-        if (typeof timelineLayer.timeSliderControl != "undefined") {
-          map.removeControl(timelineLayer.timeSliderControl);
-          timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          timelineLayer.timeSliderControl.addTo(map);
-        }
-        timelineLayer.addTo(map);
-      });
+      ).then(updateTimelineLayer);
     } else if (needPermits) {
       $.when(
         getPermits(yearStart, yearEnd, nbhoodVal, "residential", "permits")
-      ).then(function() {
-        if (typeof timelineLayer.timeSliderControl != "undefined") {
-          map.removeControl(timelineLayer.timeSliderControl);
-          timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          timelineLayer.timeSliderControl.addTo(map);
-        }
-        timelineLayer.addTo(map);
-      });
+      ).then(updateTimelineLayer);
     } else if (needDemolitions) {
       $.when(
         getPermits(yearStart, yearEnd, nbhoodVal, "residential", "demolitions")
-      ).then(function() {
-        if (typeof timelineLayer.timeSliderControl != "undefined") {
-          map.removeControl(timelineLayer.timeSliderControl);
-          timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          timelineLayer.timeSliderControl.addTo(map);
-        }
-        timelineLayer.addTo(map);
-      });
+      ).then(updateTimelineLayer);
     }
 
   });
