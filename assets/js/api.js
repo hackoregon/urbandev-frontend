@@ -109,7 +109,9 @@ function getPermits(start, end, neighborhood, type, dataType) {
     url = demolitionsUrl;
   }
   start = typeof start !== 'undefined' ? start : startDate;
+  start += '-01-01';
   end = typeof end !== 'undefined' ? end : endDate;
+  end += '-12-31';
   //bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
   type = typeof type !== 'undefined' ? type : "residential";
   return $.ajax({
@@ -146,7 +148,6 @@ function getPermits(start, end, neighborhood, type, dataType) {
     });
     // permitsLayer.addLayer(permitsLayer[key]);
     timelineLayer.addData(permitsJson);
-    console.log(this.url);
     // permitsLayer.addTo(map);
   })
   .fail(function() {
@@ -319,8 +320,8 @@ $(document).ready(function() {
         // if we need to make sure permits finishes before demolitions b/c of the date
         // range, can chain another "then" with the demolitions call; but we should
         // instead constrain the date selection to the data availability
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits"),
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "permits"),
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "demolitions")
       ).then(function() {
         if (typeof timelineLayer.timeSliderControl != "undefined") {
           map.removeControl(timelineLayer.timeSliderControl);
@@ -332,7 +333,7 @@ $(document).ready(function() {
       });
     } else if (needPermits) {
       $.when(
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "permits")
       ).then(function() {
         if (typeof timelineLayer.timeSliderControl != "undefined") {
           map.removeControl(timelineLayer.timeSliderControl);
@@ -344,7 +345,7 @@ $(document).ready(function() {
       });
     } else if (needDemolitions) {
       $.when(
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "demolitions")
       ).then(function() {
         if (typeof timelineLayer.timeSliderControl != "undefined") {
           map.removeControl(timelineLayer.timeSliderControl);
