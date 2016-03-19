@@ -11,10 +11,18 @@ module.exports = function(grunt) {
         }
       }
     },
-    concat: {
+  concat: {
       dist: {
-        src: ['assets/js/app.js', 'assets/js/api.js'],
-        dest: 'assets/js/production.js'
+        src: [
+          'assets/js/app.js',
+          'assets/js/ui.js',
+          'assets/js/api.js'
+        ],
+        dest: 'assets/js/production.js',
+        options: {
+          banner: ';(function($) {',
+          footer: '})(jQuery);'
+        }
       }
     },
     watch: {
@@ -23,7 +31,7 @@ module.exports = function(grunt) {
         tasks: 'sass'
       },
       scripts: {
-        files: ['assets/js/app.js', 'assets/js/api.js'],
+        files: ['assets/js/app.js', 'assets/js/api.js', 'assets/js/ui.js'],
         tasks: 'concat'
       }
     }
@@ -31,5 +39,5 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['concat']);
+  grunt.registerTask('default', ['concat', 'sass']);
 }
