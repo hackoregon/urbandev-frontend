@@ -109,7 +109,9 @@ function getPermits(start, end, neighborhood, type, dataType) {
     url = demolitionsUrl;
   }
   start = typeof start !== 'undefined' ? start : startDate;
+  start += '-01-01';
   end = typeof end !== 'undefined' ? end : endDate;
+  end += '-12-31';
   //bounds = typeof bounds !== 'undefined' ? bounds : map.getBounds().toBBoxString();
   type = typeof type !== 'undefined' ? type : "residential";
   return $.ajax({
@@ -146,7 +148,6 @@ function getPermits(start, end, neighborhood, type, dataType) {
     });
     // permitsLayer.addLayer(permitsLayer[key]);
     timelineLayer.addData(permitsJson);
-    console.log(this.url);
     // permitsLayer.addTo(map);
   })
   .fail(function() {
@@ -204,9 +205,6 @@ function getCrimesYear(nbhood, yearRange) {
 
   $.when.apply($, crimesPromises).done(function() {
     $('#crimetotal').append(crimeCount);
-    nbhoodLayer.setStyle({
-      fillColor: getColor(crimeCount)
-    });
   }).fail(function() {
     console.log('Failed to finish iterating over crime.');
   });
@@ -221,6 +219,15 @@ function getCrimesYear(nbhood, yearRange) {
 //   }
 //   return crimeCount;
 // }
+
+function updateTimelineLayer() {
+  if (typeof timelineLayer.timeSliderControl != "undefined") {
+    map.removeControl(timelineLayer.timeSliderControl);
+    timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
+    timelineLayer.timeSliderControl.addTo(map);
+  }
+  timelineLayer.addTo(map);
+}
 
 // Bind or update dom elements once they're loaded
 $(document).ready(function() {
@@ -272,9 +279,16 @@ $(document).ready(function() {
     // console.log($(this).val());
   });
 
+  $(document).on("ajaxStart", function () {
+    $loading.show();
+  });
+
+  $(document).on("ajaxStop", function () {
+    $loading.hide();
+  });
+
   $('#plot-submit').on('click', function(e) {
     e.preventDefault();
-    $loading.show();
     timelineLayer.clearLayers();
     var nbhoodVal = $nbSelect.val();
     var yearStart = $yearStart.val();
@@ -322,41 +336,17 @@ $(document).ready(function() {
         // if we need to make sure permits finishes before demolitions b/c of the date
         // range, can chain another "then" with the demolitions call; but we should
         // instead constrain the date selection to the data availability
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits"),
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
-      ).then(function() {
-        if (typeof timelineLayer.timeSliderControl != "undefined") {
-          map.removeControl(timelineLayer.timeSliderControl);
-          timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          timelineLayer.timeSliderControl.addTo(map);
-        }
-        timelineLayer.addTo(map);
-        $loading.hide();
-      });
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "permits"),
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "demolitions")
+      ).then(updateTimelineLayer);
     } else if (needPermits) {
       $.when(
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "permits")
-      ).then(function() {
-        if (typeof timelineLayer.timeSliderControl != "undefined") {
-          map.removeControl(timelineLayer.timeSliderControl);
-          timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          timelineLayer.timeSliderControl.addTo(map);
-        }
-        timelineLayer.addTo(map);
-        $loading.hide();
-      });
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "permits")
+      ).then(updateTimelineLayer);
     } else if (needDemolitions) {
       $.when(
-        getPermits(yearStart + '-01-01', yearEnd + '-12-31', nbhoodVal, "residential", "demolitions")
-      ).then(function() {
-        if (typeof timelineLayer.timeSliderControl != "undefined") {
-          map.removeControl(timelineLayer.timeSliderControl);
-          timelineLayer.timeSliderControl = L.Timeline.timeSliderControl(timelineLayer);
-          timelineLayer.timeSliderControl.addTo(map);
-        }
-        timelineLayer.addTo(map);
-        $loading.hide();
-      });
+        getPermits(yearStart, yearEnd, nbhoodVal, "residential", "demolitions")
+      ).then(updateTimelineLayer);
     }
 
   });
@@ -365,4 +355,3 @@ $(document).ready(function() {
   getNbhoodList();
 
 });
-
