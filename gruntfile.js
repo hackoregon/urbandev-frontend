@@ -7,18 +7,18 @@ module.exports = function(grunt) {
           style: 'nested'
         },
         files: {
-          'assets/css/app.css': 'assets/scss/app.scss'
+          'dist/assets/css/app.css': 'src/scss/app.scss'
         }
       }
     },
   concat: {
       dist: {
         src: [
-          'assets/js/app.js',
-          'assets/js/ui.js',
-          'assets/js/api.js'
+          'src/js/app.js',
+          'src/js/ui.js',
+          'src/js/api.js'
         ],
-        dest: 'assets/js/production.js',
+        dest: 'dist/assets/js/production.js',
         options: {
           banner: ';(function($) {',
           footer: '})(jQuery);'
@@ -27,11 +27,11 @@ module.exports = function(grunt) {
     },
     watch: {
       css: {
-        files: 'assets/scss/**.scss',
+        files: 'src/scss/**.scss',
         tasks: 'sass'
       },
       scripts: {
-        files: ['assets/js/app.js', 'assets/js/api.js', 'assets/js/ui.js'],
+        files: ['src/js/app.js', 'src/js/api.js', 'src/js/ui.js'],
         tasks: 'concat'
       }
     }
