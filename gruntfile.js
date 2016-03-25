@@ -25,6 +25,14 @@ module.exports = function(grunt) {
         }
       }
     },
+    copy: {
+      html: {
+        files: [
+          {src: 'index.html', dest: 'dist/assets/'},
+          {src: 'libs/', dest: 'dist/assets/js/'}
+        ]
+      }
+    },
     watch: {
       css: {
         files: 'src/scss/**.scss',
@@ -39,5 +47,5 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['concat', 'sass']);
+  grunt.registerTask('default', ['concat', 'sass', 'copy']);
 }
