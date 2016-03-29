@@ -160,6 +160,35 @@ function getCrimesYear(nbhood, yearRange) {
   var crimeCount = 0;
   var crimesByYear = {}; // need year to count mapping to sync count animation to timeline
   var crimesPromises = [];
+  var fetchCrimesFailed = function() {
+    console.log("Failed to fetch crimes.");
+  };
+  var fetchCrimesSucceeded = function(data) {
+    var crimesJson = data;
+    var crimesTaffyList = [];
+    var crimesInNbhood = 0;
+    for (var j = 0; j < (crimesJson.rows).length; j++) {
+      var rec = {
+        year: yearRange[i],
+        name: crimesJson.rows[j][0],
+        num: crimesJson.rows[j][1]
+      };
+      crimesTaffyList.push(rec);
+
+      if (crimesJson.rows[j][0] == nbhood) {
+        crimesInNbhood += crimesJson.rows[j][1];
+      }
+
+    }
+    if (typeof crimesDb == "undefined") {
+      crimesDb = TAFFY(crimesTaffyList);
+    } else {
+      crimesDb.insert(crimesTaffyList);
+    }
+    crimeCount += crimesInNbhood;
+    //$('#crimetotal').append(crimesInNbhood + '<br>');
+
+  };
   for (var i = 0; i < yearRange.length; i++) {
     var promise = $.ajax({
       method: "GET",
@@ -171,35 +200,8 @@ function getCrimesYear(nbhood, yearRange) {
         type: "violent"
       }
     })
-    .done(function(data) {
-      var crimesJson = data;
-      var crimesTaffyList = [];
-      var crimesInNbhood = 0;
-      for (var j = 0; j < (crimesJson.rows).length; j++) {
-        var rec = {
-          year: yearRange[i],
-          name: crimesJson.rows[j][0],
-          num: crimesJson.rows[j][1]
-        };
-        crimesTaffyList.push(rec);
-
-        if (crimesJson.rows[j][0] == nbhood) {
-          crimesInNbhood += crimesJson.rows[j][1];
-        }
-
-      }
-      if (typeof crimesDb == "undefined") {
-        crimesDb = TAFFY(crimesTaffyList);
-      } else {
-        crimesDb.insert(crimesTaffyList);
-      }
-      crimeCount += crimesInNbhood;
-      //$('#crimetotal').append(crimesInNbhood + '<br>');
-
-    })
-    .fail(function() {
-      console.log("Failed to fetch crimes.");
-    });
+    .done(fetchCrimesSucceeded)
+    .fail(fetchCrimesFailed);
     crimesPromises.push(promise);
   }
 

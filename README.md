@@ -24,11 +24,11 @@ Clone this repository and then from the top-level dirctory, use [npm](https://ww
 
 `npm install`
 
-Run [grunt](http://gruntjs.com/) to assemble the application files:
+Run [grunt](http://gruntjs.com/) to build the application into the `dist/` directory:
 
 `grunt`
 
-Open `index.html` in a browser to run the application. You should see a map of Portland, Oregon. There are also controls for selecting neighborhoods, types of data to display, and time periods. The web application is running in the browser on your local machine, but it queries [web services](http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/) to retrieve data about activities in Portland neighborhoods. The application _only_ displays information for the city of Portland, Oregon in the United States.
+Open `dist/index.html` (_not_ `src/index.html`) in a browser to run the application. You should see a map of Portland, Oregon. There are also controls for selecting neighborhoods, types of data to display, and time periods. The web application is running in the browser on your local machine, but it queries [web services](http://ec2-52-88-193-136.us-west-2.compute.amazonaws.com/services/) to retrieve data about activities in Portland neighborhoods. The application _only_ displays information for the city of Portland, Oregon in the United States.
 
 ## To contribute to the project
 Contact [Hack Oregon](http://www.hackoregon.org/) if you would like to work on this project. If you are already working on this project, please follow the ["Getting started as a contributor"](https://github.com/hackoregon/urbandev-frontend/blob/master/doc/GettingStartedAsAContributor.md) guidelines for submitting code.
