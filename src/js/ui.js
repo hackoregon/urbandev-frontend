@@ -181,19 +181,20 @@ function pointToLayer (feature, latlng) {
     date = feature.properties.demolition_date;
     value = "NA";
   }
-  var popupContent = "<br><strong>" + dataType + "</strong> "
-    + "<br><strong>Feature ID:</strong> "
-    + String (feature.properties.id) + "<hr>"
-    + "<strong>Address: </strong>"
-    + feature.properties.address
-    + "<br><strong>Units: </strong>"
-    + String (feature.properties.units)
-    + "<br><strong>Date: </strong>"
-    + String (date)
-    + "<br><strong>Size: </strong>"
-    + String (feature.properties.sqft) + " sqft"
-    + "<br><strong>Value: </strong>";
-  +String (value);
+  var popupContent = "<br><strong>" + dataType + "</strong> " +
+    "<br><strong>Feature ID:</strong> " +
+    String (feature.properties.id) + "<hr>" +
+    "<strong>Address: </strong>" +
+    feature.properties.address +
+    "<br><strong>Units: </strong>" +
+    String (feature.properties.units) +
+    "<br><strong>Date: </strong>" +
+    String (date) +
+    "<br><strong>Size: </strong>" +
+    String (feature.properties.sqft) +
+    " sqft" +
+    "<br><strong>Value: </strong>" +
+    String (value);
 
   marker.bindPopup (popupContent);
   return marker;

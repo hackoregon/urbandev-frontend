@@ -45,8 +45,8 @@ function getNbhoodList() {
       var nbhoodName = nbhoodListJson.rows[i][0];
       $nbSelect.append('<option value="' + nbhoodName + '">' + nbhoodName + '</option>');
       var rec = {
-         name: nbhoodListJson['rows'][i][0],
-         bbx: nbhoodListJson['rows'][i][1]
+         name: nbhoodListJson.rows[i][0],
+         bbx: nbhoodListJson.rows[i][1]
       };
       nbhoodTaffyList.push(rec);
     }
@@ -142,8 +142,8 @@ function getPermits(start, end, neighborhood, type, dataType) {
       }
       var propStartYear = date;//moment(date);//.get('year');
       var propEndYear = end;//moment(date).add(150, 'days');//.get('year');
-      data.properties['start'] = propStartYear;
-      data.properties['end'] = propEndYear;
+      data.properties.start = propStartYear;
+      data.properties.end = propEndYear;
 
     });
     // permitsLayer.addLayer(permitsLayer[key]);
@@ -178,13 +178,13 @@ function getCrimesYear(nbhood, yearRange) {
       for (var j = 0; j < (crimesJson.rows).length; j++) {
         var rec = {
           year: yearRange[i],
-          name: crimesJson['rows'][j][0],
-          num: crimesJson['rows'][j][1]
+          name: crimesJson.rows[j][0],
+          num: crimesJson.rows[j][1]
         };
         crimesTaffyList.push(rec);
 
-        if (crimesJson['rows'][j][0] == nbhood) {
-          crimesInNbhood += crimesJson['rows'][j][1];
+        if (crimesJson.rows[j][0] == nbhood) {
+          crimesInNbhood += crimesJson.rows[j][1];
         }
 
       }
@@ -304,25 +304,27 @@ $(document).ready(function() {
     $("#sidebar input:checked").each(function() {
       formVars.push($(this).val());
     });
+    var needPermits = false;
+    var needDemolitions = false;
     for (var i = 0; i < formVars.length; i++) {
       switch (formVars[i]) {
         case "permits":
           // Restricting date selection to full year
-          var needPermits = true;
+          needPermits = true;
           break;
         case "crimes":
           if (parseInt(yearStart) < 2004) {
             yearStart = "2004";
           }
           var yearRange = yearsInRange(yearStart, yearEnd);
-          if (yearRange.length == 0) {
+          if (yearRange.length === 0) {
             console.log('Year range is zero!');
           }
           $('#crimetotal').html('');
           getCrimesYear(nbhoodVal, yearRange);
           break;
         case "demolitions":
-          var needDemolitions = true;
+          needDemolitions = true;
           break;
 
       }
