@@ -1,9 +1,7 @@
 # Derived files and directories.
-node_modules/**
-.sass-cache/**
-**.css.map
-app.css
-production.js
+dist/
+node_modules/
+.sass-cache/
 
 # Development tools.
 .idea/
