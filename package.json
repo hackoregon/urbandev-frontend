@@ -12,9 +12,13 @@
     "grunt": "^0.4.5"
   },
   "devDependencies": {
+    "connect-livereload": "^0.5.4",
     "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-connect": "^1.0.1",
     "grunt-contrib-sass": "^0.9.2",
     "grunt-contrib-watch": "^0.6.1",
-    "load-grunt-tasks": "^3.3.0"
+    "grunt-open": "^0.2.3",
+    "load-grunt-tasks": "^3.3.0",
+    "serve-static": "^1.10.2"
   }
 }
